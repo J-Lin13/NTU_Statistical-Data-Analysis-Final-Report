@@ -2,10 +2,10 @@
 
 此資料夾包含資料前處理的腳本和相關檔案。提供 **兩種方式**（Python 和 R）來進行資料前處理。
 
-## 📁 檔案說明
+## 檔案說明
 
 ### 前處理腳本（兩種版本）
-- **preprocessing.py** - Python 版本的資料前處理腳本 ⭐ **（已執行，資料已清理完成）**
+- **preprocessing.py** - Python 版本的資料前處理腳本 **（已執行，資料已清理完成）**
 - **preprocessing.R** - R 版本的資料前處理腳本
 
 ### 其他檔案
@@ -14,15 +14,15 @@
 - **visualization.R** - 資料分布視覺化腳本（R 版本）
 - **install_packages.R** - R 套件安裝腳本
 
-## 🚀 使用方式
+## 使用方式
 
-### ✅ 當前狀態
+### 當前狀態
 
 **資料前處理已完成！** 已使用 Python 版本（`preprocessing.py`）執行，清理後的資料位於 `preprocessed_data.csv`。
 
 ### 兩種前處理方式
 
-#### 方式 1：Python 版本（已完成）⭐
+#### 方式 1：Python 版本（已完成）
 
 ```bash
 # 從專案根目錄執行
@@ -107,7 +107,7 @@ source("visualization.R")
    - 儲存為 `preprocessed_data.csv`
    - 生成處理摘要報告
 
-## 📊 輸出檔案
+## 輸出檔案
 
 ### preprocessed_data.csv
 
@@ -135,7 +135,7 @@ source("visualization.R")
 - 商品類別分布圖
 - 付款方式分布圖
 
-## ⚠️ 注意事項
+## 注意事項
 
 1. **資料前處理已完成**：已使用 Python 版本執行，`preprocessed_data.csv` 可直接使用
 
@@ -149,22 +149,22 @@ source("visualization.R")
 
 6. **備份**：腳本不會修改原始資料，但建議先備份
 
-## 🔍 與研究目標的對應
+## 與研究目標的對應
 
 根據 ReadMe.md 的要求，前處理腳本會：
 
-- ✅ 使用 `summary()` 檢查基本統計量
-- ✅ 使用 `hist()` 檢查資料分布（在 visualization.R 中）
-- ✅ 使用 `boxplot()` 檢查異常值（在 visualization.R 中）
-- ✅ 處理缺失值和異常值
-- ✅ 準備資料供後續迴歸分析使用
+- 使用 `summary()` 檢查基本統計量
+- 使用 `hist()` 檢查資料分布（在 visualization.R 中）
+- 使用 `boxplot()` 檢查異常值（在 visualization.R 中）
+- 處理缺失值和異常值
+- 準備資料供後續迴歸分析使用
 
-## 📖 相關文件
+## 相關文件
 
 - 詳細的前處理說明請參考：`../DATA_PREPROCESSING_GUIDE.md`
 - 專案整體說明請參考：`../ReadMe.md`
 
-## ❓ 問題排除
+## 問題排除
 
 如果遇到問題：
 

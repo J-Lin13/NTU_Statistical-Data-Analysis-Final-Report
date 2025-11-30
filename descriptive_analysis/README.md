@@ -2,12 +2,12 @@
 
 此資料夾包含敘述性統計分析的 R 腳本和相關檔案。
 
-## 📁 檔案說明
+## 檔案說明
 
 - **descriptive_statistics.R** - 主要的敘述性統計分析腳本
 - **plots/** - 視覺化圖表資料夾（執行腳本後生成）
 
-## 🚀 使用方式
+## 使用方式
 
 ### 前置需求
 
@@ -19,26 +19,25 @@ install.packages(c("dplyr", "readr", "ggplot2"))
 
 ### 執行統計分析
 
-#### 方法一：從專案根目錄執行
-
-```r
-source("descriptive_analysis/descriptive_statistics.R")
-```
-
-#### 方法二：在 RStudio 中開啟
+**推薦方式：在 RStudio 中執行**
 
 1. 開啟 RStudio
 2. 開啟 `descriptive_statistics.R` 檔案
-3. 點擊 "Source" 按鈕執行
+3. 點擊 "Source" 按鈕執行整個腳本
 
-#### 方法三：設定工作目錄後執行
+腳本會自動偵測並設定工作目錄為專案根目錄，無需手動設定。
+
+**其他方式：從 R 控制台執行**
 
 ```r
-setwd("descriptive_analysis")
-source("descriptive_statistics.R")
+# 先設定工作目錄為專案根目錄
+setwd('C:\\Users\\User\\OneDrive\\Desktop\\NTU\\商統分\\NTU_Statistical-Data-Analysis-Final-Report')
+
+# 執行分析腳本
+source("descriptive_analysis/descriptive_statistics.R")
 ```
 
-## 📊 分析內容
+## 分析內容
 
 腳本會執行以下分析：
 
@@ -66,7 +65,7 @@ source("descriptive_statistics.R")
 - 付款方式分布
 - 商品類別分布
 
-## 📈 輸出結果
+## 輸出結果
 
 執行完成後，會在 `plots/` 資料夾中生成以下圖表：
 
@@ -89,20 +88,20 @@ source("descriptive_statistics.R")
 - `delivery_gap_vs_review_score.png` - 送達差距與評論分數關係圖
 - `price_vs_review_score.png` - 價格與評論分數關係圖
 
-## 🔍 符合研究要求
+## 符合研究要求
 
 根據 ReadMe.md 的要求，此腳本會：
-- ✅ 使用 `summary()` 檢查基本統計量
-- ✅ 使用 `hist()` 檢查資料分布
-- ✅ 使用 `boxplot()` 檢查異常值
-- ✅ 進行初步的資料探索和分析
+- 使用 `summary()` 檢查基本統計量
+- 使用 `hist()` 檢查資料分布
+- 使用 `boxplot()` 檢查異常值
+- 進行初步的資料探索和分析
 
-## 📖 相關文件
+## 相關文件
 
 - 資料前處理說明：`../data_preprocessing/README.md`
 - 專案整體說明：`../ReadMe.md`
 
-## ⚠️ 注意事項
+## 注意事項
 
 1. **資料路徑**：腳本會自動從 `../data_preprocessing/preprocessed_data.csv` 讀取資料
 2. **輸出位置**：所有圖表會儲存在 `plots/` 資料夾中
