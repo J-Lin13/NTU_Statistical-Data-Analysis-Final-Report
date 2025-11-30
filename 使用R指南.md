@@ -72,11 +72,11 @@ data <- read_csv("preprocessed_data.csv")
 可以使用我為您建立的腳本：
 
 ```r
-# 執行敘述性統計分析腳本
-source("descriptive_statistics.R")
+# 從專案根目錄執行敘述性統計分析腳本
+source("descriptive_analysis/descriptive_statistics.R")
 ```
 
-或在 RStudio 中開啟 `descriptive_statistics.R` 檔案，然後執行。
+或在 RStudio 中開啟 `descriptive_analysis/descriptive_statistics.R` 檔案，然後執行。
 
 ### 4. 開始建立迴歸模型
 

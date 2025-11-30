@@ -10,9 +10,114 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 
+# ============================================================================
+# 工作目錄設定（重要！）
+# ============================================================================
+# 在執行此腳本前，請確保工作目錄設定為專案根目錄
+# 如果無法自動判斷，請手動執行：
+#   setwd('C:\\Users\\User\\Downloads\\商統分\\NTU_Statistical-Data-Analysis-Final-Report')
+# ============================================================================
+
 cat(paste0(rep("=", 80), collapse = ""), "\n")
 cat("敘述性統計分析\n")
 cat(paste0(rep("=", 80), collapse = ""), "\n\n")
+
+# ============================================================================
+# 自動設定工作目錄（如果需要的話）
+# ============================================================================
+
+# 獲取當前工作目錄
+original_wd <- getwd()
+
+# 從腳本檔案路徑推導專案根目錄
+# 腳本位於：專案根目錄/descriptive_analysis/descriptive_statistics.R
+# 所以專案根目錄 = 腳本所在目錄的上一層
+
+# 嘗試從 RStudio 獲取腳本路徑
+script_path <- NULL
+tryCatch({
+  if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
+    context <- rstudioapi::getSourceEditorContext()
+    if (!is.null(context) && length(context$path) > 0 && context$path != "") {
+      script_path <- context$path
+    }
+  }
+}, error = function(e) {})
+
+# 如果無法從 RStudio 獲取，嘗試從命令列參數獲取
+if (is.null(script_path) || script_path == "") {
+  cmd_args <- commandArgs(trailingOnly = FALSE)
+  file_arg <- grep("^--file=", cmd_args, value = TRUE)
+  if (length(file_arg) > 0) {
+    script_path <- sub("^--file=", "", file_arg)
+  }
+}
+
+# 如果還是無法獲取，嘗試從 sys.frame 獲取（適用於 source() 情況）
+if (is.null(script_path) || script_path == "") {
+  tryCatch({
+    # 嘗試從呼叫堆疊中獲取檔案路徑
+    frames <- sys.frames()
+    for (frame in frames) {
+      if (!is.null(frame$ofile) && file.exists(frame$ofile)) {
+        script_path <- frame$ofile
+        break
+      }
+    }
+  }, error = function(e) {})
+}
+
+# 從腳本路徑計算專案根目錄
+if (!is.null(script_path) && script_path != "" && file.exists(script_path)) {
+  script_dir <- dirname(normalizePath(script_path))
+  project_root <- dirname(script_dir)  # 上一層就是專案根目錄
+  
+  # 驗證這是否真的是專案根目錄
+  if (dir.exists(file.path(project_root, "data_preprocessing"))) {
+    setwd(project_root)
+    cat(sprintf("已自動設定工作目錄為專案根目錄: %s\n\n", project_root))
+  } else {
+    project_root <- NULL
+  }
+} else {
+  project_root <- NULL
+}
+
+# 如果從腳本路徑無法找到，嘗試從當前工作目錄找
+if (is.null(project_root)) {
+  if (dir.exists("data_preprocessing")) {
+    project_root <- getwd()
+    cat(sprintf("當前工作目錄即為專案根目錄: %s\n\n", project_root))
+  } else if (dir.exists("../data_preprocessing")) {
+    project_root <- normalizePath("..")
+    setwd(project_root)
+    cat(sprintf("已自動設定工作目錄為專案根目錄: %s\n\n", project_root))
+  } else {
+    # 最後嘗試：從絕對路徑直接構建（假設腳本路徑包含完整路徑）
+    if (!is.null(script_path) && script_path != "") {
+      script_dir <- dirname(normalizePath(script_path))
+      potential_root <- dirname(script_dir)
+      if (dir.exists(file.path(potential_root, "data_preprocessing"))) {
+        project_root <- potential_root
+        setwd(project_root)
+        cat(sprintf("已從腳本路徑自動設定工作目錄為專案根目錄: %s\n\n", project_root))
+      }
+    }
+    
+    if (is.null(project_root)) {
+      cat("警告：無法自動找到專案根目錄\n")
+      cat("當前工作目錄: ", original_wd, "\n")
+      if (!is.null(script_path) && script_path != "") {
+        cat("腳本路徑: ", script_path, "\n")
+      }
+      cat("\n請先設定工作目錄為專案根目錄：\n")
+      cat("  setwd('C:\\\\Users\\\\User\\\\Downloads\\\\商統分\\\\NTU_Statistical-Data-Analysis-Final-Report')\n")
+      cat("然後重新執行此腳本。\n\n")
+    }
+  }
+}
+
+cat("\n")
 
 # ============================================================================
 # 步驟 1: 載入清理後的資料
@@ -21,8 +126,23 @@ cat(paste0(rep("=", 80), collapse = ""), "\n\n")
 cat("步驟 1: 載入清理後的資料\n")
 cat(paste0(rep("-", 80), collapse = ""), "\n")
 
-# 載入資料（從 data_preprocessing 資料夾）
-data <- read_csv("data_preprocessing/preprocessed_data.csv", 
+# 載入資料（從專案根目錄）
+data_path <- "data_preprocessing/preprocessed_data.csv"
+
+if (!file.exists(data_path)) {
+  cat("錯誤：找不到資料檔案！\n")
+  cat("預期路徑: ", file.path(getwd(), data_path), "\n")
+  cat("當前工作目錄: ", getwd(), "\n")
+  cat("\n請確認：\n")
+  cat("1. 工作目錄是否為專案根目錄\n")
+  cat("2. 資料檔案是否存在於 data_preprocessing/preprocessed_data.csv\n")
+  cat("\n解決方法：\n")
+  cat("  setwd('C:\\\\Users\\\\User\\\\Downloads\\\\商統分\\\\NTU_Statistical-Data-Analysis-Final-Report')\n")
+  stop("請先設定正確的工作目錄！")
+}
+
+cat(sprintf("資料檔案路徑: %s\n", normalizePath(data_path)))
+data <- read_csv(data_path, 
                  locale = locale(encoding = "UTF-8"),
                  show_col_types = FALSE)
 
@@ -64,6 +184,11 @@ print(review_dist)
 cat("\n比例分布：\n")
 print(round(prop.table(review_dist) * 100, 2))
 cat("\n")
+
+# 建立 plots 資料夾（如果不存在）
+if (!dir.exists("plots")) {
+  dir.create("plots")
+}
 
 # 繪製直方圖
 cat("生成直方圖...\n")

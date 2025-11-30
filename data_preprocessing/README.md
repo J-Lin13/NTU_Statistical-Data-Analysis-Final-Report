@@ -1,39 +1,58 @@
 # 資料前處理資料夾
 
-此資料夾包含資料前處理的 R 腳本和相關檔案。
+此資料夾包含資料前處理的腳本和相關檔案。提供 **兩種方式**（Python 和 R）來進行資料前處理。
 
 ## 📁 檔案說明
 
-- **preprocessing.R** - 主要的資料前處理腳本
-- **visualization.R** - 資料分布視覺化腳本
-- **preprocessed_data.csv** - 清理後的資料（執行腳本後生成）
-- **preprocessing_summary.txt** - 處理摘要報告（執行腳本後生成）
-- **plots/** - 視覺化圖表資料夾（執行 visualization.R 後生成）
+### 前處理腳本（兩種版本）
+- **preprocessing.py** - Python 版本的資料前處理腳本 ⭐ **（已執行，資料已清理完成）**
+- **preprocessing.R** - R 版本的資料前處理腳本
+
+### 其他檔案
+- **preprocessed_data.csv** - 清理後的資料（已生成，可直接使用）
+- **preprocessing_summary.txt** - 處理摘要報告
+- **visualization.R** - 資料分布視覺化腳本（R 版本）
+- **install_packages.R** - R 套件安裝腳本
 
 ## 🚀 使用方式
 
-### 前置需求
+### ✅ 當前狀態
 
-確保已安裝必要的 R 套件：
+**資料前處理已完成！** 已使用 Python 版本（`preprocessing.py`）執行，清理後的資料位於 `preprocessed_data.csv`。
 
-```r
-install.packages(c("dplyr", "readr", "ggplot2", "tidyr"))
+### 兩種前處理方式
+
+#### 方式 1：Python 版本（已完成）⭐
+
+```bash
+# 從專案根目錄執行
+python data_preprocessing/preprocessing.py
 ```
 
-### 執行資料前處理
+**優點**：
+- 不需要安裝 R
+- 已執行完成，資料可直接使用
 
-1. **開啟 R 或 RStudio**
-2. **設定工作目錄**：
+#### 方式 2：R 版本（可選）
+
+如果您想用 R 重新執行前處理（學習或比較結果）：
+
+1. **安裝必要的 R 套件**：
+   ```r
+   install.packages(c("dplyr", "readr", "ggplot2", "tidyr"))
+   ```
+   或執行：
+   ```r
+   source("data_preprocessing/install_packages.R")
+   ```
+
+2. **執行前處理腳本**：
    ```r
    setwd("data_preprocessing")
-   ```
-   或直接在 RStudio 中打開 `preprocessing.R` 檔案
-
-3. **執行前處理腳本**：
-   ```r
    source("preprocessing.R")
    ```
-   或直接點擊 RStudio 中的 "Source" 按鈕
+
+**注意**：兩種方式會產生相同的結果，您只需要執行其中一種即可。
 
 ### 執行視覺化
 
@@ -118,15 +137,17 @@ source("visualization.R")
 
 ## ⚠️ 注意事項
 
-1. **執行順序**：先執行 `preprocessing.R`，再執行 `visualization.R`
+1. **資料前處理已完成**：已使用 Python 版本執行，`preprocessed_data.csv` 可直接使用
 
-2. **資料路徑**：確保 `../sql_merge/merged_olist_data.csv` 檔案存在
+2. **兩種方式任選其一**：Python 或 R 版本都可以，功能相同，執行其中一種即可
 
-3. **記憶體**：如果資料很大，可能需要調整 R 的記憶體設定
+3. **資料路徑**：腳本會自動從 `sql_merge/merged_olist_data.csv` 讀取資料
 
-4. **執行時間**：前處理腳本可能需要幾分鐘時間執行
+4. **輸出位置**：兩種版本的輸出都會儲存在 `data_preprocessing/` 資料夾中
 
-5. **備份**：腳本不會修改原始資料，但建議先備份
+5. **執行時間**：前處理腳本可能需要幾分鐘時間執行
+
+6. **備份**：腳本不會修改原始資料，但建議先備份
 
 ## 🔍 與研究目標的對應
 
