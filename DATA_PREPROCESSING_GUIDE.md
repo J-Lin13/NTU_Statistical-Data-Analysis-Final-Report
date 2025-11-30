@@ -225,3 +225,4 @@ data <- data[data$product_weight_g > 0 | is.na(data$product_weight_g), ]
 
 **提示**：資料前處理是一個迭代的過程，可能需要根據初步分析的結果回頭調整處理方式。
 
+
