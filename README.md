@@ -140,38 +140,6 @@ python load_and_merge_data.py
 
 **清理後的資料**：`data_preprocessing/preprocessed_data.csv`
 
-### 立即開始使用 R
-
-#### 方法一：使用 RStudio（最簡單）
-
-1. **下載並安裝 RStudio Desktop**（如果還沒安裝）
-   - 網址：https://www.rstudio.com/products/rstudio/download/
-   - 選擇免費版本：RStudio Desktop
-
-2. **開啟 RStudio 並載入專案**
-   - 啟動 RStudio
-   - File → Open Folder
-   - 選擇專案資料夾：`C:\Users\User\OneDrive\Desktop\NTU\商統分\NTU_Statistical-Data-Analysis-Final-Report`
-
-3. **開始分析**
-   - 開啟或建立新的 R Script
-   - 開始撰寫或執行統計分析程式碼
-
-#### 方法二：在 Cursor 中使用 R（需設定）
-
-如果您想在 Cursor 終端機直接使用 R：
-
-1. **將 R 加入系統 PATH**
-   - 找到 R 安裝路徑（通常：`C:\Program Files\R\R-4.x.x\bin`）
-   - 將此路徑加入 Windows 環境變數 PATH
-   - 重新啟動終端機
-
-2. **測試 R**
-   ```bash
-   Rscript --version
-   ```
-
-### 建議的下一步
 
 #### 1. 安裝必要的 R 套件
 
