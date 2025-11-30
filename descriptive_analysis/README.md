@@ -67,7 +67,15 @@ source("descriptive_analysis/descriptive_statistics.R")
 
 ## 輸出結果
 
-執行完成後，會在 `plots/` 資料夾中生成以下圖表：
+執行完成後，會生成以下檔案：
+
+### 文字輸出檔
+
+- **`descriptive_statistics_output.txt`** - 完整的分析輸出日誌（包含所有統計摘要、分析結果等）
+
+### 視覺化圖表
+
+所有圖表會儲存在 `plots/` 資料夾中，包括：
 
 - `review_score_histogram.png` - 評論分數直方圖
 - `review_score_boxplot.png` - 評論分數箱線圖
@@ -104,7 +112,11 @@ source("descriptive_analysis/descriptive_statistics.R")
 ## 注意事項
 
 1. **資料路徑**：腳本會自動從 `../data_preprocessing/preprocessed_data.csv` 讀取資料
-2. **輸出位置**：所有圖表會儲存在 `plots/` 資料夾中
+2. **輸出位置**：
+   - 所有圖表會儲存在 `plots/` 資料夾中
+   - 所有文字輸出會自動儲存至 `descriptive_statistics_output.txt` 檔案中
+   - 輸出會同時顯示在控制台和保存到文件中
 3. **執行時間**：根據資料量，可能需要幾分鐘時間
 4. **套件需求**：確保已安裝所有必要的 R 套件
+5. **上傳 GitHub**：執行完成後，可以將 `descriptive_statistics_output.txt` 和 `plots/` 資料夾中的圖表一起上傳到 GitHub，方便檢視分析結果
 

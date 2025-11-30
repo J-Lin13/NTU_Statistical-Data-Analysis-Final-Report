@@ -1,0 +1,143 @@
+================================================================================
+敘述性統計分析輸出日誌
+執行時間： 2025-11-30 15:47:06 
+================================================================================
+
+步驟 1: 載入清理後的資料
+-------------------------------------------------------------------------------- 
+資料檔案路徑: C:\Users\User\OneDrive\Desktop\NTU\商統分\NTU_Statistical-Data-Analysis-Final-Report\data_preprocessing\preprocessed_data.csv
+✓ 資料載入完成：114,173 筆記錄，32 個欄位
+
+步驟 2: 基本統計摘要
+-------------------------------------------------------------------------------- 
+
+整體資料摘要：
+  review_id          review_score  review_creation_date            order_id         order_status       order_purchase_timestamp      order_approved_at             order_delivered_carrier_date  order_delivered_customer_date
+ Length:114173      Min.   :1.00   Min.   :2016-10-06 00:00:00   Length:114173      Length:114173      Min.   :2016-09-15 12:16:38   Min.   :2016-09-15 12:16:38   Min.   :2016-10-08 10:34:01   Min.   :2016-10-11 13:46:32  
+ Class :character   1st Qu.:4.00   1st Qu.:2017-09-24 00:00:00   Class :character   Class :character   1st Qu.:2017-09-13 08:35:29   1st Qu.:2017-09-13 18:09:46   1st Qu.:2017-09-15 18:05:30   1st Qu.:2017-09-25 14:50:22  
+ Mode  :character   Median :5.00   Median :2018-02-02 00:00:00   Mode  :character   Mode  :character   Median :2018-01-19 10:51:06   Median :2018-01-19 17:42:41   Median :2018-01-23 20:43:19   Median :2018-02-01 18:14:47  
+                    Mean   :4.08   Mean   :2018-01-12 22:41:29                                         Mean   :2017-12-31 16:41:53   Mean   :2018-01-01 04:09:37   Mean   :2018-01-03 23:28:00   Mean   :2018-01-13 03:31:01  
+                    3rd Qu.:5.00   3rd Qu.:2018-05-15 00:00:00                                         3rd Qu.:2018-05-04 15:05:29   3rd Qu.:2018-05-04 22:48:59   3rd Qu.:2018-05-08 09:58:00   3rd Qu.:2018-05-15 14:26:52  
+                    Max.   :5.00   Max.   :2018-08-31 00:00:00                                         Max.   :2018-08-29 15:00:37   Max.   :2018-08-29 15:10:26   Max.   :2018-09-11 19:48:28   Max.   :2018-10-17 13:22:46  
+                                                                                                                                     NA's   :15                    NA's   :1                                                  
+ order_estimated_delivery_date delivery_days     delivery_gap     customer_id        customer_unique_id customer_state     customer_city      order_item_id     product_id         seller_id             price         freight_value   
+ Min.   :2016-10-04 00:00:00   Min.   :  0.00   Min.   :-146.00   Length:114173      Length:114173      Length:114173      Length:114173      Min.   : 1.000   Length:114173      Length:114173      Min.   :   0.85   Min.   :  0.00  
+ 1st Qu.:2017-10-04 00:00:00   1st Qu.:  6.00   1st Qu.: -16.00   Class :character   Class :character   Class :character   Class :character   1st Qu.: 1.000   Class :character   Class :character   1st Qu.:  39.90   1st Qu.: 13.08  
+ Median :2018-02-15 00:00:00   Median : 10.00   Median : -12.00   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median : 1.000   Mode  :character   Mode  :character   Median :  74.90   Median : 16.28  
+ Mean   :2018-01-24 12:39:53   Mean   : 11.99   Mean   : -11.16                                                                               Mean   : 1.195                                         Mean   : 119.75   Mean   : 19.96  
+ 3rd Qu.:2018-05-25 00:00:00   3rd Qu.: 15.00   3rd Qu.:  -6.00                                                                               3rd Qu.: 1.000                                         3rd Qu.: 132.97   3rd Qu.: 21.15  
+ Max.   :2018-10-25 00:00:00   Max.   :208.00   Max.   : 188.00                                                                               Max.   :21.000                                         Max.   :6735.00   Max.   :409.68  
+                                                                                                                                                                                                                                       
+ product_category_name product_category_name_english product_photos_qty product_weight_g payment_type       payment_installments payment_value       total_value      price_above_mean delivery_delayed  delivery_early  
+ Length:114173         Length:114173                 Min.   : 1.00      Min.   :    2    Length:114173      Min.   : 0.000       Min.   :    0.00   Min.   :   6.08   Min.   :0.0000   Min.   :0.00000   Min.   :0.0000  
+ Class :character      Class :character              1st Qu.: 1.00      1st Qu.:  300    Class :character   1st Qu.: 1.000       1st Qu.:   61.35   1st Qu.:  55.22   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:1.0000  
+ Mode  :character      Mode  :character              Median : 1.00      Median :  700    Mode  :character   Median : 2.000       Median :  108.51   Median :  91.85   Median :0.0000   Median :0.00000   Median :1.0000  
+                                                     Mean   : 2.19      Mean   : 2098                       Mean   : 2.948       Mean   :  172.07   Mean   : 139.72   Mean   :0.2986   Mean   :0.06428   Mean   :0.9083  
+                                                     3rd Qu.: 3.00      3rd Qu.: 1800                       3rd Qu.: 4.000       3rd Qu.:  189.12   3rd Qu.: 157.24   3rd Qu.:1.0000   3rd Qu.:0.00000   3rd Qu.:1.0000  
+                                                     Max.   :20.00      Max.   :40425                       Max.   :24.000       Max.   :13664.08   Max.   :6929.31   Max.   :1.0000   Max.   :1.00000   Max.   :1.0000  
+                                                                                                                                 NA's   :3                                                                               
+
+步驟 3: 應變數（review_score）分析
+-------------------------------------------------------------------------------- 
+
+評論分數（review_score）基本統計：
+  平均數: 4.08
+  中位數: 5.00
+  標準差: 1.35
+  最小值: 1
+  最大值: 5
+
+評論分數分布：
+
+    1     2     3     4     5 
+13044  3870  9597 22006 65656 
+
+比例分布：
+
+    1     2     3     4     5 
+11.42  3.39  8.41 19.27 57.51 
+
+生成直方圖...
+✓ 已儲存至: plots/review_score_histogram.png
+
+生成箱線圖...
+✓ 已儲存至: plots/review_score_boxplot.png
+
+步驟 4: 主要數值變數分析
+-------------------------------------------------------------------------------- 
+
+主要數值變數統計摘要：
+ delivery_days     delivery_gap         price         freight_value    product_weight_g product_photos_qty payment_installments
+ Min.   :  0.00   Min.   :-146.00   Min.   :   0.85   Min.   :  0.00   Min.   :    2    Min.   : 1.00      Min.   : 0.000      
+ 1st Qu.:  6.00   1st Qu.: -16.00   1st Qu.:  39.90   1st Qu.: 13.08   1st Qu.:  300    1st Qu.: 1.00      1st Qu.: 1.000      
+ Median : 10.00   Median : -12.00   Median :  74.90   Median : 16.28   Median :  700    Median : 1.00      Median : 2.000      
+ Mean   : 11.99   Mean   : -11.16   Mean   : 119.75   Mean   : 19.96   Mean   : 2098    Mean   : 2.19      Mean   : 2.948      
+ 3rd Qu.: 15.00   3rd Qu.:  -6.00   3rd Qu.: 132.97   3rd Qu.: 21.15   3rd Qu.: 1800    3rd Qu.: 3.00      3rd Qu.: 4.000      
+ Max.   :208.00   Max.   : 188.00   Max.   :6735.00   Max.   :409.68   Max.   :40425    Max.   :20.00      Max.   :24.000      
+
+生成箱線圖（檢查異常值）...
+  ✓ delivery_days 箱線圖已儲存
+  ✓ delivery_gap 箱線圖已儲存
+  ✓ price 箱線圖已儲存
+  ✓ freight_value 箱線圖已儲存
+  ✓ product_weight_g 箱線圖已儲存
+  ✓ product_photos_qty 箱線圖已儲存
+  ✓ payment_installments 箱線圖已儲存
+
+生成直方圖（檢查分布）...
+  ✓ delivery_days 直方圖已儲存
+  ✓ delivery_gap 直方圖已儲存
+  ✓ price 直方圖已儲存
+  ✓ freight_value 直方圖已儲存
+  ✓ product_weight_g 直方圖已儲存
+  ✓ product_photos_qty 直方圖已儲存
+  ✓ payment_installments 直方圖已儲存
+
+步驟 5: 變數間關係探索
+-------------------------------------------------------------------------------- 
+
+數值變數相關係數矩陣：
+                     review_score delivery_days delivery_gap  price freight_value product_weight_g product_photos_qty payment_installments
+review_score                1.000        -0.303       -0.224  0.003        -0.033           -0.026              0.022               -0.043
+delivery_days              -0.303         1.000        0.587  0.061         0.213            0.084             -0.027                0.042
+delivery_gap               -0.224         0.587        1.000 -0.005        -0.044            0.009              0.004               -0.040
+price                       0.003         0.061       -0.005  1.000         0.413            0.340              0.053                0.280
+freight_value              -0.033         0.213       -0.044  0.413         1.000            0.610              0.024                0.187
+product_weight_g           -0.026         0.084        0.009  0.340         0.610            1.000              0.024                0.181
+product_photos_qty          0.022        -0.027        0.004  0.053         0.024            0.024              1.000                0.000
+payment_installments       -0.043         0.042       -0.040  0.280         0.187            0.181              0.000                1.000
+
+生成重要變數關係散點圖...
+✓ delivery_gap vs review_score 散點圖已儲存
+✓ price vs review_score 散點圖已儲存
+
+步驟 6: 類別變數分析
+-------------------------------------------------------------------------------- 
+
+付款方式分布：
+
+     boleto credit_card  debit_card     unknown     voucher 
+      22337       84697        1654           3        5482 
+
+前 10 大商品類別：
+# A tibble: 10 × 2
+   product_category_name_english     n
+   <chr>                         <int>
+ 1 bed_bath_table                11580
+ 2 health_beauty                  9696
+ 3 sports_leisure                 8681
+ 4 furniture_decor                8521
+ 5 computers_accessories          7914
+ 6 housewares                     7105
+ 7 watches_gifts                  6003
+ 8 telephony                      4551
+ 9 garden_tools                   4426
+10 auto                           4243
+
+================================================================================ 
+敘述性統計分析完成！
+================================================================================ 
+
+所有圖表已儲存至 plots/ 資料夾
+
+執行完成時間： 2025-11-30 15:47:16 
