@@ -5,7 +5,7 @@
 # ============================================================================
 
 # 設定工作目錄為專案根目錄
-project_root <- 'C:\\Users\\User\\Downloads\\商統分\\NTU_Statistical-Data-Analysis-Final-Report'
+project_root <- 'C:\\Users\\User\\OneDrive\\Desktop\\NTU\\商統分\\NTU_Statistical-Data-Analysis-Final-Report'
 
 # 檢查目錄是否存在
 if (!dir.exists(project_root)) {
