@@ -85,72 +85,36 @@ def create_merged_view(conn):
     
     print("✓ 合併資料 VIEW 已建立")
 
+def create_indexes(conn):
+    """建立查詢所需索引以加速合併與匯出"""
+    print("\n建立索引以加速查詢...")
+    cursor = conn.cursor()
+    try:
+        cursor.executescript("""
+        CREATE INDEX IF NOT EXISTS idx_reviews_order_id    ON olist_order_reviews_dataset(order_id);
+        CREATE INDEX IF NOT EXISTS idx_reviews_created     ON olist_order_reviews_dataset(review_creation_date);
+        CREATE INDEX IF NOT EXISTS idx_orders_order_id     ON olist_orders_dataset(order_id);
+        CREATE INDEX IF NOT EXISTS idx_orders_customer_id  ON olist_orders_dataset(customer_id);
+        CREATE INDEX IF NOT EXISTS idx_customers_customer  ON olist_customers_dataset(customer_id);
+        CREATE INDEX IF NOT EXISTS idx_items_order_id      ON olist_order_items_dataset(order_id);
+        CREATE INDEX IF NOT EXISTS idx_items_product_id    ON olist_order_items_dataset(product_id);
+        CREATE INDEX IF NOT EXISTS idx_products_product    ON olist_products_dataset(product_id);
+        CREATE INDEX IF NOT EXISTS idx_products_category   ON olist_products_dataset(product_category_name);
+        CREATE INDEX IF NOT EXISTS idx_payments_order_id   ON olist_order_payments_dataset(order_id);
+        CREATE INDEX IF NOT EXISTS idx_sellers_seller_id   ON olist_sellers_dataset(seller_id);
+        """)
+        conn.commit()
+        print("✓ 索引建立完成")
+    except sqlite3.Error as e:
+        print(f"建立索引時發生警告：{e}")
+
 def export_merged_data(conn):
     """匯出合併後的資料為 CSV"""
     
     print("\n匯出合併後的資料...")
     
-    # 查詢合併後的資料
-    query = """
-    SELECT 
-        -- Review 相關變數（應變數）
-        rev.review_id,
-        rev.review_score,
-        rev.review_creation_date,
-        
-        -- Order 相關變數
-        o.order_id,
-        o.order_status,
-        o.order_purchase_timestamp,
-        o.order_approved_at,
-        o.order_delivered_carrier_date,
-        o.order_delivered_customer_date,
-        o.order_estimated_delivery_date,
-        
-        -- 計算物流效率變數
-        CAST((julianday(o.order_delivered_customer_date) - julianday(o.order_purchase_timestamp)) AS INTEGER) AS delivery_days,
-        CAST((julianday(o.order_delivered_customer_date) - julianday(o.order_estimated_delivery_date)) AS INTEGER) AS delivery_gap,
-        
-        -- Customer 相關變數
-        c.customer_id,
-        c.customer_unique_id,
-        c.customer_state,
-        c.customer_city,
-        
-        -- Order Items 相關變數（交易成本變數）
-        oi.order_item_id,
-        oi.product_id,
-        oi.seller_id,
-        oi.price,
-        oi.freight_value,
-        
-        -- Product 相關變數（商品屬性變數）
-        p.product_category_name,
-        pc.product_category_name_english,
-        p.product_photos_qty,
-        p.product_weight_g,
-        
-        -- Payment 相關變數（控制變數）
-        pay.payment_type,
-        pay.payment_installments,
-        pay.payment_value
-        
-    FROM olist_order_reviews_dataset rev
-    INNER JOIN olist_orders_dataset o ON rev.order_id = o.order_id
-    INNER JOIN olist_customers_dataset c ON o.customer_id = c.customer_id
-    LEFT JOIN olist_order_items_dataset oi ON o.order_id = oi.order_id
-    LEFT JOIN olist_products_dataset p ON oi.product_id = p.product_id
-    LEFT JOIN product_category_name_translation pc ON p.product_category_name = pc.product_category_name
-    LEFT JOIN olist_order_payments_dataset pay ON o.order_id = pay.order_id
-    LEFT JOIN olist_sellers_dataset s ON oi.seller_id = s.seller_id
-    
-    WHERE o.order_status = 'delivered'
-        AND o.order_delivered_customer_date IS NOT NULL
-        AND o.order_purchase_timestamp IS NOT NULL
-        AND o.order_estimated_delivery_date IS NOT NULL
-    """
-    
-    df_merged = pd.read_sql_query(query, conn)
+    # 與 VIEW 對齊，避免查詢邏輯漂移
+    df_merged = pd.read_sql_query("SELECT * FROM merged_olist_data", conn)
     
     # 取得腳本所在目錄
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -167,7 +131,24 @@ def export_merged_data(conn):
     print("\n=== 資料摘要 ===")
     print(f"唯一訂單數: {df_merged['order_id'].nunique():,}")
     print(f"唯一顧客數: {df_merged['customer_id'].nunique():,}")
-    print(f"唯一商品數: {df_merged['product_id'].nunique():,}")
+    # merged_olist_data 為訂單層級，不含 product_id；改以 SQL 計算符合條件之不同商品數
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT COUNT(DISTINCT oi.product_id)
+        FROM olist_order_items_dataset oi
+        JOIN olist_orders_dataset o ON oi.order_id = o.order_id
+        JOIN (
+          SELECT DISTINCT order_id 
+          FROM olist_order_reviews_dataset 
+          WHERE review_score IS NOT NULL
+        ) r ON r.order_id = o.order_id
+        WHERE o.order_status = 'delivered'
+          AND o.order_delivered_customer_date IS NOT NULL
+          AND o.order_purchase_timestamp IS NOT NULL
+          AND o.order_estimated_delivery_date IS NOT NULL
+    """)
+    unique_products = cursor.fetchone()[0]
+    print(f"唯一商品數（符合條件）: {unique_products:,}")
     print(f"\n平均評論分數: {df_merged['review_score'].mean():.2f}")
     print(f"評論分數分布:")
     print(df_merged['review_score'].value_counts().sort_index())
@@ -182,6 +163,9 @@ def main():
     
     # 載入 CSV 到資料庫
     conn = load_csv_to_database()
+    
+    # 建立查詢索引以加速後續 VIEW 與匯出
+    create_indexes(conn)
     
     # 建立合併 VIEW
     create_merged_view(conn)
