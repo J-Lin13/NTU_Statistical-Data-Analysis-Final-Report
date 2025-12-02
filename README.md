@@ -20,13 +20,18 @@
 **應變數** : review_score: (1-5分)。此變數將被視為連續型變數處理。
 
 **自變數** : 
-- 物流效率變數 : delivery_days、delivery_gap
-- 交易成本變數 : price、freight_value
-- 商品屬性變數 : product_category_name、product_weight_g、product_photos_qty
-- 其他控制變數 : payment_type、payment_installments
+- 物流效率變數 : delivery_days、delivery_gap（以訂單層級日期計算）
+- 交易成本變數 : price（每單總價）、freight_value（每單總運費）
+- 商品屬性變數 : 
+  - product_category_name_english（主類別；每單出現最多的品類）
+  - product_photos_qty（每單平均）、product_weight_g（每單平均）
+  - num_products、num_items、num_distinct_categories、primary_category_share
+  - product_categories、product_ids（每單去重清單，逗號分隔）
+- 付款控制變數 : payment_type（以第一筆付款為代表）、payment_installments（每單最大期數）、payment_value（每單總額）
+- 賣家控制變數 : num_sellers、primary_seller_id、primary_seller_city/state/zip、primary_seller_share
 
 ## 4. 預期結果與分析方法
-在資料前處理上，我們將以 dplyr 合併多個資料表，並建立 delivery_days、delivery_gap 等衍生變數；透過 summary()、hist()、boxplot() 進行初步資料分布與異常值檢查。接著使用 lm() 建立多元迴歸模型，並以 step() 搭配 AIC 進行逐步選模，以得到解釋力佳且結構精簡的變數組合，避免多重共線性問題。
+在資料前處理上，我們以 SQL 於訂單層級整併多表（每單一列）、建立 delivery_days、delivery_gap 等衍生變數；透過 summary()、hist()、boxplot() 進行初步資料分布與異常值檢查。接著使用 lm() 建立多元迴歸模型，並以 step() 搭配 AIC 進行逐步選模，以得到解釋力佳且結構精簡的變數組合，避免多重共線性問題。
 
 模型建立後，我們將透過殘差圖與 QQ Plot 檢驗常態性、獨立性與變異數同質性；若觀察到異質性變異或偏態，會視情況對相關自變數進行適度轉換，以提升模型適配度。
 
@@ -93,6 +98,7 @@ NTU_Statistical-Data-Analysis-Final-Report/
 - **SQL 檔案**：資料合併的查詢語句
 - **合併後的資料**：`merged_olist_data.csv` 包含所有需要的欄位
 - **資料庫檔案**：`olist_data.db` 是 SQLite 資料庫，用於儲存所有 CSV 資料並執行 SQL 查詢。當執行 `load_and_merge_data.py` 時，腳本會將所有 CSV 檔案載入到這個資料庫中，然後在資料庫中執行 SQL 查詢來合併資料。
+ - 合併規則（重點）：每訂單僅保留一筆評論，選擇「最接近實際送達日」的評論（如並列則取較晚者）；付款/商品/賣家皆聚合至訂單層級。
 
 ### `data_preprocessing/` - 資料前處理
 包含所有與資料前處理相關的檔案：
@@ -123,13 +129,20 @@ python load_and_merge_data.py
 ```
 
 
-## 合併後的資料欄位
+## 合併後的資料欄位（訂單層級，一單一列）
 
 - **應變數**：`review_score` (1-5分)
 - **物流變數**：`delivery_days`, `delivery_gap`
-- **交易成本**：`price`, `freight_value`
-- **商品屬性**：`product_category_name`, `product_weight_g`, `product_photos_qty`
-- **控制變數**：`payment_type`, `payment_installments`
+- **交易成本**：`price`, `freight_value`, `payment_value`
+- **付款控制**：`payment_type`, `payment_installments`
+- **商品屬性（聚合）**：
+  - `product_category_name_english`（主類別）
+  - `product_photos_qty`（平均）、`product_weight_g`（平均）
+  - `num_items`, `num_products`, `num_distinct_categories`, `primary_category_share`
+  - `product_categories`, `product_ids`（清單，逗號分隔）
+- **賣家屬性（聚合）**：
+  - `num_sellers`, `primary_seller_id`, `primary_seller_city`, `primary_seller_state`, `primary_seller_zip_code_prefix`, `primary_seller_share`
+- **評論診斷**：`review_count`, `review_distinct_scores`, `has_multiple_reviews`, `has_mixed_review_scores`, `first_review_*`, `last_review_*`
 
 詳見各資料夾中的 README.md 獲取更多資訊。
 
