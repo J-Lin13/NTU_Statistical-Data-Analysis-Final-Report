@@ -1,41 +1,65 @@
 ================================================================================
 敘述性統計分析輸出日誌
-執行時間： 2025-11-30 15:47:06 
+執行時間： 2025-12-02 14:55:55 
 ================================================================================
 
 步驟 1: 載入清理後的資料
 -------------------------------------------------------------------------------- 
-資料檔案路徑: C:\Users\User\OneDrive\Desktop\NTU\商統分\NTU_Statistical-Data-Analysis-Final-Report\data_preprocessing\preprocessed_data.csv
+資料檔案路徑: /Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Final Project /NTU_Statistical-Data-Analysis-Final-Report/data_preprocessing/preprocessed_data.csv
 ✓ 資料載入完成：114,173 筆記錄，32 個欄位
 
 步驟 2: 基本統計摘要
 -------------------------------------------------------------------------------- 
 
 整體資料摘要：
-  review_id          review_score  review_creation_date            order_id         order_status       order_purchase_timestamp      order_approved_at             order_delivered_carrier_date  order_delivered_customer_date
- Length:114173      Min.   :1.00   Min.   :2016-10-06 00:00:00   Length:114173      Length:114173      Min.   :2016-09-15 12:16:38   Min.   :2016-09-15 12:16:38   Min.   :2016-10-08 10:34:01   Min.   :2016-10-11 13:46:32  
- Class :character   1st Qu.:4.00   1st Qu.:2017-09-24 00:00:00   Class :character   Class :character   1st Qu.:2017-09-13 08:35:29   1st Qu.:2017-09-13 18:09:46   1st Qu.:2017-09-15 18:05:30   1st Qu.:2017-09-25 14:50:22  
- Mode  :character   Median :5.00   Median :2018-02-02 00:00:00   Mode  :character   Mode  :character   Median :2018-01-19 10:51:06   Median :2018-01-19 17:42:41   Median :2018-01-23 20:43:19   Median :2018-02-01 18:14:47  
-                    Mean   :4.08   Mean   :2018-01-12 22:41:29                                         Mean   :2017-12-31 16:41:53   Mean   :2018-01-01 04:09:37   Mean   :2018-01-03 23:28:00   Mean   :2018-01-13 03:31:01  
-                    3rd Qu.:5.00   3rd Qu.:2018-05-15 00:00:00                                         3rd Qu.:2018-05-04 15:05:29   3rd Qu.:2018-05-04 22:48:59   3rd Qu.:2018-05-08 09:58:00   3rd Qu.:2018-05-15 14:26:52  
-                    Max.   :5.00   Max.   :2018-08-31 00:00:00                                         Max.   :2018-08-29 15:00:37   Max.   :2018-08-29 15:10:26   Max.   :2018-09-11 19:48:28   Max.   :2018-10-17 13:22:46  
-                                                                                                                                     NA's   :15                    NA's   :1                                                  
- order_estimated_delivery_date delivery_days     delivery_gap     customer_id        customer_unique_id customer_state     customer_city      order_item_id     product_id         seller_id             price         freight_value   
- Min.   :2016-10-04 00:00:00   Min.   :  0.00   Min.   :-146.00   Length:114173      Length:114173      Length:114173      Length:114173      Min.   : 1.000   Length:114173      Length:114173      Min.   :   0.85   Min.   :  0.00  
- 1st Qu.:2017-10-04 00:00:00   1st Qu.:  6.00   1st Qu.: -16.00   Class :character   Class :character   Class :character   Class :character   1st Qu.: 1.000   Class :character   Class :character   1st Qu.:  39.90   1st Qu.: 13.08  
- Median :2018-02-15 00:00:00   Median : 10.00   Median : -12.00   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median : 1.000   Mode  :character   Mode  :character   Median :  74.90   Median : 16.28  
- Mean   :2018-01-24 12:39:53   Mean   : 11.99   Mean   : -11.16                                                                               Mean   : 1.195                                         Mean   : 119.75   Mean   : 19.96  
- 3rd Qu.:2018-05-25 00:00:00   3rd Qu.: 15.00   3rd Qu.:  -6.00                                                                               3rd Qu.: 1.000                                         3rd Qu.: 132.97   3rd Qu.: 21.15  
- Max.   :2018-10-25 00:00:00   Max.   :208.00   Max.   : 188.00                                                                               Max.   :21.000                                         Max.   :6735.00   Max.   :409.68  
-                                                                                                                                                                                                                                       
- product_category_name product_category_name_english product_photos_qty product_weight_g payment_type       payment_installments payment_value       total_value      price_above_mean delivery_delayed  delivery_early  
- Length:114173         Length:114173                 Min.   : 1.00      Min.   :    2    Length:114173      Min.   : 0.000       Min.   :    0.00   Min.   :   6.08   Min.   :0.0000   Min.   :0.00000   Min.   :0.0000  
- Class :character      Class :character              1st Qu.: 1.00      1st Qu.:  300    Class :character   1st Qu.: 1.000       1st Qu.:   61.35   1st Qu.:  55.22   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:1.0000  
- Mode  :character      Mode  :character              Median : 1.00      Median :  700    Mode  :character   Median : 2.000       Median :  108.51   Median :  91.85   Median :0.0000   Median :0.00000   Median :1.0000  
-                                                     Mean   : 2.19      Mean   : 2098                       Mean   : 2.948       Mean   :  172.07   Mean   : 139.72   Mean   :0.2986   Mean   :0.06428   Mean   :0.9083  
-                                                     3rd Qu.: 3.00      3rd Qu.: 1800                       3rd Qu.: 4.000       3rd Qu.:  189.12   3rd Qu.: 157.24   3rd Qu.:1.0000   3rd Qu.:0.00000   3rd Qu.:1.0000  
-                                                     Max.   :20.00      Max.   :40425                       Max.   :24.000       Max.   :13664.08   Max.   :6929.31   Max.   :1.0000   Max.   :1.00000   Max.   :1.0000  
-                                                                                                                                 NA's   :3                                                                               
+  review_id          review_score  review_creation_date               order_id         order_status       order_purchase_timestamp        
+ Length:114173      Min.   :1.00   Min.   :2016-10-06 00:00:00.00   Length:114173      Length:114173      Min.   :2016-09-15 12:16:38.00  
+ Class :character   1st Qu.:4.00   1st Qu.:2017-09-24 00:00:00.00   Class :character   Class :character   1st Qu.:2017-09-13 08:35:29.00  
+ Mode  :character   Median :5.00   Median :2018-02-02 00:00:00.00   Mode  :character   Mode  :character   Median :2018-01-19 10:51:06.00  
+                    Mean   :4.08   Mean   :2018-01-12 22:41:29.13                                         Mean   :2017-12-31 16:41:53.00  
+                    3rd Qu.:5.00   3rd Qu.:2018-05-15 00:00:00.00                                         3rd Qu.:2018-05-04 15:05:29.00  
+                    Max.   :5.00   Max.   :2018-08-31 00:00:00.00                                         Max.   :2018-08-29 15:00:37.00  
+                                                                                                                                          
+ order_approved_at                order_delivered_carrier_date     order_delivered_customer_date    order_estimated_delivery_date   
+ Min.   :2016-09-15 12:16:38.00   Min.   :2016-10-08 10:34:01.00   Min.   :2016-10-11 13:46:32.00   Min.   :2016-10-04 00:00:00.00  
+ 1st Qu.:2017-09-13 18:09:46.00   1st Qu.:2017-09-15 18:05:30.00   1st Qu.:2017-09-25 14:50:22.00   1st Qu.:2017-10-04 00:00:00.00  
+ Median :2018-01-19 17:42:41.00   Median :2018-01-23 20:43:19.00   Median :2018-02-01 18:14:47.00   Median :2018-02-15 00:00:00.00  
+ Mean   :2018-01-01 04:09:37.98   Mean   :2018-01-03 23:28:00.30   Mean   :2018-01-13 03:31:01.26   Mean   :2018-01-24 12:39:53.97  
+ 3rd Qu.:2018-05-04 22:48:59.75   3rd Qu.:2018-05-08 09:58:00.00   3rd Qu.:2018-05-15 14:26:52.00   3rd Qu.:2018-05-25 00:00:00.00  
+ Max.   :2018-08-29 15:10:26.00   Max.   :2018-09-11 19:48:28.00   Max.   :2018-10-17 13:22:46.00   Max.   :2018-10-25 00:00:00.00  
+ NA's   :15                       NA's   :1                                                                                         
+ delivery_days     delivery_gap     customer_id        customer_unique_id customer_state     customer_city      order_item_id   
+ Min.   :  0.00   Min.   :-146.00   Length:114173      Length:114173      Length:114173      Length:114173      Min.   : 1.000  
+ 1st Qu.:  6.00   1st Qu.: -16.00   Class :character   Class :character   Class :character   Class :character   1st Qu.: 1.000  
+ Median : 10.00   Median : -12.00   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median : 1.000  
+ Mean   : 11.99   Mean   : -11.16                                                                               Mean   : 1.195  
+ 3rd Qu.: 15.00   3rd Qu.:  -6.00                                                                               3rd Qu.: 1.000  
+ Max.   :208.00   Max.   : 188.00                                                                               Max.   :21.000  
+                                                                                                                                
+  product_id         seller_id             price         freight_value    product_category_name product_category_name_english
+ Length:114173      Length:114173      Min.   :   0.85   Min.   :  0.00   Length:114173         Length:114173                
+ Class :character   Class :character   1st Qu.:  39.90   1st Qu.: 13.08   Class :character      Class :character             
+ Mode  :character   Mode  :character   Median :  74.90   Median : 16.28   Mode  :character      Mode  :character             
+                                       Mean   : 119.75   Mean   : 19.96                                                      
+                                       3rd Qu.: 132.97   3rd Qu.: 21.15                                                      
+                                       Max.   :6735.00   Max.   :409.68                                                      
+                                                                                                                             
+ product_photos_qty product_weight_g payment_type       payment_installments payment_value       total_value      price_above_mean
+ Min.   : 1.00      Min.   :    2    Length:114173      Min.   : 0.000       Min.   :    0.00   Min.   :   6.08   Min.   :0.0000  
+ 1st Qu.: 1.00      1st Qu.:  300    Class :character   1st Qu.: 1.000       1st Qu.:   61.35   1st Qu.:  55.22   1st Qu.:0.0000  
+ Median : 1.00      Median :  700    Mode  :character   Median : 2.000       Median :  108.51   Median :  91.85   Median :0.0000  
+ Mean   : 2.19      Mean   : 2098                       Mean   : 2.948       Mean   :  172.07   Mean   : 139.72   Mean   :0.2986  
+ 3rd Qu.: 3.00      3rd Qu.: 1800                       3rd Qu.: 4.000       3rd Qu.:  189.12   3rd Qu.: 157.24   3rd Qu.:1.0000  
+ Max.   :20.00      Max.   :40425                       Max.   :24.000       Max.   :13664.08   Max.   :6929.31   Max.   :1.0000  
+                                                                             NA's   :3                                            
+ delivery_delayed  delivery_early  
+ Min.   :0.00000   Min.   :0.0000  
+ 1st Qu.:0.00000   1st Qu.:1.0000  
+ Median :0.00000   Median :1.0000  
+ Mean   :0.06428   Mean   :0.9083  
+ 3rd Qu.:0.00000   3rd Qu.:1.0000  
+ Max.   :1.00000   Max.   :1.0000  
+                                   
 
 步驟 3: 應變數（review_score）分析
 -------------------------------------------------------------------------------- 
@@ -93,6 +117,22 @@
   ✓ product_photos_qty 直方圖已儲存
   ✓ payment_installments 直方圖已儲存
 
+生成 QQ 常態機率圖與常態性檢定（Shapiro-Wilk）...
+  ✓ delivery_days QQ 常態機率圖已儲存
+    Shapiro-Wilk W=0.7854, p=6.32e-63
+  ✓ delivery_gap QQ 常態機率圖已儲存
+    Shapiro-Wilk W=0.9132, p=7.373e-47
+  ✓ price QQ 常態機率圖已儲存
+    Shapiro-Wilk W=0.5281, p=6.619e-79
+  ✓ freight_value QQ 常態機率圖已儲存
+    Shapiro-Wilk W=0.5231, p=3.934e-79
+  ✓ product_weight_g QQ 常態機率圖已儲存
+    Shapiro-Wilk W=0.5408, p=2.548e-78
+  ✓ product_photos_qty QQ 常態機率圖已儲存
+    Shapiro-Wilk W=0.7337, p=4.013e-67
+  ✓ payment_installments QQ 常態機率圖已儲存
+    Shapiro-Wilk W=0.7355, p=5.54e-67
+
 步驟 5: 變數間關係探索
 -------------------------------------------------------------------------------- 
 
@@ -110,6 +150,55 @@ payment_installments       -0.043         0.042       -0.040  0.280         0.18
 生成重要變數關係散點圖...
 ✓ delivery_gap vs review_score 散點圖已儲存
 ✓ price vs review_score 散點圖已儲存
+
+進行線性模型殘差診斷...
+模型摘要（review_score ~ delivery_gap）：
+
+Call:
+lm(formula = review_score ~ delivery_gap, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.8044 -0.3789  0.6514  0.9242  5.9564 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   3.7423061  0.0058412  640.67   <2e-16 ***
+delivery_gap -0.0303143  0.0003908  -77.57   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.314 on 114171 degrees of freedom
+Multiple R-squared:  0.05006,	Adjusted R-squared:  0.05005 
+F-statistic:  6016 on 1 and 114171 DF,  p-value: < 2.2e-16
+
+✓ 殘差圖（Residuals vs Fitted）已儲存：plots/lm_review_vs_delivery_gap_resid_vs_fitted.png
+✓ 殘差 QQ 圖已儲存：plots/lm_review_vs_delivery_gap_resid_qqplot.png
+  Shapiro-Wilk（residuals）W=0.8090, p=1.014e-60
+
+模型摘要（review_score ~ log10(price + 1)）：
+
+Call:
+lm(formula = review_score ~ price_log, data = dat_price)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-3.13795 -0.09792  0.90457  0.92250  0.97714 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  4.01333    0.01950 205.771  < 2e-16 ***
+price_log    0.03568    0.01015   3.516 0.000438 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.348 on 114171 degrees of freedom
+Multiple R-squared:  0.0001083,	Adjusted R-squared:  9.954e-05 
+F-statistic: 12.37 on 1 and 114171 DF,  p-value: 0.0004375
+
+✓ 殘差圖（Residuals vs Fitted）已儲存：plots/lm_review_vs_logprice_resid_vs_fitted.png
+✓ 殘差 QQ 圖已儲存：plots/lm_review_vs_logprice_resid_qqplot.png
+  Shapiro-Wilk（residuals）W=0.7011, p=2.019e-69
 
 步驟 6: 類別變數分析
 -------------------------------------------------------------------------------- 
@@ -140,4 +229,4 @@ payment_installments       -0.043         0.042       -0.040  0.280         0.18
 
 所有圖表已儲存至 plots/ 資料夾
 
-執行完成時間： 2025-11-30 15:47:16 
+執行完成時間： 2025-12-02 14:56:01 
