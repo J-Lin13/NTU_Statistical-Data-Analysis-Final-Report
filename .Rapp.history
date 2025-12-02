@@ -1,0 +1,695 @@
+linear_comb_value = sum(linear_comb * coefficients)
+linear_comb_variance = t(linear_comb) %*% vcov_matrix %*% linear_comb#
+linear_comb_se = sqrt(linear_comb_variance)
+t_stat_comb = (linear_comb_value - 1) / linear_comb_se
+p_value_comb = pt(t_stat_comb, df = df)
+t_stat_comb#
+p_value_comb
+dat <- read.table("car_accident.txt", header = TRUE, sep = "\t")
+dat <- read.table("/Users/linkaijun/Downloads/car_accident.txt", header = TRUE, sep = "\t")
+fit <- lm(accidents ~ speed, data = dat)
+fit <- lm(Accidents ~ speed, data = dat)
+fit <- lm(Accidents ~ Speed, data = dat)
+sm <- summary(fit)
+c
+coef_speed <- sm$coefficients["Speed", "Estimate"]
+p_value <- sm$efficients["Speed", "Pr(>|t|)"]
+r_squared <- sm$r.squared
+cat(sprintf("(1) estimated coefficient: %.4f\n", coef_speed)
+)
+cat(sprintf("(2) p-value: %.4f\n", p_value))
+cat
+cat(sprintf("(3) R-squared value: %.4f\n" , r_squared))
+cat(sprintf("(2) p-value: %.4f\n", p_value))
+fit <- lm(Accidents ~ Speed, data = dat)
+coef_tbl <- tidy(fit) %>% filter(term == "Speed")
+p_value    <- sm$coefficients["Speed", "Pr(>|t|)"]
+cat(sprintf("(2) p-value: %.4f\n", p_value))
+clear
+dat <- read.table("/Users/linkaijun/Downloads/OACs.txt", header = TRUE, sep = "\t", check.names = FALSE)
+m_best6  <- lm(GPA ~ Best-6,  data = dat)#
+m_b4ec   <- lm(GPA ~ B4+E+C,  data = dat)
+m_best6  <- lm(GPA ~ Best-6,  data = dat)
+m_best6  <- lm(GPA ~ "Best-6",  data = dat)
+m_best6  <- lm(GPA ~ `Best-6`,  data = dat)
+m_b4ec   <- lm(GPA ~ `B4+E+C`,  data = dat)
+r2_best6 <- summary(m_best6)$r.squared
+r2_b4ec  <- summary(m_b4ec)$r.squared
+cat(sprintf("R-squared (Best-6):  %.4f\n", r2_best6))
+cat(sprintf("R-squared (B4+E+C): %.4f\n", r2_b4ec))
+if (r2_best6 >= r2_b4ec) {#
+  cat(sprintf("\n(1) The higher R-squared value is %.4f (Best-6)\n", r2_best6))#
+} else {#
+  cat(sprintf("\n(1) The higher R-squared value is %.4f (B4+E+C)\n", r2_b4ec))#
+}
+dat <- read.table("/Users/linkaijun/Downloads/car_accident.txt", header = TRUE, sep = "\t")
+## 2) 簡單線性迴歸：Accidents ~ Speed#
+fit <- lm(Accidents ~ Speed, data = dat)#
+sm  <- summary(fit)#
+#
+## 3) 擷取斜率、p-value、R^2#
+coef_speed <- sm$coefficients["Speed", "Estimate"]#
+p_value    <- sm$coefficients["Speed", "Pr(>|t|)"]#
+r_squared  <- sm$r.squared#
+#
+## 4) 輸出（小數點後四位）#
+cat(sprintf("(1) estimated coefficient: %.4f\n", coef_speed))#
+cat(sprintf("(2) p-value: %.4f\n", p_value))#
+cat(sprintf("(3) R-squared value: %.4f\n", r_squared))
+# 載入必要套件#
+library(car)        # 檢查共線性 VIF#
+library(ggplot2)    # 視覺化#
+library(dplyr)      # 整理資料#
+#
+# 讀取資料#
+data <- read.csv("/Downloads/steel_ind_energy_a.csv")#
+#
+# 建立模型 (Usage ~ Lagging_Current + Leading_Current + NSM)#
+model1 <- lm(Usage ~ Lagging_Current + Leading_Current + NSM, data = data)#
+#
+# 輸出迴歸摘要#
+summary(model1)#
+#
+# 檢查多重共線性#
+vif(model1)#
+#
+# 模型診斷圖#
+par(mfrow = c(2, 2))  #
+plot(model1)#
+#
+# 如果想更清楚檢查殘差正態性#
+shapiro.test(resid(model1))#
+#
+# 預測範例 (使用原資料)#
+pred <- predict(model1, newdata = data)#
+head(pred)#
+#
+# 如果要計算模型的RMSE與MAE#
+rmse <- sqrt(mean((data$Usage - pred)^2))#
+mae  <- mean(abs(data$Usage - pred))#
+cat("RMSE =", rmse, "\nMAE =", mae)
+library(car)        # 檢查共線性 VIF#
+library(ggplot2)    # 視覺化#
+library(dplyr)      # 整理資料
+install.packages("car")#
+install.packages("ggplot2")#
+install.packages("dplyr")
+library(car)#
+library(ggplot2)#
+library(dplyr)
+data <- read.csv("/Users/linkaijun/Downloads/steel_ind_energy_a.csv")
+model1 <- lm(Usage ~ Lagging_Current + Leading_Current + NSM, data = data)
+model1 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + NSM, data = data)
+summary(model1)
+par(mfrow = c(2, 2))
+model1 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + NSM^2, data = data)
+summary(model1)
+model2 <- lm(Usage.kWh. ~ Lagging_Current + Leading_Current + log(NSM + 1), data = data)
+model2 <- lm(Usage_kWh. ~ Lagging_Current + Leading_Current + log(NSM + 1), data = data)
+model2 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + log(NSM + 1), data = data)
+summary(model2)
+model3 <- lm(Usage.kWh. ~ Lagging_Current + Leading_Current + sqrt(NSM), data = data)
+model3 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + sqrt(NSM), data = data)
+summary(model3)
+model4 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + NSM, data = data)
+summary(model4)
+model5 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + sqrt(NSM), data = data)
+summary(model5)
+model6 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + log(NSM + 1), data = data)
+summary(model6)
+model7 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + Leading_Current_Power_Factor, data = data)
+summary(model7)
+model0 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + Leading_Current_Power_Factor + NSM, data = data)
+summary(model0)
+modelc <- lm(Usage_kWh ~ CO2, data = data)
+summary(modelc)
+model1 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + log(Leading_Current_Power_Factor), data = data)
+summary(model1)
+Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + sqrt(Leading_Current_Power_Factor), data = data)
+model2 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + sqrt(Leading_Current_Power_Factor), data = data))
+model2 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + sqrt(Leading_Current_Power_Factor), data = data)
+summary(model2)
+model2 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + sqrt(Lagging_Current_Power_Factor) + sqrt(Leading_Current_Power_Factor), data = data)
+summary(model2)
+model3 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + log(Lagging_Current_Power_Factor + 1) + sqrt(Leading_Current_Power_Factor), data = data)
+summary(model3)
+model3 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor ^ 2 + sqrt(Leading_Current_Power_Factor), data = data)
+summary(model3)
+model2 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + sqrt(Leading_Current_Power_Factor), data = data)#
+> summary(model2)
+model2 <- lm(Usage_kWh ~ Lagging_Current + Leading_Current + Lagging_Current_Power_Factor + sqrt(Leading_Current_Power_Factor), data = data)
+summary(model2)
+qqplot(model2)
+pairs(model2)
+pairs(data)
+model_inter <- lm(Usage_kWh ~ Lagging_Current * Lagging_Current_Power_Factor +#
+                                Leading_Current * sqrt(Leading_Current_Power_Factor),#
+                  data = data)#
+summary(model_inter)#
+AIC(model_inter)
+qqnorm(model_inter)#
+qqline(res, col = "red", lwd = 2)
+res <- residuals(model_best)       # 取出殘差#
+fit <- fitted(model_best)          # 取出預測值#
+#
+plot(fit, res,#
+     xlab = "Fitted values",#
+     ylab = "Residuals",#
+     main = "Residuals vs Fitted")#
+abline(h = 0, col = "red", lwd = 2)
+# 假設你的模型叫 model_best#
+par(mfrow = c(2, 2))   # 排版成2x2#
+plot(model_best)
+model <- lm(Usage_kWh ~ Lagging_Current * Lagging_Current_Power_Factormodel_refined <- lm(Usage_kWh ~ Lagging_Current * Lagging_Current_Power_Factor +#
+                                   Leading_Current + sqrt(Leading_Current_Power_Factor),#
+                    data = data)#
+summary(model_refined)
+model_refined <- lm(Usage_kWh ~ Lagging_Current * Lagging_Current_Power_Factor + Leading_Current + sqrt(Leading_Current_Power_Factor), data = data)
+summary(model_refined)
+AIC(model_inter, model_refined)
+model_log <- lm(Usage_kWh ~ Lagging_Current * Lagging_Current_Power_Factor + Leading_Current + log(Leading_Current_Power_Factor + 1), data = data)
+summary(model_log)
+AIC(model_refined, model_log)
+data$sin_time <- sin(2 * pi * data$NSM / 86400)
+data$cos_time <- cos(2 * pi * data$NSM / 86400)
+model_time <- lm(Usage_kWh ~ Lagging_Current * Lagging_Current_Power_Factor + Leading_Current + sqrt(Leading_Current_Power_Factor) +sin_time + cos_time,data = data)
+summary(model_time)
+par(mfrow=c(1,3))
+plot(fitted(model_inter), residuals(model_inter), xlab="Fitted", ylab="Residuals"); abline(h=0)
+hist(residuals(model_inter),breaks=10)
+qqnorm(residuals(model_inter), ylab="Residuals"); qqline(residuals(model_inter))
+cooksd <- cooks.distance(model_inter)#
+plot(cooksd, type="h", main="Cook's Distance")#
+abline(h = 4/length(cooksd), col="red")
+model_logY <- lm(log(Usage_kWh + 1) ~ Lagging_Current * Lagging_Current_Power_Factor +#
+                                        Leading_Current + sqrt(Leading_Current_Power_Factor),#
+                 data = data)#
+qqnorm(resid(model_logY)); qqline(resid(model_logY), col="red")
+summary(model_logY)
+model_NSM <- lm(Usage_kWh ~ NSM, data = data)
+summary(model_NSM)
+# QQ plot for residuals of model_inter#
+res <- resid(model_inter)#
+#
+qqnorm(res,#
+       main = "QQ Plot of Residuals (model_inter)",#
+       pch = 19, col = "blue")#
+qqline(res, col = "red", lwd = 2)
+# 載入所需套件#
+# library(tidyverse)#
+# library(agricolae) # 另一個常用於 Tukey HSD 的套件#
+#
+# 假設您的數據已載入為 df#
+#
+# 1. 執行雙因子 ANOVA (主效應模型)#
+# anova_model <- aov(Score ~ Detergent + Temperature, data = df)#
+#
+# 2. 對 Brand (Detergent) 執行 Tukey's HSD#
+# brand_comparisons <- TukeyHSD(anova_model, which = "Detergent", conf.level = 0.95)#
+#
+# 3. 對 Water Temp (Temperature) 執行 Tukey's HSD#
+# temp_comparisons <- TukeyHSD(anova_model, which = "Temperature", conf.level = 0.95)
+library(tidyverse)
+library(agricolae)
+# 只需要執行一次，除非您更新 R 或換電腦#
+install.packages("tidyverse")#
+install.packages("agricolae") #
+install.packages("multcomp") # 這是我們之前 Python 程式碼中使用的等效套件，建議也安裝
+## Read Data#
+detergent <- read.csv("Detergent_R.csv")#
+# head(detergent)#
+#
+# Model Building#
+# dt.lm1 是主效應模型 (不含交互作用項)#
+dt.lm1 <- lm(Score ~ Detergent + Temperature, data=detergent)#
+# summary(dt.lm1)#
+# anova(dt.lm1)#
+#
+# 設置 Temperature 的順序 (這是為了視覺化和迴歸解釋，與 Tukey HSD 檢定本身無關)#
+detergent$Temperature <- factor(detergent$Temperature, c("Cold","Warm","Hot"))#
+# hist(detergent$Score)#
+#
+# 交互作用圖 (可選)#
+# par(mfrow=c(1,2))#
+with(detergent, interaction.plot(Temperature,Detergent,Score,legend=T))#
+# with(detergent, interaction.plot(Detergent,Temperature,Score,legend=F))#
+# dt.lm2 是包含交互作用項的模型 (本題未使用)#
+dt.lm2 <- lm(Score ~ Detergent * Temperature, data=detergent)#
+# summary(dt.lm2)#
+# anova(dt.lm2)#
+#
+# anova(dt.lm1, dt.lm2) # 模型比較 (可選)#
+# boxplot(Score ~ Detergent, data=detergent)#
+# boxplot(Score ~ Temperature, data=detergent)#
+# boxplot(Score ~ Detergent + Temperature, data=detergent)#
+#
+# =======================================================#
+# 🎯 進行 Tukey's HSD 事後檢定 (基於 dt.lm1)#
+# =======================================================#
+#
+# 為了執行 TukeyHSD，我們需要將 lm() 模型轉換為 aov() 物件#
+dt.aov1 <- aov(dt.lm1) #
+#
+# 1. 比較「品牌」 (Detergent) 之間的差異#
+print("--- Detergent (品牌) Tukey's HSD 結果 ---")#
+tukey_detergent <- TukeyHSD(dt.aov1, which = "Detergent", conf.level = 0.95)#
+print(tukey_detergent)#
+#
+# 2. 比較「水溫」 (Temperature) 之間的差異#
+print("--- Temperature (水溫) Tukey's HSD 結果 ---")#
+tukey_temp <- TukeyHSD(dt.aov1, which = "Temperature", conf.level = 0.95)#
+print(tukey_temp)
+getwd()
+detergent <- read.csv("/Users/linkaijun/Downloads/2-03_ANOVA-2/Detergent_R.csv")
+dt.lm1 <- lm(Score ~ Detergent + Temperature, data=detergent)
+detergent$Temperature <- factor(detergent$Temperature, c("Cold","Warm","Hot"))
+with(detergent, interaction.plot(Temperature,Detergent,Score,legend=T))
+dt.aov1 <- aov(dt.lm1)
+print("--- Detergent (品牌) Tukey's HSD 結果 ---")
+tukey_detergent <- TukeyHSD(dt.aov1, which = "Detergent", conf.level = 0.95)
+print(tukey_detergent)
+print("--- Temperature (水溫) Tukey's HSD 結果 ---")
+tukey_temp <- TukeyHSD(dt.aov1, which = "Temperature", conf.level = 0.95)
+print(tukey_temp)
+library(tidyverse)
+install.packages("tidyverse")
+library(tidyverse)
+df_icecream_raw <- read.csv("/Users/linkaijun/Downloads/icecream.csv", header = FALSE)
+df_icecream_long <- df_icecream_raw %>%
+slice(-1) %>%
+rename(#
+    Scoop_Size = V1,#
+    Bowl_17 = V2,#
+    Bowl_34 = V3#
+  ) %>%
+pivot_longer(#
+    cols = c(Bowl_17, Bowl_34),#
+    names_to = "Bowl_Size_Name",#
+    values_to = "Consumption_Score"#
+  ) %>%
+mutate(#
+    # 提取 Bowl_Size 數值 (從 'Bowl_17' 得到 '17')#
+    Bowl_Size = as.factor(gsub("Bowl_", "", Bowl_Size_Name)),#
+    # 清理 Scoop_Size (例如: '2 ounce scoop' 變 '2')#
+    Scoop_Size = as.factor(gsub(" ounce scoop", "", Scoop_Size)),#
+    # 將消耗分數轉換為數值#
+    Consumption_Score = as.numeric(Consumption_Score)#
+  ) %>%
+select(Consumption_Score, Bowl_Size, Scoop_Size) %>%#
+  drop_na()
+print("--- 重塑後的數據結構 (前幾行) ---")#
+print(head(df_icecream_long))#
+print(str(df_icecream_long))
+anova_model_icecream <- aov(Consumption_Score ~ Bowl_Size * Scoop_Size, #
+                            data = df_icecream_long)
+print("--- ANOVA 檢定結果 (alpha = 0.01) ---")#
+anova_table <- summary(anova_model_icecream)#
+print(anova_table)
+p_bowl <- anova_table[[1]]$'Pr(>F)'[1]#
+p_scoop <- anova_table[[1]]$'Pr(>F)'[2]#
+p_interaction <- anova_table[[1]]$'Pr(>F)'[3]#
+alpha <- 0.01
+bowl_sig <- ifelse(p_bowl < alpha, "Yes", "No")#
+scoop_sig <- ifelse(p_scoop < alpha, "Yes", "No")#
+interaction_sig <- ifelse(p_interaction < alpha, "Yes", "No")
+cat("\n===================================\n")#
+cat(paste0("the bowl size： ", bowl_sig, " (P=", round(p_bowl, 4), ")\n"))#
+cat(paste0("the scoop size： ", scoop_sig, " (P=", round(p_scoop, 4), ")\n"))#
+cat(paste0("the interaction： ", interaction_sig, " (P=", round(p_interaction, 4), ")\n"))#
+cat("===================================\n")
+dat <- read.csv("/Users/linkaijun/Downloads/2-03_ANOVA-2/Detergent_R.csv")
+names(dat) <- c("Brand","Temp","Y")
+dat$Brand <- as.factor(dat$Brand)#
+dat$Temp  <- as.factor(dat$Temp)
+fit <- aov(Y ~ Brand + Temp, data = dat)#
+print(summary(fit))   # 確認整體顯著性
+clear
+clear()
+clear:
+detergent <- read.csv("/Users/linkaijun/Downloads/2-03_ANOVA-2/Detergent_R.csv")
+detergent <- read.csv("'/Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Quiz 4/2-03_ANOVA-2/Detergent_R.csv'")
+detergent <- read.csv("/Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Quiz 4/2-03_ANOVA-2/Detergent_R.csv")
+detergent$Temperature <- factor(detergent$Temperature, c("Cold","Warm","Hot"))
+with(detergent, interaction.plot(Temperature,Detergent,Score,legend=T))
+dt.aov1 <- aov(dt.lm1)
+detergent <- read.csv("/Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Quiz 4/2-03_ANOVA-2/Detergent_R.csv")
+detergent$Temperature <- factor(detergent$Temperature, c("Cold","Warm","Hot"))
+with(detergent, interaction.plot(Temperature,Detergent,Score,legend=T))
+dt.lm1 <- lm(Score ~ Detergent + Temperature, data=detergent)
+dt.aov1 <- aov(dt.lm1)
+tukey_detergent <- TukeyHSD(dt.aov1, which = "Detergent", conf.level = 0.95)
+print(tukey_detergent)
+tukey_temp <- TukeyHSD(dt.aov1, which = "Temperature", conf.level = 0.95)
+print(tukey_temp)
+library(tidyverse)
+df_icecream_raw <- read.csv("/Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Quiz 4/icecream.csv", header = FALSE)
+df_icecream_long <- df_icecream_raw %>%
+slice(-1) %>%#
++ rename(#
++     Scoop_Size = V1,#
++     Bowl_17 = V2,#
++     Bowl_34 = V3#
++   ) %>%#
++ pivot_longer(#
++     cols = c(Bowl_17, Bowl_34),#
++     names_to = "Bowl_Size_Name",#
++     values_to = "Consumption_Score"#
++   ) %>%#
++ mutate(#
++     # 提取 Bowl_Size 數值 (從 'Bowl_17' 得到 '17')#
++     Bowl_Size = as.factor(gsub("Bowl_", "", Bowl_Size_Name)),#
++     # 清理 Scoop_Size (例如: '2 ounce scoop' 變 '2')#
++     Scoop_Size = as.factor(gsub(" ounce scoop", "", Scoop_Size)),#
++     # 將消耗分數轉換為數值#
++     Consumption_Score = as.numeric(Consumption_Score)#
++   ) %>%#
++ select(Consumption_Score, Bowl_Size, Scoop_Size) %>%#
++   drop_na()
+library(tidyverse)
+df_icecream_raw <- read.csv("/Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Quiz 4/icecream.csv", header = FALSE)
+df_icecream_long <- df_icecream_raw %>%
+slice(-1) %>%
+rename(#
+    Scoop_Size = V1,#
+    Bowl_17 = V2,#
+    Bowl_34 = V3#
+  ) %>%
+pivot_longer(#
+    cols = c(Bowl_17, Bowl_34),#
+    names_to = "Bowl_Size_Name",#
+    values_to = "Consumption_Score"#
+  ) %>%
+mutate(
+Bowl_Size = as.factor(gsub("Bowl_", "", Bowl_Size_Name)),
+Scoop_Size = as.factor(gsub(" ounce scoop", "", Scoop_Size)),
+Consumption_Score = as.numeric(Consumption_Score)
+) %>%
+select(Consumption_Score, Bowl_Size, Scoop_Size) %>%
+drop_na()
+print(head(df_icecream_long))
+print(str(df_icecream_long))
+anova_model_icecream <- aov(Consumption_Score ~ Bowl_Size * Scoop_Size, #
+                            data = df_icecream_long)
+anova_table <- summary(anova_model_icecream)
+print(anova_table)
+p_bowl <- anova_table[[1]]$'Pr(>F)'[1]
+p_scoop <- anova_table[[1]]$'Pr(>F)'[2]
+p_interaction <- anova_table[[1]]$'Pr(>F)'[3]
+alpha <- 0.01
+bowl_sig <- ifelse(p_bowl < alpha, "Yes", "No")
+scoop_sig <- ifelse(p_scoop < alpha, "Yes", "No")
+interaction_sig <- ifelse(p_interaction < alpha, "Yes", "No")
+cat("\n===================================\n")
+cat(paste0("the bowl size： ", bowl_sig, " (P=", round(p_bowl, 4), ")\n"))
+cat(paste0("the scoop size： ", scoop_sig, " (P=", round(p_scoop, 4), ")\n"))
+cat(paste0("the interaction： ", interaction_sig, " (P=", round(p_interaction, 4), ")\n"))
+install.packages(c("tidyverse", "emmeans"))
+library(tidyverse)#
+library(emmeans)
+df <- read.csv("/Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/In-Class-Practical-2/GoodBelly_data.csv")
+df <- df %>%#
+  rename(#
+    Demo_1_3 = Demo1.3,#
+    Demo_4_5 = Demo4.5#
+  ) %>%
+drop_na(Region)
+df <- df %>%#
+  mutate(#
+    UnitsSold = as.numeric(UnitsSold),#
+    AverageRetailPrice = as.numeric(AverageRetailPrice),#
+    SalesRep = as.factor(SalesRep),#
+    Endcap = as.factor(Endcap),#
+    Demo = as.factor(Demo),#
+    Demo_1_3 = as.factor(Demo_1_3),#
+    Demo_4_5 = as.factor(Demo_4_5),#
+    Region = as.factor(Region) # <-- Region 作為區組因素#
+  )
+model_b <- lm(#
+  UnitsSold ~ AverageRetailPrice + SalesRep + Endcap + #
+              Demo + Demo_1_3 + Demo_4_5 + Natural + Fitness + #
+              Region,#
+  data = df#
+)
+cat("--- Model Summary ---\n")#
+print(summary(model_b))
+em_endcap <- emmeans(model_b, specs = ~ Endcap)#
+cat("\nAdjusted Mean Sales for Endcap (產品擺放位置):\n")#
+print(summary(em_endcap))
+demo_vars <- c("Demo", "Demo_1_3", "Demo_4_5")#
+em_demo_list <- lapply(demo_vars, function(var) {#
+  emmeans(model_b, specs = as.formula(paste("~", var)))#
+})
+cat("\nAdjusted Mean Sales for Demo (演示活動):\n")#
+for (em in em_demo_list) {#
+  print(summary(em))#
+}
+em_salesrep <- emmeans(model_b, specs = ~ SalesRep)#
+cat("\nAdjusted Mean Sales for Sales Rep (銷售代表):\n")#
+print(summary(em_salesrep))
+endcap_lift <- model_b$coefficients["Endcap1"]
+demo_lift_current <- model_b$coefficients["Demo1"]#
+demo_lift_1_3 <- model_b$coefficients["Demo_1_31"]#
+demo_lift_4_5 <- model_b$coefficients["Demo_4_51"]
+salesrep_lift <- model_b$coefficients["SalesRep1"]#
+#
+lift_data <- data.frame(#
+  Activity = c("Endcap", "Demo (Current)", "Demo (1-3 Wks)", "Demo (4-5 Wks)", "Sales Rep"),#
+  Lift = c(endcap_lift, demo_lift_current, demo_lift_1_3, demo_lift_4_5, salesrep_lift)#
+)#
+#
+lift_data <- lift_data %>%#
+  arrange(desc(Lift))
+lift_plot <- ggplot(lift_data, aes(x = reorder(Activity, Lift), y = Lift, fill = Activity)) +#
+  geom_bar(stat = "identity") +#
+  geom_text(aes(label = round(Lift, 2)), vjust = -0.5) +#
+  labs(#
+    title = "Adjusted Sales Lift by Marketing Activity (Controlling for Price and Region)",#
+    x = "Marketing Activity",#
+    y = "Adjusted Sales Lift (Units Sold)"#
+  ) +#
+  theme_minimal() +#
+  coord_flip()
+ggsave("adjusted_sales_lift_r.png", plot = lift_plot, width = 10, height = 6)
+df_clean$Region <- relevel(df_clean$Region, ref = "NC")
+df_clean <- df %>%#
+  rename(#
+    Demo_1_3 = Demo1.3,#
+    Demo_4_5 = Demo4.5#
+  ) %>%#
+  drop_na(Region) %>%#
+  mutate(#
+    UnitsSold = as.numeric(UnitsSold),#
+    AverageRetailPrice = as.numeric(AverageRetailPrice),#
+    SalesRep = as.factor(SalesRep),#
+    Endcap = as.factor(Endcap),#
+    Demo = as.factor(Demo),#
+    Demo_1_3 = as.factor(Demo_1_3),#
+    Demo_4_5 = as.factor(Demo_4_5),#
+    Region = as.factor(Region)#
+  )
+df_clean <- df %>%#
+  # 修正：使用反引號引用包含連字符號的欄位名稱#
+  rename(#
+    Demo_1_3 = `Demo1-3`, #
+    Demo_4_5 = `Demo4-5`#
+  ) %>%#
+  drop_na(Region) %>%#
+  mutate(#
+    UnitsSold = as.numeric(UnitsSold),#
+    AverageRetailPrice = as.numeric(AverageRetailPrice),#
+    SalesRep = as.factor(SalesRep),#
+    Endcap = as.factor(Endcap),#
+    Demo = as.factor(Demo),#
+    Demo_1_3 = as.factor(Demo_1_3),#
+    Demo_4_5 = as.factor(Demo_4_5),#
+    Region = as.factor(Region)#
+  )
+df_clean <- df %>%#
+  # 修正：使用反引號 (``) 引用包含連字符號的欄位名稱#
+  rename(#
+    Demo_1_3 = `Demo1-3`, #
+    Demo_4_5 = `Demo4-5`#
+  ) %>%#
+  drop_na(Region) %>%#
+  mutate(#
+    UnitsSold = as.numeric(UnitsSold),#
+    AverageRetailPrice = as.numeric(AverageRetailPrice),#
+    SalesRep = as.factor(SalesRep),#
+    Endcap = as.factor(Endcap),#
+    Demo = as.factor(Demo),#
+    Demo_1_3 = as.factor(Demo_1_3),#
+    Demo_4_5 = as.factor(Demo_4_5),#
+    Region = as.factor(Region)#
+  )
+# 檢查您載入的數據框 df 中所有欄位的名稱#
+names(df)
+df_clean <- df %>%#
+  drop_na(Region) %>%#
+  mutate(#
+    UnitsSold = as.numeric(UnitsSold),#
+    AverageRetailPrice = as.numeric(AverageRetailPrice),#
+    # 直接使用已存在的欄位名稱進行因子轉換#
+    SalesRep = as.factor(SalesRep),#
+    Endcap = as.factor(Endcap),#
+    Demo = as.factor(Demo),#
+    Demo_1_3 = as.factor(Demo_1_3), #
+    Demo_4_5 = as.factor(Demo_4_5),#
+    Region = as.factor(Region)#
+  )
+df_clean$Region <- relevel(df_clean$Region, ref = "NC")
+model_nc_base <- lm(#
+  UnitsSold ~ AverageRetailPrice + SalesRep + Endcap + #
+              Demo + Demo_1_3 + Demo_4_5 + Natural + Fitness + #
+              Region,#
+  data = df_clean#
+)
+print(summary(model_nc_base))
+model_g_interactions <- lm(#
+  UnitsSold ~ Endcap * AverageRetailPrice + # Endcap * Price 交互作用#
+              Demo * AverageRetailPrice +   # Demo * Price 交互作用#
+              Demo * SalesRep +             # Demo * SalesRep 交互作用#
+              Demo_1_3 + Demo_4_5 +       #
+              Natural + Fitness +#
+              Region,#
+  data = df_clean#
+)
+print(summary(model_g_interactions))
+model_h_final <- lm(#
+  UnitsSold ~ AverageRetailPrice + SalesRep + Endcap + #
+              Demo + Demo_1_3 + Demo_4_5 + #
+              Region, # <-- 已移除 Natural 和 Fitness#
+  data = df_clean#
+)
+print(summary(model_h_final))
+Sales = UnitsSold * AverageRetailPrice,
+df_clean <- df %>%
+mutate(#
+    UnitsSold = as.numeric(UnitsSold),#
+    AverageRetailPrice = as.numeric(AverageRetailPrice),#
+    # !!! 關鍵修正：創建新的因變數 Sales (總收入) !!!#
+    Sales = UnitsSold * AverageRetailPrice,
+SalesRep = as.factor(SalesRep),#
+    Endcap = as.factor(Endcap),#
+    Demo = as.factor(Demo),#
+    Demo_1_3 = as.factor(Demo_1_3),#
+    Demo_4_5 = as.factor(Demo_4_5),#
+    Store = as.factor(Store) # 依據您的模型公式，Store 應為 Factor#
+  )
+advanced_model <- lm(#
+  Sales ~ SalesRep + Endcap + Demo +#
+          Demo_1_3 + Demo_4_5 + #
+          Store +#
+          Endcap:Demo, #
+  data = df_clean#
+)
+print(summary(advanced_model))
+plot_data <- data.frame(#
+  Actual_Sales = advanced_model$model$Sales, #
+  Fitted_Sales = predict(advanced_model)#
+)
+ggplot(plot_data, aes(x = Actual_Sales, y = Fitted_Sales)) +#
+  geom_point(alpha = 0.6) +#
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") + #
+  labs(#
+    title = "Actual Revenue vs. Model Fitted Revenue",#
+    x = "實際總收入 (Sales)",#
+    y = "模型擬合/預測總收入"#
+  ) +#
+  theme_minimal()
+cat("\n--- Fitted vs Actual Sales (Revenue) Scatter Plot ---\n")#
+ggplot(plot_data, aes(x = Actual_Sales, y = Fitted_Sales)) +#
+  geom_point(alpha = 0.6) +#
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") + #
+  labs(#
+    title = "Actual Revenue vs. Model Fitted Revenue",#
+    x = "實際總收入 (Sales)",#
+    y = "模型擬合/預測總收入"#
+  ) +#
+  theme_minimal()
+plot(plot_data)
+## 數據輸入#
+a <- 204   # cases, 4+ drinks#
+b <- 386   # controls, 4+ drinks#
+c <- 330   # cases, <4 drinks#
+d <- 658   # controls, <4 drinks#
+#
+## (1) Odds Ratio#
+OR <- (a * d) / (b * c)#
+OR#
+#
+## (2) ASE for CI#
+ASE <- sqrt(1/a + 1/b + 1/c + 1/d)#
+ASE#
+#
+## (3) SE0  (same as ASE)#
+SE0 <- ASE#
+SE0#
+#
+## (4) 95% CI for OR#
+logOR <- log(OR)#
+lower <- exp(logOR - 1.96 * ASE)#
+upper <- exp(logOR + 1.96 * ASE)#
+c(lower, upper)#
+#
+## (5) p-value for H0: OR = 1#
+Z <- logOR / SE0#
+p_value <- 2 * (1 - pnorm(abs(Z)))#
+p_value
+# 步驟 1: 建立列聯表#
+# 欄位依序為: Cases (乳腺癌), Controls (無乳腺癌)#
+# 羅列依序為: Fewer than 4 drinks, 4 or more drinks#
+data_matrix <- matrix(c(#
+  330, 658,#
+  204, 386#
+), nrow = 2, byrow = TRUE)#
+#
+# 為表格命名行和列#
+rownames(data_matrix) <- c("Fewer than 4 drinks", "4 or more drinks")#
+colnames(data_matrix) <- c("Cases (Cancer)", "Controls (No Cancer)")#
+#
+# 檢視資料表#
+print(data_matrix)
+# 計算勝算比 (Odds Ratio)#
+odds_ratio_hat <- (data_matrix[2, 1] * data_matrix[1, 2]) / (data_matrix[1, 1] * data_matrix[2, 2])#
+#
+# 四捨五入到小數點後第四位#
+cat("(d) Odds Ratio (勝算比): ", round(odds_ratio_hat, 4), "\n")
+# 計算 log(OR) 的漸進標準誤 (ASE)#
+# log(OR) = ln(odds_ratio_hat)#
+log_OR_ASE <- sqrt(sum(1 / data_matrix))#
+#
+# 四捨五入到小數點後第四位#
+cat("(e) ASE for log(OR): ", round(log_OR_ASE, 4), "\n")
+# 計算 log(OR)#
+log_OR <- log(odds_ratio_hat)#
+#
+# 計算 95% 信賴區間的邊界 (log 尺度)#
+Z_value <- 1.96 # 95% CI#
+log_OR_lower <- log_OR - Z_value * log_OR_ASE#
+log_OR_upper <- log_OR + Z_value * log_OR_ASE#
+#
+# 轉換回 Odds Ratio 尺度#
+OR_lower <- exp(log_OR_lower)#
+OR_upper <- exp(log_OR_upper)#
+#
+# 四捨五入到小數點後第四位#
+cat("(g) 95% CI Lower Bound: ", round(OR_lower, 4), "\n")#
+cat("(g) 95% CI Upper Bound: ", round(OR_upper, 4), "\n")
+# (f) SE0 (For Wald Test, often simply the ASE)#
+cat("(f) SE0 (used for Wald test, which is ASE): ", round(log_OR_ASE, 4), "\n")
+# 計算 Wald 檢定統計量 Z#
+Z_statistic <- log_OR / log_OR_ASE#
+#
+# 計算雙尾 p-value#
+p_value_wald <- 2 * (1 - pnorm(abs(Z_statistic)))#
+#
+# 四捨五入到小數點後第四位#
+cat("(h) p-value (from Wald Test): ", round(p_value_wald, 4), "\n")
+# 執行 Pearson 卡方獨立性檢定#
+chi_sq_test <- chisq.test(data_matrix, correct = FALSE) # correct=FALSE for standard chi-sq without continuity correction#
+#
+cat("\n--- Pearson Chi-squared Test ---\n")#
+print(chi_sq_test)#
+cat("Chi-squared p-value: ", round(chi_sq_test$p.value, 4), "\n")
+source("/Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Final Project /NTU_Statistical-Data-Analysis-Final-Report/descriptive_analysis/descriptive_statistics.R")
+source("/Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Final Project /NTU_Statistical-Data-Analysis-Final-Report/descriptive_analysis/descriptive_statistics.R")
