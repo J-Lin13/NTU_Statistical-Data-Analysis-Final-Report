@@ -1,57 +1,57 @@
 ================================================================================
 敘述性統計分析輸出日誌
-執行時間： 2025-12-02 18:05:55 
+執行時間： 2025-12-06 13:56:04 
 ================================================================================
 
 步驟 1: 載入清理後的資料
 -------------------------------------------------------------------------------- 
-資料檔案路徑: /Users/linkaijun/Desktop/NTUIB/114 大四/商管統計資料分析/Final Project /NTU_Statistical-Data-Analysis-Final-Report/data_preprocessing/preprocessed_data.csv
+資料檔案路徑: C:\Users\User\OneDrive\Desktop\NTU\商統分\NTU_Statistical-Data-Analysis-Final-Report\data_preprocessing\preprocessed_data.csv
 ✓ 資料載入完成：95,973 筆記錄，51 個欄位
 
 步驟 2: 基本統計摘要
 -------------------------------------------------------------------------------- 
 
 整體資料摘要：
-  review_id          review_score   review_creation_date             review_answer_timestamp           review_count   review_distinct_scores first_review_creation_date      last_review_creation_date        first_review_score
- Length:95973       Min.   :1.000   Min.   :2016-10-06 00:00:00.00   Min.   :2016-10-07 18:32:28.00   Min.   :1.000   Min.   :1.000          Min.   :2016-10-06 00:00:00.0   Min.   :2016-10-06 00:00:00.00   Min.   :1.000     
- Class :character   1st Qu.:4.000   1st Qu.:2017-09-26 00:00:00.00   1st Qu.:2017-09-29 00:34:08.00   1st Qu.:1.000   1st Qu.:1.000          1st Qu.:2017-09-26 00:00:00.0   1st Qu.:2017-09-26 00:00:00.00   1st Qu.:4.000     
- Mode  :character   Median :5.000   Median :2018-02-03 00:00:00.00   Median :2018-02-06 15:04:30.00   Median :1.000   Median :1.000          Median :2018-02-03 00:00:00.0   Median :2018-02-03 00:00:00.00   Median :5.000     
-                    Mean   :4.157   Mean   :2018-01-14 07:21:27.58   Mean   :2018-01-17 10:51:43.15   Mean   :1.007   Mean   :1.002          Mean   :2018-01-14 07:04:21.2   Mean   :2018-01-14 07:42:44.15   Mean   :4.157     
-                    3rd Qu.:5.000   3rd Qu.:2018-05-16 00:00:00.00   3rd Qu.:2018-05-20 16:30:19.00   3rd Qu.:1.000   3rd Qu.:1.000          3rd Qu.:2018-05-16 00:00:00.0   3rd Qu.:2018-05-16 00:00:00.00   3rd Qu.:5.000     
-                    Max.   :5.000   Max.   :2018-08-31 00:00:00.00   Max.   :2018-10-29 12:27:35.00   Max.   :3.000   Max.   :2.000          Max.   :2018-08-31 00:00:00.0   Max.   :2018-08-31 00:00:00.00   Max.   :5.000     
-                                                                                                                                                                                                                                
- last_review_score has_multiple_reviews has_mixed_review_scores   order_id         order_status       order_purchase_timestamp         order_approved_at                order_delivered_carrier_date     order_delivered_customer_date   
- Min.   :1.000     Min.   :0.000000     Min.   :0.000000        Length:95973       Length:95973       Min.   :2016-09-15 12:16:38.00   Min.   :2016-09-15 12:16:38.00   Min.   :2016-10-08 10:34:01.00   Min.   :2016-10-11 13:46:32.00  
- 1st Qu.:4.000     1st Qu.:0.000000     1st Qu.:0.000000        Class :character   Class :character   1st Qu.:2017-09-14 08:52:46.00   1st Qu.:2017-09-14 14:42:23.00   1st Qu.:2017-09-18 16:41:34.75   1st Qu.:2017-09-25 22:08:43.00  
- Median :5.000     Median :0.000000     Median :0.000000        Mode  :character   Mode  :character   Median :2018-01-20 21:21:31.00   Median :2018-01-22 13:51:46.00   Median :2018-01-24 17:15:45.00   Median :2018-02-02 20:03:08.00  
- Mean   :4.156     Mean   :0.007085     Mean   :0.002292                                              Mean   :2018-01-02 00:47:45.97   Mean   :2018-01-02 12:12:01.80   Mean   :2018-01-05 06:07:17.31   Mean   :2018-01-14 13:09:42.84  
- 3rd Qu.:5.000     3rd Qu.:0.000000     3rd Qu.:0.000000                                              3rd Qu.:2018-05-05 21:38:46.00   3rd Qu.:2018-05-06 14:32:29.50   3rd Qu.:2018-05-08 14:53:00.00   3rd Qu.:2018-05-16 00:08:19.00  
- Max.   :5.000     Max.   :1.000000     Max.   :1.000000                                              Max.   :2018-08-29 15:00:37.00   Max.   :2018-08-29 15:10:26.00   Max.   :2018-09-11 19:48:28.00   Max.   :2018-10-17 13:22:46.00  
-                                                                                                                                       NA's   :14                       NA's   :1                                                        
- order_estimated_delivery_date    delivery_days     delivery_gap     customer_id        customer_unique_id customer_zip_code_prefix customer_city      customer_state       num_items       num_products       price         
- Min.   :2016-10-04 00:00:00.00   Min.   :  0.00   Min.   :-146.00   Length:95973       Length:95973       Min.   : 1003            Length:95973       Length:95973       Min.   : 1.000   Min.   :1.000   Min.   :    0.85  
- 1st Qu.:2017-10-05 00:00:00.00   1st Qu.:  6.00   1st Qu.: -16.00   Class :character   Class :character   1st Qu.:11347            Class :character   Class :character   1st Qu.: 1.000   1st Qu.:1.000   1st Qu.:   45.90  
- Median :2018-02-16 00:00:00.00   Median : 10.00   Median : -11.00   Mode  :character   Mode  :character   Median :24431            Mode  :character   Mode  :character   Median : 1.000   Median :1.000   Median :   86.00  
- Mean   :2018-01-25 18:21:50.99   Mean   : 12.05   Mean   : -10.99                                         Mean   :35209                                                  Mean   : 1.141   Mean   :1.038   Mean   :  136.74  
- 3rd Qu.:2018-05-28 00:00:00.00   3rd Qu.: 15.00   3rd Qu.:  -6.00                                         3rd Qu.:59066                                                  3rd Qu.: 1.000   3rd Qu.:1.000   3rd Qu.:  149.90  
- Max.   :2018-10-25 00:00:00.00   Max.   :208.00   Max.   : 188.00                                         Max.   :99980                                                  Max.   :21.000   Max.   :8.000   Max.   :13440.00  
-                                                                                                                                                                                                                             
- freight_value     product_category_name product_category_name_english product_photos_qty product_weight_g product_ids        product_categories num_distinct_categories primary_category_share  num_sellers    primary_seller_id 
- Min.   :   0.00   Length:95973          Length:95973                  Min.   : 1.000     Min.   :    2    Length:95973       Length:95973       Min.   :0.0000          Min.   :0.3333         Min.   :1.000   Length:95973      
- 1st Qu.:  13.83   Class :character      Class :character              1st Qu.: 1.000     1st Qu.:  300    Class :character   Class :character   1st Qu.:1.0000          1st Qu.:1.0000         1st Qu.:1.000   Class :character  
- Median :  17.16   Mode  :character      Mode  :character              Median : 2.000     Median :  700    Mode  :character   Mode  :character   Median :1.0000          Median :1.0000         Median :1.000   Mode  :character  
- Mean   :  22.76                                                       Mean   : 2.247     Mean   : 2094                                          Mean   :0.9937          Mean   :0.9963         Mean   :1.014                     
- 3rd Qu.:  23.99                                                       3rd Qu.: 3.000     3rd Qu.: 1800                                          3rd Qu.:1.0000          3rd Qu.:1.0000         3rd Qu.:1.000                     
- Max.   :1794.96                                                       Max.   :20.000     Max.   :40425                                          Max.   :3.0000          Max.   :1.0000         Max.   :5.000                     
-                                                                                                                                                                                                                                  
- primary_seller_zip_code_prefix primary_seller_city primary_seller_state primary_seller_share payment_type       payment_installments payment_value       total_value       price_above_mean delivery_delayed  delivery_early 
- Min.   : 1001                  Length:95973        Length:95973         Min.   :0.2500       Length:95973       Min.   : 0.000       Min.   :    9.59   Min.   :    9.59   Min.   :0.000    Min.   :0.00000   Min.   :0.000  
- 1st Qu.: 6429                  Class :character    Class :character     1st Qu.:1.0000       Class :character   1st Qu.: 1.000       1st Qu.:   61.80   1st Qu.:   61.79   1st Qu.:0.000    1st Qu.:0.00000   1st Qu.:1.000  
- Median :13566                  Mode  :character    Mode  :character     Median :1.0000       Mode  :character   Median : 2.000       Median :  105.17   Median :  105.16   Median :0.000    Median :0.00000   Median :1.000  
- Mean   :24649                                                           Mean   :0.9938                          Mean   : 2.926       Mean   :  159.53   Mean   :  159.50   Mean   :0.292    Mean   :0.06652   Mean   :0.905  
- 3rd Qu.:29156                                                           3rd Qu.:1.0000                          3rd Qu.: 4.000       3rd Qu.:  176.16   3rd Qu.:  176.14   3rd Qu.:1.000    3rd Qu.:0.00000   3rd Qu.:1.000  
- Max.   :99730                                                           Max.   :1.0000                          Max.   :24.000       Max.   :13664.08   Max.   :13664.08   Max.   :1.000    Max.   :1.00000   Max.   :1.000  
-                                                                                                                                      NA's   :1                                                                               
+  review_id          review_score   review_creation_date          review_answer_timestamp        review_count   review_distinct_scores first_review_creation_date    last_review_creation_date     first_review_score last_review_score
+ Length:95973       Min.   :1.000   Min.   :2016-10-06 00:00:00   Min.   :2016-10-07 18:32:28   Min.   :1.000   Min.   :1.000          Min.   :2016-10-06 00:00:00   Min.   :2016-10-06 00:00:00   Min.   :1.000      Min.   :1.000    
+ Class :character   1st Qu.:4.000   1st Qu.:2017-09-26 00:00:00   1st Qu.:2017-09-29 00:34:08   1st Qu.:1.000   1st Qu.:1.000          1st Qu.:2017-09-26 00:00:00   1st Qu.:2017-09-26 00:00:00   1st Qu.:4.000      1st Qu.:4.000    
+ Mode  :character   Median :5.000   Median :2018-02-03 00:00:00   Median :2018-02-06 15:04:30   Median :1.000   Median :1.000          Median :2018-02-03 00:00:00   Median :2018-02-03 00:00:00   Median :5.000      Median :5.000    
+                    Mean   :4.157   Mean   :2018-01-14 07:21:27   Mean   :2018-01-17 10:51:43   Mean   :1.007   Mean   :1.002          Mean   :2018-01-14 07:04:21   Mean   :2018-01-14 07:42:44   Mean   :4.157      Mean   :4.156    
+                    3rd Qu.:5.000   3rd Qu.:2018-05-16 00:00:00   3rd Qu.:2018-05-20 16:30:19   3rd Qu.:1.000   3rd Qu.:1.000          3rd Qu.:2018-05-16 00:00:00   3rd Qu.:2018-05-16 00:00:00   3rd Qu.:5.000      3rd Qu.:5.000    
+                    Max.   :5.000   Max.   :2018-08-31 00:00:00   Max.   :2018-10-29 12:27:35   Max.   :3.000   Max.   :2.000          Max.   :2018-08-31 00:00:00   Max.   :2018-08-31 00:00:00   Max.   :5.000      Max.   :5.000    
+                                                                                                                                                                                                                                       
+ has_multiple_reviews has_mixed_review_scores   order_id         order_status       order_purchase_timestamp      order_approved_at             order_delivered_carrier_date  order_delivered_customer_date order_estimated_delivery_date
+ Min.   :0.000000     Min.   :0.000000        Length:95973       Length:95973       Min.   :2016-09-15 12:16:38   Min.   :2016-09-15 12:16:38   Min.   :2016-10-08 10:34:01   Min.   :2016-10-11 13:46:32   Min.   :2016-10-04 00:00:00  
+ 1st Qu.:0.000000     1st Qu.:0.000000        Class :character   Class :character   1st Qu.:2017-09-14 08:52:46   1st Qu.:2017-09-14 14:42:23   1st Qu.:2017-09-18 16:41:34   1st Qu.:2017-09-25 22:08:43   1st Qu.:2017-10-05 00:00:00  
+ Median :0.000000     Median :0.000000        Mode  :character   Mode  :character   Median :2018-01-20 21:21:31   Median :2018-01-22 13:51:46   Median :2018-01-24 17:15:45   Median :2018-02-02 20:03:08   Median :2018-02-16 00:00:00  
+ Mean   :0.007085     Mean   :0.002292                                              Mean   :2018-01-02 00:47:45   Mean   :2018-01-02 12:12:01   Mean   :2018-01-05 06:07:17   Mean   :2018-01-14 13:09:42   Mean   :2018-01-25 18:21:50  
+ 3rd Qu.:0.000000     3rd Qu.:0.000000                                              3rd Qu.:2018-05-05 21:38:46   3rd Qu.:2018-05-06 14:32:29   3rd Qu.:2018-05-08 14:53:00   3rd Qu.:2018-05-16 00:08:19   3rd Qu.:2018-05-28 00:00:00  
+ Max.   :1.000000     Max.   :1.000000                                              Max.   :2018-08-29 15:00:37   Max.   :2018-08-29 15:10:26   Max.   :2018-09-11 19:48:28   Max.   :2018-10-17 13:22:46   Max.   :2018-10-25 00:00:00  
+                                                                                                                  NA's   :14                    NA's   :1                                                                                
+ delivery_days     delivery_gap     customer_id        customer_unique_id customer_zip_code_prefix customer_city      customer_state       num_items       num_products       price          freight_value     product_category_name
+ Min.   :  0.00   Min.   :-146.00   Length:95973       Length:95973       Min.   : 1003            Length:95973       Length:95973       Min.   : 1.000   Min.   :1.000   Min.   :    0.85   Min.   :   0.00   Length:95973         
+ 1st Qu.:  6.00   1st Qu.: -16.00   Class :character   Class :character   1st Qu.:11347            Class :character   Class :character   1st Qu.: 1.000   1st Qu.:1.000   1st Qu.:   45.90   1st Qu.:  13.83   Class :character     
+ Median : 10.00   Median : -11.00   Mode  :character   Mode  :character   Median :24431            Mode  :character   Mode  :character   Median : 1.000   Median :1.000   Median :   86.00   Median :  17.16   Mode  :character     
+ Mean   : 12.05   Mean   : -10.99                                         Mean   :35209                                                  Mean   : 1.141   Mean   :1.038   Mean   :  136.74   Mean   :  22.76                        
+ 3rd Qu.: 15.00   3rd Qu.:  -6.00                                         3rd Qu.:59066                                                  3rd Qu.: 1.000   3rd Qu.:1.000   3rd Qu.:  149.90   3rd Qu.:  23.99                        
+ Max.   :208.00   Max.   : 188.00                                         Max.   :99980                                                  Max.   :21.000   Max.   :8.000   Max.   :13440.00   Max.   :1794.96                        
+                                                                                                                                                                                                                                    
+ product_category_name_english product_photos_qty product_weight_g product_ids        product_categories num_distinct_categories primary_category_share  num_sellers    primary_seller_id  primary_seller_zip_code_prefix
+ Length:95973                  Min.   : 1.000     Min.   :    2    Length:95973       Length:95973       Min.   :0.0000          Min.   :0.3333         Min.   :1.000   Length:95973       Min.   : 1001                 
+ Class :character              1st Qu.: 1.000     1st Qu.:  300    Class :character   Class :character   1st Qu.:1.0000          1st Qu.:1.0000         1st Qu.:1.000   Class :character   1st Qu.: 6429                 
+ Mode  :character              Median : 2.000     Median :  700    Mode  :character   Mode  :character   Median :1.0000          Median :1.0000         Median :1.000   Mode  :character   Median :13566                 
+                               Mean   : 2.247     Mean   : 2094                                          Mean   :0.9937          Mean   :0.9963         Mean   :1.014                      Mean   :24649                 
+                               3rd Qu.: 3.000     3rd Qu.: 1800                                          3rd Qu.:1.0000          3rd Qu.:1.0000         3rd Qu.:1.000                      3rd Qu.:29156                 
+                               Max.   :20.000     Max.   :40425                                          Max.   :3.0000          Max.   :1.0000         Max.   :5.000                      Max.   :99730                 
+                                                                                                                                                                                                                         
+ primary_seller_city primary_seller_state primary_seller_share payment_type       payment_installments payment_value       total_value       price_above_mean delivery_delayed  delivery_early 
+ Length:95973        Length:95973         Min.   :0.2500       Length:95973       Min.   : 0.000       Min.   :    9.59   Min.   :    9.59   Min.   :0.000    Min.   :0.00000   Min.   :0.000  
+ Class :character    Class :character     1st Qu.:1.0000       Class :character   1st Qu.: 1.000       1st Qu.:   61.80   1st Qu.:   61.79   1st Qu.:0.000    1st Qu.:0.00000   1st Qu.:1.000  
+ Mode  :character    Mode  :character     Median :1.0000       Mode  :character   Median : 2.000       Median :  105.17   Median :  105.16   Median :0.000    Median :0.00000   Median :1.000  
+                                          Mean   :0.9938                          Mean   : 2.926       Mean   :  159.52   Mean   :  159.50   Mean   :0.292    Mean   :0.06652   Mean   :0.905  
+                                          3rd Qu.:1.0000                          3rd Qu.: 4.000       3rd Qu.:  176.16   3rd Qu.:  176.14   3rd Qu.:1.000    3rd Qu.:0.00000   3rd Qu.:1.000  
+                                          Max.   :1.0000                          Max.   :24.000       Max.   :13664.08   Max.   :13664.08   Max.   :1.000    Max.   :1.00000   Max.   :1.000  
+                                                                                                       NA's   :1                                                                               
 
 步驟 3: 應變數（review_score）分析
 -------------------------------------------------------------------------------- 
@@ -195,25 +195,177 @@ F-statistic: 177.6 on 1 and 95971 DF,  p-value: < 2.2e-16
 步驟 6: 類別變數分析
 -------------------------------------------------------------------------------- 
 
+訂單狀態分布：
+# A tibble: 1 × 3
+  order_status     n percentage
+  <chr>        <int>      <dbl>
+1 delivered    95973        100
+
 付款方式分布：
 
      boleto credit_card  debit_card     unknown     voucher 
       19105       73904        1478           1        1485 
 
-前 10 大商品類別：
-# A tibble: 10 × 2
-   product_category_name_english     n
-   <chr>                         <int>
- 1 bed_bath_table                 9158
- 2 health_beauty                  8593
- 3 sports_leisure                 7447
- 4 computers_accessories          6495
- 5 furniture_decor                6174
- 6 housewares                     5631
- 7 watches_gifts                  5416
- 8 telephony                      4048
- 9 auto                           3794
-10 toys                           3729
+前 10 大商品類別（主要類別 - 葡萄牙文）：
+# A tibble: 10 × 3
+   product_category_name      n percentage
+   <chr>                  <int>      <dbl>
+ 1 cama_mesa_banho         9146       9.53
+ 2 beleza_saude            8608       8.97
+ 3 esporte_lazer           7462       7.78
+ 4 informatica_acessorios  6476       6.75
+ 5 moveis_decoracao        6148       6.41
+ 6 utilidades_domesticas   5612       5.85
+ 7 relogios_presentes      5419       5.65
+ 8 telefonia               4046       4.22
+ 9 automotivo              3794       3.95
+10 brinquedos              3754       3.91
+
+前 10 大商品類別（主要類別 - 英文）：
+# A tibble: 10 × 3
+   product_category_name_english     n percentage
+   <chr>                         <int>      <dbl>
+ 1 bed_bath_table                 9158       9.54
+ 2 health_beauty                  8593       8.95
+ 3 sports_leisure                 7447       7.76
+ 4 computers_accessories          6495       6.77
+ 5 furniture_decor                6174       6.43
+ 6 housewares                     5631       5.87
+ 7 watches_gifts                  5416       5.64
+ 8 telephony                      4048       4.22
+ 9 auto                           3794       3.95
+10 toys                           3729       3.89
+
+顧客城市分布：
+  總城市數: 4083
+
+前 10 大城市（按訂單數）：
+# A tibble: 10 × 3
+   customer_city             n percentage
+   <chr>                 <int>      <dbl>
+ 1 sao paulo             14972      15.6 
+ 2 rio de janeiro         6540       6.81
+ 3 belo horizonte         2683       2.8 
+ 4 brasilia               2070       2.16
+ 5 curitiba               1481       1.54
+ 6 campinas               1396       1.45
+ 7 porto alegre           1337       1.39
+ 8 salvador               1172       1.22
+ 9 guarulhos              1137       1.18
+10 sao bernardo do campo   913       0.95
+
+顧客州別分布：
+  總州數: 27
+
+各州訂單數分布：
+# A tibble: 27 × 3
+   customer_state     n percentage
+   <chr>          <int>      <dbl>
+ 1 SP             40332      42.0 
+ 2 RJ             12229      12.7 
+ 3 MG             11307      11.8 
+ 4 RS              5334       5.56
+ 5 PR              4905       5.11
+ 6 SC              3522       3.67
+ 7 BA              3230       3.37
+ 8 DF              2079       2.17
+ 9 ES              1972       2.05
+10 GO              1944       2.03
+# ℹ 17 more rows
+# ℹ Use `print(n = ...)` to see more rows
+
+✓ 州別分布圖已儲存：plots/customer_state_distribution.png
+
+商品ID分析（product_ids）：
+每筆訂單的商品ID數量統計：
+  平均數: 1.04
+  中位數: 1
+  最大值: 8
+  最小值: 1
+
+商品ID數量分布：
+
+    1     2     3     4     5     6     7     8 
+92805  2784   294    68     8    10     3     1 
+
+商品類別分析（product_categories）：
+每筆訂單的商品類別數量統計：
+  平均數: 0.99
+  中位數: 1
+  最大值: 3
+  最小值: 0
+
+商品類別數量分布：
+
+    0     1     2     3 
+ 1344 93909   704    16 
+
+所有出現的商品類別（從 product_categories 展開）：
+  總類別數（去重後）: 71
+
+前 15 大商品類別（按出現次數）：
+# A tibble: 15 × 2
+   product_categories        n
+   <chr>                 <int>
+ 1 bed_bath_table         9195
+ 2 health_beauty          8621
+ 3 sports_leisure         7503
+ 4 computers_accessories  6505
+ 5 furniture_decor        6273
+ 6 housewares             5716
+ 7 watches_gifts          5455
+ 8 telephony              4070
+ 9 auto                   3801
+10 toys                   3775
+11 cool_stuff             3533
+12 garden_tools           3429
+13 perfumery              3081
+14 baby                   2789
+15 electronics            2498
+
+✓ 前 15 大商品類別分布圖已儲存：plots/product_categories_top15.png
+
+賣家城市分布（primary_seller_city）：
+  總城市數: 594
+  有效記錄數: 95973 (100.00%)
+
+前 10 大賣家城市（按訂單數）：
+# A tibble: 10 × 3
+   primary_seller_city       n percentage
+   <chr>                 <int>      <dbl>
+ 1 sao paulo             23714      24.7 
+ 2 ibitinga               6337       6.6 
+ 3 curitiba               2634       2.74
+ 4 santo andre            2619       2.73
+ 5 belo horizonte         2317       2.41
+ 6 rio de janeiro         2068       2.15
+ 7 guarulhos              1996       2.08
+ 8 ribeirao preto         1941       2.02
+ 9 sao jose do rio preto  1919       2   
+10 maringa                1804       1.88
+
+賣家州別分布（primary_seller_state）：
+  總州數: 22
+  有效記錄數: 95973 (100.00%)
+
+各州賣家訂單數分布：
+# A tibble: 22 × 3
+   primary_seller_state     n percentage
+   <chr>                <int>      <dbl>
+ 1 SP                   68071      70.9 
+ 2 MG                    7621       7.94
+ 3 PR                    7394       7.7 
+ 4 RJ                    4148       4.32
+ 5 SC                    3532       3.68
+ 6 RS                    1930       2.01
+ 7 DF                     804       0.84
+ 8 BA                     546       0.57
+ 9 GO                     448       0.47
+10 PE                     399       0.42
+# ℹ 12 more rows
+# ℹ Use `print(n = ...)` to see more rows
+
+✓ 賣家州別分布圖已儲存：plots/primary_seller_state_distribution.png
 
 ================================================================================ 
 敘述性統計分析完成！
@@ -221,4 +373,4 @@ F-statistic: 177.6 on 1 and 95971 DF,  p-value: < 2.2e-16
 
 所有圖表已儲存至 plots/ 資料夾
 
-執行完成時間： 2025-12-02 18:06:00 
+執行完成時間： 2025-12-06 13:56:23 
