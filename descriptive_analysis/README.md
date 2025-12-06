@@ -52,6 +52,15 @@ source("descriptive_analysis/descriptive_statistics.R")
 
 ### 步驟 2: 基本統計摘要
 - 使用 `summary()` 檢視整體資料統計
+- **基本資料統計（唯一值）**：
+  - 總訂單數（唯一 order_id）
+  - 總評論數（唯一 review_id）
+  - 總顧客數（唯一 customer_unique_id）
+  - 總商品種類數（從 product_ids 展開後去重）
+  - 總商品類別數（唯一 product_category_name_english）
+  - 總賣家數（唯一 primary_seller_id）
+  - 總顧客城市數（唯一 customer_city）
+  - 總顧客州數（唯一 customer_state）
 
 ### 步驟 3: 應變數（review_score）分析
 - 基本統計量（平均數、中位數、標準差等）

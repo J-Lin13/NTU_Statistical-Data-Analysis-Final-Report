@@ -178,6 +178,69 @@ cat("整體資料摘要：\n")
 print(summary(data))
 cat("\n")
 
+# 基本資料統計（唯一值統計）
+cat("基本資料統計（唯一值）：\n")
+cat("=", rep("=", 79), "\n", sep = "")
+
+# 總訂單數
+if ("order_id" %in% names(data)) {
+  total_orders <- length(unique(data$order_id))
+  cat(sprintf("總訂單數（唯一 order_id）: %s\n", format(total_orders, big.mark = ",")))
+}
+
+# 總評論數
+if ("review_id" %in% names(data)) {
+  total_reviews <- length(unique(data$review_id))
+  cat(sprintf("總評論數（唯一 review_id）: %s\n", format(total_reviews, big.mark = ",")))
+}
+
+# 總顧客數（unique_id）
+if ("customer_unique_id" %in% names(data)) {
+  total_customers <- length(unique(data$customer_unique_id))
+  cat(sprintf("總顧客數（唯一 customer_unique_id）: %s\n", format(total_customers, big.mark = ",")))
+}
+
+# 總商品種類數（從 product_ids 展開）
+if ("product_ids" %in% names(data)) {
+  # 展開所有 product_ids 並計算唯一值
+  all_product_ids <- data %>%
+    filter(!is.na(product_ids) & product_ids != "") %>%
+    select(product_ids) %>%
+    separate_rows(product_ids, sep = ",") %>%
+    mutate(product_ids = trimws(product_ids)) %>%
+    filter(product_ids != "") %>%
+    distinct(product_ids)
+  
+  total_products <- nrow(all_product_ids)
+  cat(sprintf("總商品種類數（從 product_ids 展開後去重）: %s\n", format(total_products, big.mark = ",")))
+}
+
+# 總商品類別數
+if ("product_category_name_english" %in% names(data)) {
+  total_categories <- length(unique(data$product_category_name_english[!is.na(data$product_category_name_english)]))
+  cat(sprintf("總商品類別數（唯一 product_category_name_english）: %s\n", format(total_categories, big.mark = ",")))
+}
+
+# 總賣家數
+if ("primary_seller_id" %in% names(data)) {
+  total_sellers <- length(unique(data$primary_seller_id[!is.na(data$primary_seller_id)]))
+  cat(sprintf("總賣家數（唯一 primary_seller_id）: %s\n", format(total_sellers, big.mark = ",")))
+}
+
+# 總城市數（顧客）
+if ("customer_city" %in% names(data)) {
+  total_customer_cities <- length(unique(data$customer_city[!is.na(data$customer_city)]))
+  cat(sprintf("總顧客城市數（唯一 customer_city）: %s\n", format(total_customer_cities, big.mark = ",")))
+}
+
+# 總州數（顧客）
+if ("customer_state" %in% names(data)) {
+  total_customer_states <- length(unique(data$customer_state[!is.na(data$customer_state)]))
+  cat(sprintf("總顧客州數（唯一 customer_state）: %s\n", format(total_customer_states, big.mark = ",")))
+}
+
+cat("\n")
+
 # ============================================================================
 # 步驟 3: 應變數（review_score）分析
 # ============================================================================
@@ -661,4 +724,3 @@ sink()
 
 cat("\n✓ 所有輸出已儲存至：", output_log_file, "\n")
 cat("✓ 所有圖表已儲存至 plots/ 資料夾\n")
-
