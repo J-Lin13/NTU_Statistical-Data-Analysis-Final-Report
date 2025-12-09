@@ -70,8 +70,10 @@ NTU_Statistical-Data-Analysis-Final-Report/
 ├── data_preprocessing/           # 資料前處理資料夾
 │   ├── preprocessing.py         # Python 前處理腳本
 │   ├── preprocessing.R          # R 前處理腳本
+│   ├── create_binary_target.py  # 創建二元目標變數腳本
 │   ├── preprocessed_data.csv    # 清理後的資料（全部）
 │   ├── preprocessed_data_non5.csv # 清理後的資料（非滿分子集）
+│   ├── preprocessed_data_binary.csv # 二元目標變數資料（用於 Binomial GLM）
 │   └── README.md
 │
 ├── descriptive_analysis/         # 探索性資料分析（EDA）資料夾
@@ -149,6 +151,9 @@ python3 sql_merge/load_and_merge_data.py
 
 # 2) 產生清理後資料（含 non-5 子集）
 python3 data_preprocessing/preprocessing.py
+
+# 2B) [可選] 產生二元目標變數資料（用於 Binomial GLM）
+python3 data_preprocessing/create_binary_target.py
 
 # 3A) 敘述統計 - 全部資料（輸出到 descriptive_analysis/plots/）
 Rscript descriptive_analysis/descriptive_statistics.R
@@ -248,12 +253,16 @@ Rscript descriptive_analysis/multicollinearity_scatter.R
 **資料檔案：**
 - `data_preprocessing/preprocessed_data.csv` - 清理後的資料（全部，95,973 筆）
 - `data_preprocessing/preprocessed_data_non5.csv` - 非滿分子集（1-4 分，39,117 筆）
+- `data_preprocessing/preprocessed_data_binary.csv` - 二元目標變數（用於 Binomial GLM，95,973 筆）
+  - 新增 `success` 欄位：5分=1（成功），1-4分=0（失敗）
+  - 適用於 Logistic Regression 分析
 
 **分析腳本：**
 - `descriptive_analysis/descriptive_statistics.R` - 全資料敘述性統計
 - `descriptive_analysis/descriptive_statistics_non5.R` - 非滿分子集分析
 - `descriptive_analysis/multicollinearity_scatter.R` - 共線性檢查
 - `data_preprocessing/preprocessing.py` - Python 資料前處理腳本
+- `data_preprocessing/create_binary_target.py` - 創建二元目標變數腳本
 
 **輸出結果：**
 - `descriptive_analysis/descriptive_statistics_output.txt` - 統計分析文字輸出

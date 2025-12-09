@@ -1,6 +1,6 @@
 ================================================================================
 非滿分子集 敘述性統計輸出日誌
-執行時間： 2025-12-09 15:36:42 
+執行時間： 2025-12-09 19:43:57 
 ================================================================================
 
 步驟 1: 載入清理後的資料（非滿分子集）
@@ -230,28 +230,6 @@ null device
   ✓ payment_installments 直方圖已儲存
   ✓ payment_installments 直方圖（log）已儲存
 
-生成 QQ 常態機率圖與常態性檢定（Shapiro-Wilk）...
-  ✓ delivery_days QQ 常態機率圖已儲存
-  ✓ delivery_days QQ（log）已儲存
-    Shapiro-Wilk W=0.8163, p=5.397e-60
-  ✓ delivery_gap QQ 常態機率圖已儲存
-    Shapiro-Wilk W=0.9261, p=2.904e-44
-  ✓ price QQ 常態機率圖已儲存
-  ✓ price QQ（log）已儲存
-    Shapiro-Wilk W=0.4160, p=1.527e-83
-  ✓ freight_value QQ 常態機率圖已儲存
-  ✓ freight_value QQ（log）已儲存
-    Shapiro-Wilk W=0.4708, p=2.212e-81
-  ✓ product_weight_g QQ 常態機率圖已儲存
-  ✓ product_weight_g QQ（log）已儲存
-    Shapiro-Wilk W=0.5382, p=1.927e-78
-  ✓ product_photos_qty QQ 常態機率圖已儲存
-  ✓ product_photos_qty QQ（log）已儲存
-    Shapiro-Wilk W=0.7559, p=2.05e-65
-  ✓ payment_installments QQ 常態機率圖已儲存
-  ✓ payment_installments QQ（log）已儲存
-    Shapiro-Wilk W=0.7319, p=2.997e-67
-
 步驟 5: 變數間關係探索
 -------------------------------------------------------------------------------- 
 
@@ -292,55 +270,6 @@ null device
           1 
 ✓ price vs review_score 散點圖已儲存
 
-進行線性模型殘差診斷...
-模型摘要（review_score ~ delivery_gap, non-5 subset）：
-
-Call:
-lm(formula = review_score ~ delivery_gap, data = data)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--3.5814 -1.0663  0.3189  0.9835  5.8180 
-
-Coefficients:
-               Estimate Std. Error t value Pr(>|t|)    
-(Intercept)   2.6811358  0.0074916  357.88   <2e-16 ***
-delivery_gap -0.0279449  0.0005047  -55.37   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 1.183 on 39115 degrees of freedom
-Multiple R-squared:  0.07268,	Adjusted R-squared:  0.07266 
-F-statistic:  3066 on 1 and 39115 DF,  p-value: < 2.2e-16
-
-✓ 殘差圖（Residuals vs Fitted）已儲存：plots_non5/lm_review_vs_delivery_gap_resid_vs_fitted.png
-✓ 殘差 QQ 圖已儲存：plots_non5/lm_review_vs_delivery_gap_resid_qqplot.png
-  Shapiro-Wilk（residuals）W=0.8792, p=1.925e-52
-
-模型摘要（review_score ~ log10(price + 1), non-5 subset）：
-
-Call:
-lm(formula = review_score ~ price_log, data = dat_price)
-
-Residuals:
-   Min     1Q Median     3Q    Max 
--2.222 -1.027  0.188  1.061  1.461 
-
-Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  3.37124    0.03077  109.58   <2e-16 ***
-price_log   -0.22659    0.01550  -14.62   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 1.226 on 39115 degrees of freedom
-Multiple R-squared:  0.005433,	Adjusted R-squared:  0.005408 
-F-statistic: 213.7 on 1 and 39115 DF,  p-value: < 2.2e-16
-
-✓ 殘差圖（Residuals vs Fitted）已儲存：plots_non5/lm_review_vs_logprice_resid_vs_fitted.png
-✓ 殘差 QQ 圖已儲存：plots_non5/lm_review_vs_logprice_resid_qqplot.png
-  Shapiro-Wilk（residuals）W=0.8060, p=5.175e-61
-
 步驟 6: 類別變數分析
 -------------------------------------------------------------------------------- 
 
@@ -370,4 +299,4 @@ F-statistic: 213.7 on 1 and 39115 DF,  p-value: < 2.2e-16
 
 所有圖表已儲存至 plots_non5/ 資料夾
 
-執行完成時間： 2025-12-09 15:36:45 
+執行完成時間： 2025-12-09 19:43:58 

@@ -11,8 +11,10 @@
 ### 輸出檔案
 - **preprocessed_data.csv** - 清理後的資料（全部，95,973 筆）
 - **preprocessed_data_non5.csv** - 非滿分子集資料（1-4 分，39,117 筆）
+- **preprocessed_data_binary.csv** - 二元目標變數資料（用於 Binomial GLM，95,973 筆）
 
 ### 其他檔案
+- **create_binary_target.py** - 創建二元目標變數腳本
 - **install_packages.R** - R 套件安裝腳本
 
 ## 使用方式
@@ -117,6 +119,21 @@ python data_preprocessing/preprocessing.py
 - 僅包含評論分數 1-4 分的訂單
 - 所有欄位與完整資料相同
 - 用於分析「不滿意顧客」的特徵
+
+### preprocessed_data_binary.csv
+
+二元目標變數資料（95,973 筆），包含：
+- 所有原始欄位（與 preprocessed_data.csv 相同）
+- **新增欄位：`success`（二元目標變數）**
+  - `success = 1`：review_score = 5（滿分，56,856 筆，59.24%）
+  - `success = 0`：review_score = 1-4（非滿分，39,117 筆，40.76%）
+- **適用於 Binomial GLM (Logistic Regression) 分析**
+- 可分析哪些因素影響顧客是否給出滿分評價
+
+**生成方式**：
+```bash
+python data_preprocessing/create_binary_target.py
+```
 
 ### 視覺化圖表
 

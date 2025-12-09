@@ -507,8 +507,8 @@ if ("customer_state" %in% names(data)) {
             names.arg = rev(state_dist$customer_state),
             horiz = TRUE,
             las = 1,
-            main = "各州訂單數分布",
-            xlab = "訂單數",
+            main = "Distribution of Orders by Customer State",
+            xlab = "Number of Orders",
             col = "steelblue")
     dev.off()
     cat("✓ 州別分布圖已儲存：plots/customer_state_distribution.png\n\n")
@@ -580,8 +580,8 @@ if ("product_categories" %in% names(data)) {
             names.arg = rev(top_15_cats$product_categories),
             horiz = TRUE,
             las = 1,
-            main = "前 15 大商品類別（從 product_categories 展開）",
-            xlab = "出現次數",
+            main = "Top 15 Product Categories",
+            xlab = "Frequency",
             col = "steelblue")
     dev.off()
     cat("✓ 前 15 大商品類別分布圖已儲存：plots/product_categories_top15.png\n\n")
@@ -628,8 +628,8 @@ if ("primary_seller_state" %in% names(data)) {
             names.arg = rev(seller_state_dist$primary_seller_state),
             horiz = TRUE,
             las = 1,
-            main = "各州賣家訂單數分布",
-            xlab = "訂單數",
+            main = "Distribution of Orders by Seller State",
+            xlab = "Number of Orders",
             col = "lightcoral")
     dev.off()
     cat("✓ 賣家州別分布圖已儲存：plots/primary_seller_state_distribution.png\n\n")

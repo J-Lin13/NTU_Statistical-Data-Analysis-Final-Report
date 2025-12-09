@@ -1,6 +1,6 @@
 ================================================================================
 敘述性統計分析輸出日誌
-執行時間： 2025-12-09 15:36:22 
+執行時間： 2025-12-09 19:57:23 
 ================================================================================
 
 步驟 1: 載入清理後的資料
@@ -157,6 +157,17 @@
  Max.   :1.000  
                 
 
+基本資料統計（唯一值）：
+================================================================================
+總訂單數（唯一 order_id）: 95,818
+總評論數（唯一 review_id）: 95,466
+總顧客數（唯一 customer_unique_id）: 92,741
+總商品種類數（從 product_ids 展開後去重）: 32,066
+總商品類別數（唯一 product_category_name_english）: 72
+總賣家數（唯一 primary_seller_id）: 2,952
+總顧客城市數（唯一 customer_city）: 4,083
+總顧客州數（唯一 customer_state）: 27
+
 步驟 3: 應變數（review_score）分析
 -------------------------------------------------------------------------------- 
 
@@ -230,28 +241,6 @@ null device
   ✓ payment_installments 直方圖已儲存
   ✓ payment_installments 直方圖（log）已儲存
 
-生成 QQ 常態機率圖與常態性檢定（Shapiro-Wilk）...
-  ✓ delivery_days QQ 常態機率圖已儲存
-  ✓ delivery_days QQ（log）已儲存
-    Shapiro-Wilk W=0.7622, p=6.688e-65
-  ✓ delivery_gap QQ 常態機率圖已儲存
-    Shapiro-Wilk W=0.8700, p=1.005e-53
-  ✓ price QQ 常態機率圖已儲存
-  ✓ price QQ（log）已儲存
-    Shapiro-Wilk W=0.4364, p=9.258e-83
-  ✓ freight_value QQ 常態機率圖已儲存
-  ✓ freight_value QQ（log）已儲存
-    Shapiro-Wilk W=0.4860, p=9.497e-81
-  ✓ product_weight_g QQ 常態機率圖已儲存
-  ✓ product_weight_g QQ（log）已儲存
-    Shapiro-Wilk W=0.5320, p=9.971e-79
-  ✓ product_photos_qty QQ 常態機率圖已儲存
-  ✓ product_photos_qty QQ（log）已儲存
-    Shapiro-Wilk W=0.7441, p=2.479e-66
-  ✓ payment_installments QQ 常態機率圖已儲存
-  ✓ payment_installments QQ（log）已儲存
-    Shapiro-Wilk W=0.7347, p=4.773e-67
-
 步驟 5: 變數間關係探索
 -------------------------------------------------------------------------------- 
 
@@ -292,77 +281,178 @@ null device
           1 
 ✓ price vs review_score 散點圖已儲存
 
-進行線性模型殘差診斷...
-模型摘要（review_score ~ delivery_gap）：
-
-Call:
-lm(formula = review_score ~ delivery_gap, data = data)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--5.3097 -0.3594  0.5731  0.8432  6.4480 
-
-Coefficients:
-               Estimate Std. Error t value Pr(>|t|)    
-(Intercept)   3.7853821  0.0059642  634.69   <2e-16 ***
-delivery_gap -0.0337636  0.0004023  -83.94   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 1.24 on 95971 degrees of freedom
-Multiple R-squared:  0.06839,	Adjusted R-squared:  0.06838 
-F-statistic:  7045 on 1 and 95971 DF,  p-value: < 2.2e-16
-
-✓ 殘差圖（Residuals vs Fitted）已儲存：plots/lm_review_vs_delivery_gap_resid_vs_fitted.png
-✓ 殘差 QQ 圖已儲存：plots/lm_review_vs_delivery_gap_resid_qqplot.png
-  Shapiro-Wilk（residuals）W=0.8157, p=4.72e-60
-
-模型摘要（review_score ~ log10(price + 1)）：
-
-Call:
-lm(formula = review_score ~ price_log, data = dat_price)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--3.3340 -0.2030  0.7846  0.8529  1.1060 
-
-Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  4.42513    0.02057  215.12   <2e-16 ***
-price_log   -0.13873    0.01041  -13.33   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 1.283 on 95971 degrees of freedom
-Multiple R-squared:  0.001847,	Adjusted R-squared:  0.001837 
-F-statistic: 177.6 on 1 and 95971 DF,  p-value: < 2.2e-16
-
-✓ 殘差圖（Residuals vs Fitted）已儲存：plots/lm_review_vs_logprice_resid_vs_fitted.png
-✓ 殘差 QQ 圖已儲存：plots/lm_review_vs_logprice_resid_qqplot.png
-  Shapiro-Wilk（residuals）W=0.7051, p=3.772e-69
-
 步驟 6: 類別變數分析
 -------------------------------------------------------------------------------- 
+
+訂單狀態分布：
+# A tibble: 1 × 3
+  order_status     n percentage
+  <chr>        <int>      <dbl>
+1 delivered    95973        100
 
 付款方式分布：
 
      boleto credit_card  debit_card     unknown     voucher 
       19105       73904        1478           1        1485 
 
-前 10 大商品類別：
-# A tibble: 10 × 2
-   product_category_name_english     n
-   <chr>                         <int>
- 1 bed_bath_table                 9158
- 2 health_beauty                  8593
- 3 sports_leisure                 7447
- 4 computers_accessories          6495
- 5 furniture_decor                6174
- 6 housewares                     5631
- 7 watches_gifts                  5416
- 8 telephony                      4048
- 9 auto                           3794
-10 toys                           3729
+前 10 大商品類別（主要類別 - 葡萄牙文）：
+# A tibble: 10 × 3
+   product_category_name      n percentage
+   <chr>                  <int>      <dbl>
+ 1 cama_mesa_banho         9146       9.53
+ 2 beleza_saude            8608       8.97
+ 3 esporte_lazer           7462       7.78
+ 4 informatica_acessorios  6476       6.75
+ 5 moveis_decoracao        6148       6.41
+ 6 utilidades_domesticas   5612       5.85
+ 7 relogios_presentes      5419       5.65
+ 8 telefonia               4046       4.22
+ 9 automotivo              3794       3.95
+10 brinquedos              3754       3.91
+
+前 10 大商品類別（主要類別 - 英文）：
+# A tibble: 10 × 3
+   product_category_name_english     n percentage
+   <chr>                         <int>      <dbl>
+ 1 bed_bath_table                 9158       9.54
+ 2 health_beauty                  8593       8.95
+ 3 sports_leisure                 7447       7.76
+ 4 computers_accessories          6495       6.77
+ 5 furniture_decor                6174       6.43
+ 6 housewares                     5631       5.87
+ 7 watches_gifts                  5416       5.64
+ 8 telephony                      4048       4.22
+ 9 auto                           3794       3.95
+10 toys                           3729       3.89
+
+顧客城市分布：
+  總城市數: 4083
+
+前 10 大城市（按訂單數）：
+# A tibble: 10 × 3
+   customer_city             n percentage
+   <chr>                 <int>      <dbl>
+ 1 sao paulo             14972      15.6 
+ 2 rio de janeiro         6540       6.81
+ 3 belo horizonte         2683       2.8 
+ 4 brasilia               2070       2.16
+ 5 curitiba               1481       1.54
+ 6 campinas               1396       1.45
+ 7 porto alegre           1337       1.39
+ 8 salvador               1172       1.22
+ 9 guarulhos              1137       1.18
+10 sao bernardo do campo   913       0.95
+
+顧客州別分布：
+  總州數: 27
+
+各州訂單數分布：
+# A tibble: 27 × 3
+   customer_state     n percentage
+   <chr>          <int>      <dbl>
+ 1 SP             40332      42.0 
+ 2 RJ             12229      12.7 
+ 3 MG             11307      11.8 
+ 4 RS              5334       5.56
+ 5 PR              4905       5.11
+ 6 SC              3522       3.67
+ 7 BA              3230       3.37
+ 8 DF              2079       2.17
+ 9 ES              1972       2.05
+10 GO              1944       2.03
+# ℹ 17 more rows
+
+✓ 州別分布圖已儲存：plots/customer_state_distribution.png
+
+商品ID分析（product_ids）：
+每筆訂單的商品ID數量統計：
+  平均數: 1.04
+  中位數: 1
+  最大值: 8
+  最小值: 1
+
+商品ID數量分布：
+
+    1     2     3     4     5     6     7     8 
+92805  2784   294    68     8    10     3     1 
+
+商品類別分析（product_categories）：
+每筆訂單的商品類別數量統計：
+  平均數: 0.99
+  中位數: 1
+  最大值: 3
+  最小值: 0
+
+商品類別數量分布：
+
+    0     1     2     3 
+ 1344 93909   704    16 
+
+所有出現的商品類別（從 product_categories 展開）：
+  總類別數（去重後）: 71
+
+前 15 大商品類別（按出現次數）：
+# A tibble: 15 × 2
+   product_categories        n
+   <chr>                 <int>
+ 1 bed_bath_table         9195
+ 2 health_beauty          8621
+ 3 sports_leisure         7503
+ 4 computers_accessories  6505
+ 5 furniture_decor        6273
+ 6 housewares             5716
+ 7 watches_gifts          5455
+ 8 telephony              4070
+ 9 auto                   3801
+10 toys                   3775
+11 cool_stuff             3533
+12 garden_tools           3429
+13 perfumery              3081
+14 baby                   2789
+15 electronics            2498
+
+✓ 前 15 大商品類別分布圖已儲存：plots/product_categories_top15.png
+
+賣家城市分布（primary_seller_city）：
+  總城市數: 594
+  有效記錄數: 95973 (100.00%)
+
+前 10 大賣家城市（按訂單數）：
+# A tibble: 10 × 3
+   primary_seller_city       n percentage
+   <chr>                 <int>      <dbl>
+ 1 sao paulo             23714      24.7 
+ 2 ibitinga               6337       6.6 
+ 3 curitiba               2634       2.74
+ 4 santo andre            2619       2.73
+ 5 belo horizonte         2317       2.41
+ 6 rio de janeiro         2068       2.15
+ 7 guarulhos              1996       2.08
+ 8 ribeirao preto         1941       2.02
+ 9 sao jose do rio preto  1919       2   
+10 maringa                1804       1.88
+
+賣家州別分布（primary_seller_state）：
+  總州數: 22
+  有效記錄數: 95973 (100.00%)
+
+各州賣家訂單數分布：
+# A tibble: 22 × 3
+   primary_seller_state     n percentage
+   <chr>                <int>      <dbl>
+ 1 SP                   68071      70.9 
+ 2 MG                    7621       7.94
+ 3 PR                    7394       7.7 
+ 4 RJ                    4148       4.32
+ 5 SC                    3532       3.68
+ 6 RS                    1930       2.01
+ 7 DF                     804       0.84
+ 8 BA                     546       0.57
+ 9 GO                     448       0.47
+10 PE                     399       0.42
+# ℹ 12 more rows
+
+✓ 賣家州別分布圖已儲存：plots/primary_seller_state_distribution.png
 
 ================================================================================ 
 敘述性統計分析完成！
@@ -370,4 +460,4 @@ F-statistic: 177.6 on 1 and 95971 DF,  p-value: < 2.2e-16
 
 所有圖表已儲存至 plots/ 資料夾
 
-執行完成時間： 2025-12-09 15:36:29 
+執行完成時間： 2025-12-09 19:57:27 
