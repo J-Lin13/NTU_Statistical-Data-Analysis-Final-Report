@@ -1,3 +1,8 @@
 # 忽略資料前處理指南（本地文件，不需要上傳到 GitHub）
 DATA_PREPROCESSING_GUIDE.md
+
+# R 臨時文件
 .Rapp.history
+Rplots.pdf
+.RData
+.Rhistory
