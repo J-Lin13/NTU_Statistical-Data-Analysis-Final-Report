@@ -220,47 +220,6 @@ for (var in main_vars) {
 }
 cat("\n")
 
-# 主要數值變數 QQ 常態機率圖與常態性檢定
-cat("生成 QQ 常態機率圖與常態性檢定（Shapiro-Wilk）...\n")
-for (var in main_vars) {
-  if (var %in% names(data) && is.numeric(data[[var]])) {
-    x <- data[[var]]
-    x <- x[is.finite(x)]
-    x <- x[!is.na(x)]
-    if (length(x) >= 10) {
-      # QQ plot
-      png(file.path(plots_dir, sprintf("%s_qqplot.png", var)), width = 800, height = 600)
-      qqnorm(x, main = sprintf("%s QQ Plot (non-5 subset)", var))
-      qqline(x, col = "red", lwd = 2)
-      dev.off()
-      cat(sprintf("  ✓ %s QQ 常態機率圖已儲存\n", var))
-      
-      # QQ plot (log1p) for non-negative variables
-      x_min0 <- suppressWarnings(min(x, na.rm = TRUE))
-      if (is.finite(x_min0) && x_min0 >= 0) {
-        x_log <- log1p(x)
-        png(file.path(plots_dir, sprintf("%s_qqplot_log.png", var)), width = 800, height = 600)
-        qqnorm(x_log, main = sprintf("%s QQ Plot (log1p, non-5 subset)", var))
-        qqline(x_log, col = "red", lwd = 2)
-        dev.off()
-        cat(sprintf("  ✓ %s QQ（log）已儲存\n", var))
-      }
-      
-      # Shapiro-Wilk 常態性檢定（大樣本時隨機取樣 5000 筆以加速）
-      x_test <- x
-      if (length(x_test) > 5000) {
-        set.seed(123)
-        x_test <- sample(x_test, 5000)
-      }
-      sw <- tryCatch(shapiro.test(x_test), error = function(e) NULL)
-      if (!is.null(sw)) {
-        cat(sprintf("    Shapiro-Wilk W=%.4f, p=%.4g\n", sw$statistic, sw$p.value))
-      }
-    }
-  }
-}
-cat("\n")
-
 # ============================================================================
 # 步驟 5: 變數間關係探索
 # ============================================================================
@@ -304,89 +263,6 @@ plot(log10(data$price + 1), data$review_score,
 abline(lm(review_score ~ log10(price + 1), data = data), col = "red", lwd = 2)
 dev.off()
 cat("✓ price vs review_score 散點圖已儲存\n\n")
-
-# 線性模型殘差診斷（Residual vs Fitted、QQ Plot）
-cat("進行線性模型殘差診斷...\n")
-
-# 1) 模型：review_score ~ delivery_gap
-if (all(c("review_score", "delivery_gap") %in% names(data))) {
-  model_gap <- lm(review_score ~ delivery_gap, data = data)
-  cat("模型摘要（review_score ~ delivery_gap, non-5 subset）：\n")
-  print(summary(model_gap))
-  res_gap <- resid(model_gap)
-  fit_gap <- fitted(model_gap)
-  
-  # Residuals vs Fitted
-  png(file.path(plots_dir, "lm_review_vs_delivery_gap_resid_vs_fitted.png"), width = 800, height = 600)
-  plot(fit_gap, res_gap,
-       main = "Residuals vs Fitted: review_score ~ delivery_gap (non-5 subset)",
-       xlab = "Fitted values",
-       ylab = "Residuals",
-       pch = 19, col = rgb(0, 0, 1, 0.3))
-  abline(h = 0, col = "red", lwd = 2)
-  dev.off()
-  cat("✓ 殘差圖（Residuals vs Fitted）已儲存：plots_non5/lm_review_vs_delivery_gap_resid_vs_fitted.png\n")
-  
-  # QQ plot of residuals
-  png(file.path(plots_dir, "lm_review_vs_delivery_gap_resid_qqplot.png"), width = 800, height = 600)
-  qqnorm(res_gap, main = "Residuals QQ Plot: review_score ~ delivery_gap (non-5 subset)")
-  qqline(res_gap, col = "red", lwd = 2)
-  dev.off()
-  cat("✓ 殘差 QQ 圖已儲存：plots_non5/lm_review_vs_delivery_gap_resid_qqplot.png\n")
-  
-  # Shapiro-Wilk on residuals（樣本很大時採樣）
-  res_gap_test <- res_gap[is.finite(res_gap)]
-  if (length(res_gap_test) > 5000) {
-    set.seed(123)
-    res_gap_test <- sample(res_gap_test, 5000)
-  }
-  sw_gap <- tryCatch(shapiro.test(res_gap_test), error = function(e) NULL)
-  if (!is.null(sw_gap)) {
-    cat(sprintf("  Shapiro-Wilk（residuals）W=%.4f, p=%.4g\n", sw_gap$statistic, sw_gap$p.value))
-  }
-}
-
-# 2) 模型：review_score ~ log10(price + 1)
-if (all(c("review_score", "price") %in% names(data))) {
-  # 避免 price 為負或 NA
-  dat_price <- data %>%
-    mutate(price_log = log10(price + 1))
-  model_price <- lm(review_score ~ price_log, data = dat_price)
-  cat("\n模型摘要（review_score ~ log10(price + 1), non-5 subset）：\n")
-  print(summary(model_price))
-  res_price <- resid(model_price)
-  fit_price <- fitted(model_price)
-  
-  # Residuals vs Fitted
-  png(file.path(plots_dir, "lm_review_vs_logprice_resid_vs_fitted.png"), width = 800, height = 600)
-  plot(fit_price, res_price,
-       main = "Residuals vs Fitted: review_score ~ log10(price + 1) (non-5 subset)",
-       xlab = "Fitted values",
-       ylab = "Residuals",
-       pch = 19, col = rgb(0, 0, 1, 0.3))
-  abline(h = 0, col = "red", lwd = 2)
-  dev.off()
-  cat("✓ 殘差圖（Residuals vs Fitted）已儲存：plots_non5/lm_review_vs_logprice_resid_vs_fitted.png\n")
-  
-  # QQ plot of residuals
-  png(file.path(plots_dir, "lm_review_vs_logprice_resid_qqplot.png"), width = 800, height = 600)
-  qqnorm(res_price, main = "Residuals QQ Plot: review_score ~ log10(price + 1) (non-5 subset)")
-  qqline(res_price, col = "red", lwd = 2)
-  dev.off()
-  cat("✓ 殘差 QQ 圖已儲存：plots_non5/lm_review_vs_logprice_resid_qqplot.png\n")
-  
-  # Shapiro-Wilk on residuals（樣本很大時採樣）
-  res_price_test <- res_price[is.finite(res_price)]
-  if (length(res_price_test) > 5000) {
-    set.seed(123)
-    res_price_test <- sample(res_price_test, 5000)
-  }
-  sw_price <- tryCatch(shapiro.test(res_price_test), error = function(e) NULL)
-  if (!is.null(sw_price)) {
-    cat(sprintf("  Shapiro-Wilk（residuals）W=%.4f, p=%.4g\n", sw_price$statistic, sw_price$p.value))
-  }
-}
-cat("\n")
 
 # ============================================================================
 # 步驟 6: 類別變數分析

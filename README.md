@@ -70,14 +70,26 @@ NTU_Statistical-Data-Analysis-Final-Report/
 ├── data_preprocessing/           # 資料前處理資料夾
 │   ├── preprocessing.py         # Python 前處理腳本
 │   ├── preprocessing.R          # R 前處理腳本
-│   ├── visualization.R          # 視覺化腳本
-│   ├── preprocessed_data.csv    # 清理後的資料
-│   ├── preprocessing_summary.txt # 處理摘要報告
+│   ├── preprocessed_data.csv    # 清理後的資料（全部）
+│   ├── preprocessed_data_non5.csv # 清理後的資料（非滿分子集）
 │   └── README.md
 │
-├── descriptive_analysis/         # 敘述性統計分析資料夾
-│   ├── descriptive_statistics.R # 敘述性統計分析腳本
-│   ├── plots/                   # 視覺化圖表（執行腳本後生成）
+├── descriptive_analysis/         # 探索性資料分析（EDA）資料夾
+│   ├── descriptive_statistics.R # 敘述性統計分析腳本（全資料）
+│   ├── descriptive_statistics_non5.R # 敘述性統計分析腳本（非滿分）
+│   ├── multicollinearity_scatter.R # 共線性檢查散點圖腳本
+│   ├── descriptive_statistics_output.txt # 統計分析輸出
+│   ├── descriptive_statistics_non5_output.txt # 非滿分統計輸出
+│   └── README.md
+│
+├── plots/                       # EDA 視覺化圖表（全資料）
+│   ├── *_histogram.png          # 單變數分布圖
+│   ├── *_boxplot.png            # 異常值檢查圖
+│   ├── collinearity_*.png       # 共線性檢查散點圖
+│   ├── correlation_pairs_plot.png # 變數關係矩陣圖
+│   └── ...
+│
+├── plots_non5/                  # EDA 視覺化圖表（非滿分子集）
 │   └── README.md
 │
 ├── ReadMe.md                     # 本檔案（專案說明文件）
@@ -196,36 +208,57 @@ library(readr)
 data <- read_csv("data_preprocessing/preprocessed_data.csv")
 ```
 
-#### 3. 進行敘述性統計分析
+#### 3. 探索性資料分析（EDA）
 
-**推薦方式：在 RStudio 中執行**
+**完整分析流程（從命令列執行）：**
 
-在 RStudio 中開啟 `descriptive_analysis/descriptive_statistics.R` 檔案，然後點擊 "Source" 按鈕執行。腳本會自動設定工作目錄。
+```bash
+# 1. 全資料敘述性統計（生成 plots/ 目錄）
+Rscript descriptive_analysis/descriptive_statistics.R
 
-**或從 R 控制台執行：**
+# 2. 非滿分子集敘述性統計（生成 plots_non5/ 目錄）
+Rscript descriptive_analysis/descriptive_statistics_non5.R
 
-```r
-# 先設定工作目錄為專案根目錄
-setwd('C:\\Users\\User\\OneDrive\\Desktop\\NTU\\商統分\\NTU_Statistical-Data-Analysis-Final-Report')
-
-# 執行敘述性統計分析腳本
-source("descriptive_analysis/descriptive_statistics.R")
+# 3. 共線性檢查（生成共線性散點圖和 VIF 值）
+Rscript descriptive_analysis/multicollinearity_scatter.R
 ```
 
-#### 4. 開始建立迴歸模型
+**或在 RStudio 中執行：**
+
+開啟對應的 R 檔案（`.R`），點擊 "Source" 按鈕執行。腳本會自動設定工作目錄。
+
+**生成的 EDA 內容：**
+
+- **單變數分析**：histogram (原始 + log), boxplot, bar plot
+- **雙變數分析**：scatter plots, pair plot
+- **共線性檢查**：7 組變數對的散點圖 + VIF 值
+- **統計摘要**：描述性統計、相關係數矩陣
+
+#### 4. 開始建立迴歸模型（待續）
 
 根據專案要求，接下來需要：
 
-1. 使用 `summary()` 檢視資料
-2. 使用 `hist()` 和 `boxplot()` 檢查分布
-3. 使用 `lm()` 建立迴歸模型
-4. 使用 `step()` 進行逐步選模
+1. 檢視 EDA 結果，確認變數特性
+2. 使用 `lm()` 建立多元線性迴歸模型
+3. 使用 `step()` 進行逐步選模（AIC）
+4. 檢驗模型假設（殘差診斷、QQ plot）
 
 ### 可用的檔案
 
-- **`data_preprocessing/preprocessed_data.csv`** - 清理後的資料（可直接使用）
-- **`descriptive_analysis/descriptive_statistics.R`** - 敘述性統計分析腳本（已為您準備好）
-- **`data_preprocessing/preprocessing.R`** - R 版本的資料前處理腳本（可選）
+**資料檔案：**
+- `data_preprocessing/preprocessed_data.csv` - 清理後的資料（全部，95,973 筆）
+- `data_preprocessing/preprocessed_data_non5.csv` - 非滿分子集（1-4 分，39,117 筆）
+
+**分析腳本：**
+- `descriptive_analysis/descriptive_statistics.R` - 全資料敘述性統計
+- `descriptive_analysis/descriptive_statistics_non5.R` - 非滿分子集分析
+- `descriptive_analysis/multicollinearity_scatter.R` - 共線性檢查
+- `data_preprocessing/preprocessing.py` - Python 資料前處理腳本
+
+**輸出結果：**
+- `descriptive_analysis/descriptive_statistics_output.txt` - 統計分析文字輸出
+- `plots/` - 全資料 EDA 圖表（35 張）
+- `plots_non5/` - 非滿分 EDA 圖表（32 張）
 
 ### 快速開始範例
 

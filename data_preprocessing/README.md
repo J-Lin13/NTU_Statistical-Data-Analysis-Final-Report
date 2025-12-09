@@ -8,10 +8,11 @@
 - **preprocessing.py** - Python 版本的資料前處理腳本 **（已執行，資料已清理完成）**
 - **preprocessing.R** - R 版本的資料前處理腳本
 
+### 輸出檔案
+- **preprocessed_data.csv** - 清理後的資料（全部，95,973 筆）
+- **preprocessed_data_non5.csv** - 非滿分子集資料（1-4 分，39,117 筆）
+
 ### 其他檔案
-- **preprocessed_data.csv** - 清理後的資料（已生成，可直接使用）
-- **preprocessing_summary.txt** - 處理摘要報告
-- **visualization.R** - 資料分布視覺化腳本（R 版本）
 - **install_packages.R** - R 套件安裝腳本
 
 ## 使用方式
@@ -52,17 +53,10 @@ python data_preprocessing/preprocessing.py
    source("preprocessing.R")
    ```
 
-**注意**：兩種方式會產生相同的結果，您只需要執行其中一種即可。
-
-### 執行視覺化
-
-前處理完成後，可以生成視覺化圖表：
-
-```r
-source("visualization.R")
-```
-
-這會生成各種圖表並儲存在 `plots/` 資料夾中。
+**注意**：
+- 兩種方式會產生相同的結果，您只需要執行其中一種即可
+- Python 版本會同時產生兩個檔案：`preprocessed_data.csv` 和 `preprocessed_data_non5.csv`
+- 視覺化分析請參考 `descriptive_analysis/` 資料夾中的 EDA 腳本
 
 ## 前處理步驟
 
@@ -111,29 +105,25 @@ source("visualization.R")
 
 ### preprocessed_data.csv
 
-清理後的資料，包含：
+清理後的完整資料（95,973 筆），包含：
 - 所有原始欄位（已清理）
-- 新增的衍生變數
+- 新增的衍生變數（total_value, price_above_mean, delivery_delayed, delivery_early）
+- 所有評論分數（1-5 分）
 - 適合進行統計分析的格式
 
-### preprocessing_summary.txt
+### preprocessed_data_non5.csv
 
-處理摘要報告，包含：
-- 原始資料筆數
-- 最終資料筆數
-- 移除的資料筆數和比例
-- 處理日期
+非滿分子集資料（39,117 筆），包含：
+- 僅包含評論分數 1-4 分的訂單
+- 所有欄位與完整資料相同
+- 用於分析「不滿意顧客」的特徵
 
-### plots/ 資料夾
+### 視覺化圖表
 
-視覺化圖表，包括：
-- 應變數分布圖
-- 物流變數分布圖（直方圖、箱線圖）
-- 交易成本變數分布圖
-- 商品屬性變數分布圖
-- 變數關係散點圖
-- 商品類別分布圖
-- 付款方式分布圖
+EDA 視覺化圖表請參考：
+- `../plots/` - 全資料 EDA 圖表（35 張）
+- `../plots_non5/` - 非滿分子集 EDA 圖表（32 張）
+- 執行 `descriptive_analysis/` 中的 R 腳本生成
 
 ## 注意事項
 
@@ -151,18 +141,31 @@ source("visualization.R")
 
 ## 與研究目標的對應
 
-根據 ReadMe.md 的要求，前處理腳本會：
+根據專案要求，資料處理流程：
 
+**資料前處理（本資料夾）：**
+- ✅ 處理缺失值和異常值
+- ✅ 建立衍生變數
+- ✅ 產生兩個版本的清理資料（全部 + 非滿分子集）
+- ✅ 準備資料供後續分析使用
+
+**探索性資料分析（EDA）：**
 - 使用 `summary()` 檢查基本統計量
-- 使用 `hist()` 檢查資料分布（在 visualization.R 中）
-- 使用 `boxplot()` 檢查異常值（在 visualization.R 中）
-- 處理缺失值和異常值
-- 準備資料供後續迴歸分析使用
+- 使用 `hist()` 和 `boxplot()` 檢查資料分布
+- 檢查變數間關係（scatter plots, pair plot）
+- 共線性檢查（collinearity scatter plots, VIF）
+- **詳見 `../descriptive_analysis/` 資料夾**
+
+**模型建立（待續）：**
+- 使用 `lm()` 建立多元線性迴歸模型
+- 使用 `step()` 進行逐步選模（AIC）
+- 殘差診斷（QQ plot, residual plots）
 
 ## 相關文件
 
-- 詳細的前處理說明請參考：`../DATA_PREPROCESSING_GUIDE.md`
-- 專案整體說明請參考：`../ReadMe.md`
+- 專案整體說明：`../README.md`
+- SQL 資料合併：`../sql_merge/README.md`
+- EDA 分析：`../descriptive_analysis/README.md`
 
 ## 問題排除
 
