@@ -209,13 +209,20 @@ if (!dir.exists("plots")) {
 # 繪製直方圖
 cat("生成直方圖...\n")
 png("plots/review_score_histogram.png", width = 800, height = 600)
-hist(data$review_score, 
-     breaks = 5,
-     main = "評論分數分布（review_score）",
-     xlab = "評論分數",
-     ylab = "頻率",
-     col = "steelblue",
-     border = "white")
+# 以離散等級 1~5 的次數統計繪製長條圖（避免連續區間分箱）
+counts <- table(factor(data$review_score, levels = 1:5))
+max_count <- max(counts, na.rm = TRUE)
+bp <- barplot(counts,
+              main = "Distribution of Review Score",
+              xlab = "Review Score",
+              ylab = "Count",
+              col = "steelblue",
+              border = "white",
+              ylim = c(0, max_count * 1.15))
+# 在每根長條上方標示數值
+text(x = bp, y = counts, 
+     labels = format(as.numeric(counts), big.mark = ","), 
+     pos = 3, cex = 1.0, col = "black")
 dev.off()
 cat("✓ 已儲存至: plots/review_score_histogram.png\n\n")
 
@@ -223,8 +230,8 @@ cat("✓ 已儲存至: plots/review_score_histogram.png\n\n")
 cat("生成箱線圖...\n")
 png("plots/review_score_boxplot.png", width = 800, height = 600)
 boxplot(data$review_score,
-        main = "評論分數箱線圖（review_score）",
-        ylab = "評論分數",
+        main = "Review Score Boxplot",
+        ylab = "Review Score",
         col = "lightblue")
 dev.off()
 cat("✓ 已儲存至: plots/review_score_boxplot.png\n\n")
@@ -255,7 +262,7 @@ for (var in main_vars) {
   if (var %in% names(data)) {
     png(sprintf("plots/%s_boxplot.png", var), width = 800, height = 600)
     boxplot(data[[var]],
-            main = sprintf("%s 箱線圖", var),
+            main = sprintf("%s Boxplot", var),
             ylab = var,
             col = "lightcoral")
     dev.off()
@@ -269,14 +276,47 @@ cat("生成直方圖（檢查分布）...\n")
 for (var in main_vars) {
   if (var %in% names(data)) {
     png(sprintf("plots/%s_histogram.png", var), width = 800, height = 600)
-    hist(data[[var]],
-         main = sprintf("%s 分布", var),
+    # 預先取得分箱與計數以便標示數字並調整 y 軸
+    x <- data[[var]]
+    h <- hist(x, plot = FALSE)
+    hist(x,
+         breaks = h$breaks,
+         main = sprintf("%s Distribution", var),
          xlab = var,
-         ylab = "頻率",
+         ylab = "Frequency",
          col = "steelblue",
-         border = "white")
+         border = "white",
+         ylim = c(0, max(h$counts, na.rm = TRUE) * 1.15))
+    if (length(h$mids) == length(h$counts) && length(h$counts) > 0) {
+      text(x = h$mids, y = h$counts,
+           labels = ifelse(h$counts > 0, format(h$counts, big.mark = ","), ""),
+           pos = 3, cex = 0.9, col = "black")
+    }
     dev.off()
     cat(sprintf("  ✓ %s 直方圖已儲存\n", var))
+
+    # 若變數為非負，另外輸出 log 版本（log1p）
+    x_min <- suppressWarnings(min(x, na.rm = TRUE))
+    if (is.finite(x_min) && x_min >= 0) {
+      x_log <- log1p(x)
+      png(sprintf("plots/%s_histogram_log.png", var), width = 800, height = 600)
+      hlog <- hist(x_log, plot = FALSE)
+      hist(x_log,
+           breaks = hlog$breaks,
+           main = sprintf("%s Distribution (log scale)", var),
+           xlab = sprintf("%s (log1p)", var),
+           ylab = "Frequency",
+           col = "steelblue",
+           border = "white",
+           ylim = c(0, max(hlog$counts, na.rm = TRUE) * 1.15))
+      if (length(hlog$mids) == length(hlog$counts) && length(hlog$counts) > 0) {
+        text(x = hlog$mids, y = hlog$counts,
+             labels = ifelse(hlog$counts > 0, format(hlog$counts, big.mark = ","), ""),
+             pos = 3, cex = 0.9, col = "black")
+      }
+      dev.off()
+      cat(sprintf("  ✓ %s 直方圖（log）已儲存\n", var))
+    }
   }
 }
 cat("\n")
@@ -291,10 +331,21 @@ for (var in main_vars) {
     if (length(x) >= 10) {
       # QQ plot
       png(sprintf("plots/%s_qqplot.png", var), width = 800, height = 600)
-      qqnorm(x, main = sprintf("%s QQ 常態機率圖", var))
+      qqnorm(x, main = sprintf("%s QQ Plot", var))
       qqline(x, col = "red", lwd = 2)
       dev.off()
       cat(sprintf("  ✓ %s QQ 常態機率圖已儲存\n", var))
+      
+      # QQ plot (log1p) for non-negative variables
+      x_min0 <- suppressWarnings(min(x, na.rm = TRUE))
+      if (is.finite(x_min0) && x_min0 >= 0) {
+        x_log <- log1p(x)
+        png(sprintf("plots/%s_qqplot_log.png", var), width = 800, height = 600)
+        qqnorm(x_log, main = sprintf("%s QQ Plot (log1p)", var))
+        qqline(x_log, col = "red", lwd = 2)
+        dev.off()
+        cat(sprintf("  ✓ %s QQ（log）已儲存\n", var))
+      }
       
       # Shapiro-Wilk 常態性檢定（大樣本時隨機取樣 5000 筆以加速）
       x_test <- x
@@ -334,9 +385,9 @@ cat("生成重要變數關係散點圖...\n")
 # delivery_gap vs review_score
 png("plots/delivery_gap_vs_review_score.png", width = 800, height = 600)
 plot(data$delivery_gap, data$review_score,
-     main = "送達差距與評論分數關係",
-     xlab = "送達差距（天數）",
-     ylab = "評論分數",
+     main = "Delivery Gap vs Review Score",
+     xlab = "Delivery Gap (days)",
+     ylab = "Review Score",
      pch = 19,
      col = rgb(0, 0, 1, 0.3))
 abline(lm(review_score ~ delivery_gap, data = data), col = "red", lwd = 2)
@@ -346,9 +397,9 @@ cat("✓ delivery_gap vs review_score 散點圖已儲存\n")
 # price vs review_score
 png("plots/price_vs_review_score.png", width = 800, height = 600)
 plot(log10(data$price + 1), data$review_score,
-     main = "商品價格（對數尺度）與評論分數關係",
-     xlab = "價格（log10）",
-     ylab = "評論分數",
+     main = "Log Price vs Review Score",
+     xlab = "Price (log10)",
+     ylab = "Review Score",
      pch = 19,
      col = rgb(0, 0, 1, 0.3))
 abline(lm(review_score ~ log10(price + 1), data = data), col = "red", lwd = 2)
@@ -369,7 +420,7 @@ if (all(c("review_score", "delivery_gap") %in% names(data))) {
   # Residuals vs Fitted
   png("plots/lm_review_vs_delivery_gap_resid_vs_fitted.png", width = 800, height = 600)
   plot(fit_gap, res_gap,
-       main = "Residuals vs Fitted：review_score ~ delivery_gap",
+       main = "Residuals vs Fitted: review_score ~ delivery_gap",
        xlab = "Fitted values",
        ylab = "Residuals",
        pch = 19, col = rgb(0, 0, 1, 0.3))
@@ -379,7 +430,7 @@ if (all(c("review_score", "delivery_gap") %in% names(data))) {
   
   # QQ plot of residuals
   png("plots/lm_review_vs_delivery_gap_resid_qqplot.png", width = 800, height = 600)
-  qqnorm(res_gap, main = "Residuals QQ Plot：review_score ~ delivery_gap")
+  qqnorm(res_gap, main = "Residuals QQ Plot: review_score ~ delivery_gap")
   qqline(res_gap, col = "red", lwd = 2)
   dev.off()
   cat("✓ 殘差 QQ 圖已儲存：plots/lm_review_vs_delivery_gap_resid_qqplot.png\n")
@@ -410,7 +461,7 @@ if (all(c("review_score", "price") %in% names(data))) {
   # Residuals vs Fitted
   png("plots/lm_review_vs_logprice_resid_vs_fitted.png", width = 800, height = 600)
   plot(fit_price, res_price,
-       main = "Residuals vs Fitted：review_score ~ log10(price + 1)",
+       main = "Residuals vs Fitted: review_score ~ log10(price + 1)",
        xlab = "Fitted values",
        ylab = "Residuals",
        pch = 19, col = rgb(0, 0, 1, 0.3))
@@ -420,7 +471,7 @@ if (all(c("review_score", "price") %in% names(data))) {
   
   # QQ plot of residuals
   png("plots/lm_review_vs_logprice_resid_qqplot.png", width = 800, height = 600)
-  qqnorm(res_price, main = "Residuals QQ Plot：review_score ~ log10(price + 1)")
+  qqnorm(res_price, main = "Residuals QQ Plot: review_score ~ log10(price + 1)")
   qqline(res_price, col = "red", lwd = 2)
   dev.off()
   cat("✓ 殘差 QQ 圖已儲存：plots/lm_review_vs_logprice_resid_qqplot.png\n")

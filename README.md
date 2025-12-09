@@ -128,6 +128,23 @@ cd sql_merge
 python load_and_merge_data.py
 ```
 
+### 一鍵執行流程（合併 → 前處理 → 敘述統計）
+
+從專案根目錄：
+```bash
+# 1) 合併所有 CSV 並輸出 merged_olist_data.csv
+python3 sql_merge/load_and_merge_data.py
+
+# 2) 產生清理後資料（含 non-5 子集）
+python3 data_preprocessing/preprocessing.py
+
+# 3A) 敘述統計 - 全部資料（輸出到 descriptive_analysis/plots/）
+Rscript descriptive_analysis/descriptive_statistics.R
+
+# 3B) 敘述統計 - 非滿分子集 1~4（輸出到 descriptive_analysis/plots_non5/）
+Rscript descriptive_analysis/descriptive_statistics_non5.R
+```
+
 
 ## 合併後的資料欄位（訂單層級，一單一列）
 

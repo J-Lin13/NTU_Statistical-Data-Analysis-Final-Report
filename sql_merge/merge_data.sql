@@ -186,27 +186,27 @@ SELECT
   rs.last_review_score,
   CASE WHEN rs.review_count > 1 THEN 1 ELSE 0 END AS has_multiple_reviews,
   CASE WHEN rs.review_distinct_scores > 1 THEN 1 ELSE 0 END AS has_mixed_review_scores,
-  
+    
   -- Order
-  o.order_id,
-  o.order_status,
-  o.order_purchase_timestamp,
-  o.order_approved_at,
-  o.order_delivered_carrier_date,
-  o.order_delivered_customer_date,
-  o.order_estimated_delivery_date,
-  
+    o.order_id,
+    o.order_status,
+    o.order_purchase_timestamp,
+    o.order_approved_at,
+    o.order_delivered_carrier_date,
+    o.order_delivered_customer_date,
+    o.order_estimated_delivery_date,
+    
   -- 物流效率
-  CAST(julianday(o.order_delivered_customer_date) - julianday(o.order_purchase_timestamp) AS INTEGER) AS delivery_days,
-  CAST(julianday(o.order_delivered_customer_date) - julianday(o.order_estimated_delivery_date) AS INTEGER) AS delivery_gap,
-  
+    CAST(julianday(o.order_delivered_customer_date) - julianday(o.order_purchase_timestamp) AS INTEGER) AS delivery_days,
+    CAST(julianday(o.order_delivered_customer_date) - julianday(o.order_estimated_delivery_date) AS INTEGER) AS delivery_gap,
+    
   -- Customer
-  c.customer_id,
-  c.customer_unique_id,
-  c.customer_zip_code_prefix,
-  c.customer_city,
-  c.customer_state,
-  
+    c.customer_id,
+    c.customer_unique_id,
+    c.customer_zip_code_prefix,
+    c.customer_city,
+    c.customer_state,
+    
   -- Items（已聚合，並保留與原欄位同名以兼容後續腳本）
   ia.num_items,
   ia.num_products,
@@ -245,7 +245,7 @@ FROM review_best rv
 JOIN olist_orders_dataset o 
   ON rv.order_id = o.order_id
 JOIN olist_customers_dataset c 
-  ON o.customer_id = c.customer_id
+    ON o.customer_id = c.customer_id
 LEFT JOIN items_agg ia 
   ON o.order_id = ia.order_id
 LEFT JOIN order_cat oc
@@ -254,7 +254,7 @@ LEFT JOIN items_list il
   ON o.order_id = il.order_id
 LEFT JOIN seller_order so
   ON o.order_id = so.order_id
-LEFT JOIN olist_sellers_dataset s
+LEFT JOIN olist_sellers_dataset s 
   ON so.primary_seller_id = s.seller_id
 LEFT JOIN pay_agg pa
   ON o.order_id = pa.order_id
@@ -263,8 +263,8 @@ LEFT JOIN pay_method pm
 LEFT JOIN review_stats rs
   ON rv.order_id = rs.order_id
 WHERE o.order_status = 'delivered'
-  AND o.order_delivered_customer_date IS NOT NULL
-  AND o.order_purchase_timestamp IS NOT NULL
+    AND o.order_delivered_customer_date IS NOT NULL
+    AND o.order_purchase_timestamp IS NOT NULL
   AND o.order_estimated_delivery_date IS NOT NULL
   AND rv.review_score IS NOT NULL;
 

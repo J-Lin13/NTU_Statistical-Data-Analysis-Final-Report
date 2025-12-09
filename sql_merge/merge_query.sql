@@ -173,23 +173,23 @@ SELECT
   CASE WHEN rs.review_count > 1 THEN 1 ELSE 0 END AS has_multiple_reviews,
   CASE WHEN rs.review_distinct_scores > 1 THEN 1 ELSE 0 END AS has_mixed_review_scores,
   
-  o.order_id,
-  o.order_status,
-  o.order_purchase_timestamp,
-  o.order_approved_at,
-  o.order_delivered_carrier_date,
-  o.order_delivered_customer_date,
-  o.order_estimated_delivery_date,
-  
-  CAST((julianday(o.order_delivered_customer_date) - julianday(o.order_purchase_timestamp)) AS INTEGER) AS delivery_days,
-  CAST((julianday(o.order_delivered_customer_date) - julianday(o.order_estimated_delivery_date)) AS INTEGER) AS delivery_gap,
-  
-  c.customer_id,
-  c.customer_unique_id,
-  c.customer_zip_code_prefix,
-  c.customer_city,
-  c.customer_state,
-  
+    o.order_id,
+    o.order_status,
+    o.order_purchase_timestamp,
+    o.order_approved_at,
+    o.order_delivered_carrier_date,
+    o.order_delivered_customer_date,
+    o.order_estimated_delivery_date,
+    
+    CAST((julianday(o.order_delivered_customer_date) - julianday(o.order_purchase_timestamp)) AS INTEGER) AS delivery_days,
+    CAST((julianday(o.order_delivered_customer_date) - julianday(o.order_estimated_delivery_date)) AS INTEGER) AS delivery_gap,
+    
+    c.customer_id,
+    c.customer_unique_id,
+    c.customer_zip_code_prefix,
+    c.customer_city,
+    c.customer_state,
+    
   ia.num_items,
   ia.num_products,
   ia.total_price AS price,
@@ -233,8 +233,8 @@ LEFT JOIN pay_agg pa ON o.order_id = pa.order_id
 LEFT JOIN pay_method pm ON o.order_id = pm.order_id
 LEFT JOIN review_stats rs ON rv.order_id = rs.order_id
 WHERE o.order_status = 'delivered'
-  AND o.order_delivered_customer_date IS NOT NULL
-  AND o.order_purchase_timestamp IS NOT NULL
-  AND o.order_estimated_delivery_date IS NOT NULL
+    AND o.order_delivered_customer_date IS NOT NULL
+    AND o.order_purchase_timestamp IS NOT NULL
+    AND o.order_estimated_delivery_date IS NOT NULL
   AND rv.review_score IS NOT NULL;
 

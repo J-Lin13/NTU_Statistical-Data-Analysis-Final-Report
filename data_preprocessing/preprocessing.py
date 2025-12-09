@@ -411,8 +411,8 @@ output_file = os.path.join(script_dir, "preprocessed_data.csv")
 data.to_csv(output_file, index=False, encoding='utf-8')
 print(f"✓ 清理後的資料已儲存至: {output_file}")
 
-# 儲存處理摘要報告
-print("\n生成處理摘要報告...")
+# 輸出處理摘要到控制台（不再輸出 txt 檔）
+print("\n處理摘要（Console）：")
 
 summary_report = {
     'original_rows': len(data_raw),
@@ -423,22 +423,25 @@ summary_report = {
     'processing_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 }
 
-summary_text = f"""資料前處理摘要報告
-{'=' * 60}
-巴西 Olist 電商平台資料前處理
+print(f"原始資料筆數: {summary_report['original_rows']:,}")
+print(f"最終資料筆數: {summary_report['final_rows']:,}")
+print(f"移除資料筆數: {summary_report['removed_rows']:,}")
+print(f"移除比例: {summary_report['removal_rate']:.2f}%")
+print(f"最終欄位數: {summary_report['final_variables']}")
+print(f"處理日期: {summary_report['processing_date']}")
 
-原始資料筆數: {summary_report['original_rows']:,}
-最終資料筆數: {summary_report['final_rows']:,}
-移除資料筆數: {summary_report['removed_rows']:,}
-移除比例: {summary_report['removal_rate']:.2f}%
-最終欄位數: {summary_report['final_variables']}
-處理日期: {summary_report['processing_date']}
-"""
+# 另存「非滿分（1~4 分）」子集，供專注分析
+print("\n輸出僅含 1~4 分（非滿分）之資料子集...")
+non5 = data[data['review_score'] < 5].copy()
+non5_file = os.path.join(script_dir, "preprocessed_data_non5.csv")
+non5.to_csv(non5_file, index=False, encoding='utf-8')
+print(f"✓ 已輸出: {non5_file} （筆數: {len(non5):,}）")
 
-summary_file = os.path.join(script_dir, "preprocessing_summary.txt")
-with open(summary_file, "w", encoding='utf-8') as f:
-    f.write(summary_text)
-print(f"✓ 處理摘要已儲存至: {summary_file}")
+# 在控制台同時輸出非滿分子集比例（不產生 txt）
+print("非滿分子集摘要（Console）：")
+print(f"筆數: {len(non5):,}")
+print(f"比例: {len(non5)/summary_report['final_rows']*100:.2f}%")
+print(f"生成時間: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
 print("\n" + "=" * 80)
 print("資料前處理完成！")
