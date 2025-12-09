@@ -14,8 +14,14 @@
 確保已安裝必要的 R 套件：
 
 ```r
-install.packages(c("dplyr", "readr", "ggplot2"))
+install.packages(c("dplyr", "readr", "ggplot2", "tidyr"))
 ```
+
+**套件說明**：
+- `dplyr`：資料處理與轉換
+- `readr`：讀取 CSV 檔案
+- `ggplot2`：繪圖（目前主要使用基礎 R 繪圖）
+- `tidyr`：資料整理（用於 `separate_rows` 函數，展開 `product_categories`）
 
 ### 執行統計分析
 
@@ -46,6 +52,15 @@ source("descriptive_analysis/descriptive_statistics.R")
 
 ### 步驟 2: 基本統計摘要
 - 使用 `summary()` 檢視整體資料統計
+- **基本資料統計（唯一值）**：
+  - 總訂單數（唯一 order_id）
+  - 總評論數（唯一 review_id）
+  - 總顧客數（唯一 customer_unique_id）
+  - 總商品種類數（從 product_ids 展開後去重）
+  - 總商品類別數（唯一 product_category_name_english）
+  - 總賣家數（唯一 primary_seller_id）
+  - 總顧客城市數（唯一 customer_city）
+  - 總顧客州數（唯一 customer_state）
 
 ### 步驟 3: 應變數（review_score）分析
 - 基本統計量（平均數、中位數、標準差等）
@@ -62,8 +77,21 @@ source("descriptive_analysis/descriptive_statistics.R")
 - 繪製重要變數的散點圖
 
 ### 步驟 6: 類別變數分析
-- 付款方式分布
-- 商品類別分布
+- **訂單狀態分布**：統計各訂單狀態的分布與比例
+- **付款方式分布**：統計各付款方式的分布
+- **商品類別分布**：
+  - 前 10 大商品類別（葡萄牙文版本）
+  - 前 10 大商品類別（英文版本）
+- **顧客地理分布**：
+  - 顧客城市分布（前 10 大城市）
+  - 顧客州別分布（各州訂單數與比例）
+- **商品ID與類別清單分析**：
+  - 每筆訂單的商品ID數量統計
+  - 每筆訂單的商品類別數量統計
+  - 展開所有商品類別並統計出現次數
+- **賣家地理分布**：
+  - 賣家城市分布（前 10 大城市）
+  - 賣家州別分布（各州訂單數與比例）
 
 ## 輸出結果
 
@@ -95,6 +123,9 @@ source("descriptive_analysis/descriptive_statistics.R")
 - `payment_installments_histogram.png` - 分期期數直方圖
 - `delivery_gap_vs_review_score.png` - 送達差距與評論分數關係圖
 - `price_vs_review_score.png` - 價格與評論分數關係圖
+- `customer_state_distribution.png` - 顧客州別分布圖
+- `primary_seller_state_distribution.png` - 賣家州別分布圖
+- `product_categories_top15.png` - 前 15 大商品類別分布圖
 
 ## 符合研究要求
 
@@ -103,6 +134,93 @@ source("descriptive_analysis/descriptive_statistics.R")
 - 使用 `hist()` 檢查資料分布
 - 使用 `boxplot()` 檢查異常值
 - 進行初步的資料探索和分析
+
+## 文字變數（類別變數）處理說明
+
+### 已處理的文字變數
+
+#### 1. **order_status**（訂單狀態）
+- 統計各訂單狀態的分布與比例
+
+#### 2. **payment_type**（付款方式）
+- 統計各付款方式的分布
+
+#### 3. **product_category_name**（商品類別 - 葡萄牙文）
+- 統計前 10 大商品類別（葡萄牙文版本）及其比例
+
+#### 4. **product_category_name_english**（商品類別 - 英文）
+- 統計前 10 大商品類別（英文版本）及其比例
+
+#### 5. **customer_city**（顧客城市）
+- 總城市數統計
+- 前 10 大城市及其訂單數與比例
+
+#### 6. **customer_state**（顧客州別）
+- 總州數統計
+- 各州訂單數與比例分布
+- 生成州別分布長條圖
+
+#### 7. **product_ids**（商品ID清單）
+- **資料型態**：逗號分隔的字串（例如："abc123,def456,ghi789"）
+- **處理方式**：計算每筆訂單的商品ID數量（透過分割逗號）
+- **分析內容**：
+  - 商品ID數量的平均數、中位數、最大值、最小值
+  - 商品ID數量分布表（文字輸出）
+  - **注意**：由於絕大多數訂單只有 1 個商品，分布極度偏斜，因此不生成直方圖
+
+#### 8. **product_categories**（商品類別清單）
+- **資料型態**：逗號分隔的字串（例如："bed_bath_table,health_beauty"）
+- **處理方式**：
+  - 計算每筆訂單的商品類別數量
+  - 展開所有類別並統計每個類別的總出現次數
+- **分析內容**：
+  - 商品類別數量的平均數、中位數、最大值、最小值
+  - 商品類別數量分布表（文字輸出）
+  - 前 15 大商品類別分布（從所有訂單展開後統計）
+  - 生成前 15 大商品類別分布圖
+  - **注意**：由於絕大多數訂單只有 1 個類別，分布極度偏斜，因此不生成數量分布直方圖
+
+#### 9. **primary_seller_city**（賣家城市）
+- 總城市數統計
+- 有效記錄數與比例
+- 前 10 大賣家城市及其訂單數與比例
+
+#### 10. **primary_seller_state**（賣家州別）
+- 總州數統計
+- 有效記錄數與比例
+- 各州賣家訂單數與比例分布
+- 生成賣家州別分布長條圖
+
+### 不需要統計分析的ID變數
+
+以下變數為識別碼（ID），在 `summary()` 中會顯示基本資訊，但不需要額外的分布分析：
+- `review_id` - 評論ID
+- `order_id` - 訂單ID
+- `customer_id` - 顧客ID
+- `customer_unique_id` - 顧客唯一ID
+- `primary_seller_id` - 主要賣家ID
+
+### 資料合併時的處理邏輯
+
+在 `sql_merge/merge_query.sql` 中：
+- `product_ids`：使用 `GROUP_CONCAT(DISTINCT oi.product_id)` 將每筆訂單的所有商品ID合併成逗號分隔的字串
+- `product_categories`：使用 `GROUP_CONCAT(DISTINCT pc.product_category_name_english)` 將每筆訂單的所有商品類別合併成逗號分隔的字串
+
+### 注意事項
+
+1. **`product_ids` 和 `product_categories` 是聚合變數**：
+   - 這些變數包含多個值（以逗號分隔）
+   - 在分析時需要先分割才能計算統計量
+   - 分析腳本會自動計算每筆訂單的項目數量
+
+2. **缺失值處理**：
+   - `customer_city` 和 `customer_state`：如果原始資料缺失，會在資料合併時保留為 NULL
+   - `product_category_name` 和 `product_category_name_english`：缺失值以 "unknown" 填補
+   - `product_ids` 和 `product_categories`：如果訂單沒有商品，可能為空字串或 NULL
+
+3. **資料層級**：
+   - 所有變數都在「訂單層級」（order-level）
+   - 每筆記錄代表一筆訂單，而非單一商品
 
 ## 相關文件
 
@@ -117,6 +235,6 @@ source("descriptive_analysis/descriptive_statistics.R")
    - 所有文字輸出會自動儲存至 `descriptive_statistics_output.txt` 檔案中
    - 輸出會同時顯示在控制台和保存到文件中
 3. **執行時間**：根據資料量，可能需要幾分鐘時間
-4. **套件需求**：確保已安裝所有必要的 R 套件
+4. **套件需求**：確保已安裝所有必要的 R 套件（包括 `tidyr`，用於 `separate_rows` 函數）
 5. **上傳 GitHub**：執行完成後，可以將 `descriptive_statistics_output.txt` 和 `plots/` 資料夾中的圖表一起上傳到 GitHub，方便檢視分析結果
 

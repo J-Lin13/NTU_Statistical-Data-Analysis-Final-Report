@@ -9,13 +9,14 @@
 library(dplyr)
 library(ggplot2)
 library(readr)
+library(tidyr)  # 用於 separate_rows 函數
 
 # ============================================================================
 # 工作目錄設定（重要！）
 # ============================================================================
 # 在執行此腳本前，請確保工作目錄設定為專案根目錄
 # 如果無法自動判斷，請手動執行：
-#   setwd('C:\\Users\\User\\Downloads\\商統分\\NTU_Statistical-Data-Analysis-Final-Report')
+#   setwd("C:/Users/User/OneDrive/Desktop/NTU/商統分/NTU_Statistical-Data-Analysis-Final-Report")
 # ============================================================================
 
 cat(paste0(rep("=", 80), collapse = ""), "\n")
@@ -111,7 +112,7 @@ if (is.null(project_root)) {
         cat("腳本路徑: ", script_path, "\n")
       }
       cat("\n請先設定工作目錄為專案根目錄：\n")
-      cat("  setwd('C:\\\\Users\\\\User\\\\Downloads\\\\商統分\\\\NTU_Statistical-Data-Analysis-Final-Report')\n")
+      cat("  setwd('C:/Users/User/OneDrive/Desktop/NTU/商統分/NTU_Statistical-Data-Analysis-Final-Report')\n")
       cat("然後重新執行此腳本。\n\n")
     }
   }
@@ -153,7 +154,7 @@ if (!file.exists(data_path)) {
   cat("1. 工作目錄是否為專案根目錄\n")
   cat("2. 資料檔案是否存在於 data_preprocessing/preprocessed_data.csv\n")
   cat("\n解決方法：\n")
-  cat("  setwd('C:\\\\Users\\\\User\\\\Downloads\\\\商統分\\\\NTU_Statistical-Data-Analysis-Final-Report')\n")
+  cat("  setwd('C:/Users/User/OneDrive/Desktop/NTU/商統分/NTU_Statistical-Data-Analysis-Final-Report')\n")
   stop("請先設定正確的工作目錄！")
 }
 
@@ -175,6 +176,69 @@ cat(paste0(rep("-", 80), collapse = ""), "\n\n")
 # 整體資料摘要
 cat("整體資料摘要：\n")
 print(summary(data))
+cat("\n")
+
+# 基本資料統計（唯一值統計）
+cat("基本資料統計（唯一值）：\n")
+cat("=", rep("=", 79), "\n", sep = "")
+
+# 總訂單數
+if ("order_id" %in% names(data)) {
+  total_orders <- length(unique(data$order_id))
+  cat(sprintf("總訂單數（唯一 order_id）: %s\n", format(total_orders, big.mark = ",")))
+}
+
+# 總評論數
+if ("review_id" %in% names(data)) {
+  total_reviews <- length(unique(data$review_id))
+  cat(sprintf("總評論數（唯一 review_id）: %s\n", format(total_reviews, big.mark = ",")))
+}
+
+# 總顧客數（unique_id）
+if ("customer_unique_id" %in% names(data)) {
+  total_customers <- length(unique(data$customer_unique_id))
+  cat(sprintf("總顧客數（唯一 customer_unique_id）: %s\n", format(total_customers, big.mark = ",")))
+}
+
+# 總商品種類數（從 product_ids 展開）
+if ("product_ids" %in% names(data)) {
+  # 展開所有 product_ids 並計算唯一值
+  all_product_ids <- data %>%
+    filter(!is.na(product_ids) & product_ids != "") %>%
+    select(product_ids) %>%
+    separate_rows(product_ids, sep = ",") %>%
+    mutate(product_ids = trimws(product_ids)) %>%
+    filter(product_ids != "") %>%
+    distinct(product_ids)
+  
+  total_products <- nrow(all_product_ids)
+  cat(sprintf("總商品種類數（從 product_ids 展開後去重）: %s\n", format(total_products, big.mark = ",")))
+}
+
+# 總商品類別數
+if ("product_category_name_english" %in% names(data)) {
+  total_categories <- length(unique(data$product_category_name_english[!is.na(data$product_category_name_english)]))
+  cat(sprintf("總商品類別數（唯一 product_category_name_english）: %s\n", format(total_categories, big.mark = ",")))
+}
+
+# 總賣家數
+if ("primary_seller_id" %in% names(data)) {
+  total_sellers <- length(unique(data$primary_seller_id[!is.na(data$primary_seller_id)]))
+  cat(sprintf("總賣家數（唯一 primary_seller_id）: %s\n", format(total_sellers, big.mark = ",")))
+}
+
+# 總城市數（顧客）
+if ("customer_city" %in% names(data)) {
+  total_customer_cities <- length(unique(data$customer_city[!is.na(data$customer_city)]))
+  cat(sprintf("總顧客城市數（唯一 customer_city）: %s\n", format(total_customer_cities, big.mark = ",")))
+}
+
+# 總州數（顧客）
+if ("customer_state" %in% names(data)) {
+  total_customer_states <- length(unique(data$customer_state[!is.na(data$customer_state)]))
+  cat(sprintf("總顧客州數（唯一 customer_state）: %s\n", format(total_customer_states, big.mark = ",")))
+}
+
 cat("\n")
 
 # ============================================================================
@@ -496,6 +560,16 @@ cat("\n")
 cat("步驟 6: 類別變數分析\n")
 cat(paste0(rep("-", 80), collapse = ""), "\n\n")
 
+# order_status 分析
+if ("order_status" %in% names(data)) {
+  cat("訂單狀態分布：\n")
+  order_status_dist <- data %>%
+    count(order_status, sort = TRUE) %>%
+    mutate(percentage = round(n / nrow(data) * 100, 2))
+  print(order_status_dist)
+  cat("\n")
+}
+
 # payment_type 分布
 if ("payment_type" %in% names(data)) {
   cat("付款方式分布：\n")
@@ -503,14 +577,187 @@ if ("payment_type" %in% names(data)) {
   cat("\n")
 }
 
-# product_category_name 前 10 大類別
+# product_category_name 前 10 大類別（葡萄牙文版本）
+if ("product_category_name" %in% names(data)) {
+  cat("前 10 大商品類別（主要類別 - 葡萄牙文）：\n")
+  top_categories_pt <- data %>%
+    count(product_category_name, sort = TRUE) %>%
+    head(10) %>%
+    mutate(percentage = round(n / nrow(data) * 100, 2))
+  print(top_categories_pt)
+  cat("\n")
+}
+
+# product_category_name_english 前 10 大類別（英文版本）
 if ("product_category_name_english" %in% names(data)) {
-  cat("前 10 大商品類別：\n")
+  cat("前 10 大商品類別（主要類別 - 英文）：\n")
   top_categories <- data %>%
     count(product_category_name_english, sort = TRUE) %>%
-    head(10)
+    head(10) %>%
+    mutate(percentage = round(n / nrow(data) * 100, 2))
   print(top_categories)
   cat("\n")
+}
+
+# customer_city 分析
+if ("customer_city" %in% names(data)) {
+  cat("顧客城市分布：\n")
+  cat(sprintf("  總城市數: %d\n", length(unique(data$customer_city))))
+  cat("\n前 10 大城市（按訂單數）：\n")
+  top_cities <- data %>%
+    count(customer_city, sort = TRUE) %>%
+    head(10) %>%
+    mutate(percentage = round(n / nrow(data) * 100, 2))
+  print(top_cities)
+  cat("\n")
+}
+
+# customer_state 分析
+if ("customer_state" %in% names(data)) {
+  cat("顧客州別分布：\n")
+  cat(sprintf("  總州數: %d\n", length(unique(data$customer_state))))
+  cat("\n各州訂單數分布：\n")
+  state_dist <- data %>%
+    count(customer_state, sort = TRUE) %>%
+    mutate(percentage = round(n / nrow(data) * 100, 2))
+  print(state_dist)
+  cat("\n")
+  
+  # 生成州別分布圖
+  if (nrow(state_dist) > 0 && nrow(state_dist) <= 30) {
+    png("plots/customer_state_distribution.png", width = 1000, height = 600)
+    par(mar = c(5, 8, 4, 2))
+    barplot(rev(state_dist$n), 
+            names.arg = rev(state_dist$customer_state),
+            horiz = TRUE,
+            las = 1,
+            main = "各州訂單數分布",
+            xlab = "訂單數",
+            col = "steelblue")
+    dev.off()
+    cat("✓ 州別分布圖已儲存：plots/customer_state_distribution.png\n\n")
+  }
+}
+
+# product_ids 分析（逗號分隔的商品ID字串）
+if ("product_ids" %in% names(data)) {
+  cat("商品ID分析（product_ids）：\n")
+  # 計算每筆訂單的商品ID數量
+  data <- data %>%
+    mutate(
+      num_product_ids = ifelse(is.na(product_ids) | product_ids == "", 
+                               0, 
+                               lengths(strsplit(product_ids, ",")))
+    )
+  
+  cat("每筆訂單的商品ID數量統計：\n")
+  cat(sprintf("  平均數: %.2f\n", mean(data$num_product_ids, na.rm = TRUE)))
+  cat(sprintf("  中位數: %.0f\n", median(data$num_product_ids, na.rm = TRUE)))
+  cat(sprintf("  最大值: %.0f\n", max(data$num_product_ids, na.rm = TRUE)))
+  cat(sprintf("  最小值: %.0f\n", min(data$num_product_ids, na.rm = TRUE)))
+  cat("\n商品ID數量分布：\n")
+  print(table(data$num_product_ids))
+  cat("\n")
+}
+
+# product_categories 分析（逗號分隔的商品類別字串）
+if ("product_categories" %in% names(data)) {
+  cat("商品類別分析（product_categories）：\n")
+  # 計算每筆訂單的商品類別數量
+  data <- data %>%
+    mutate(
+      num_product_categories = ifelse(is.na(product_categories) | product_categories == "", 
+                                      0, 
+                                      lengths(strsplit(product_categories, ",")))
+    )
+  
+  cat("每筆訂單的商品類別數量統計：\n")
+  cat(sprintf("  平均數: %.2f\n", mean(data$num_product_categories, na.rm = TRUE)))
+  cat(sprintf("  中位數: %.0f\n", median(data$num_product_categories, na.rm = TRUE)))
+  cat(sprintf("  最大值: %.0f\n", max(data$num_product_categories, na.rm = TRUE)))
+  cat(sprintf("  最小值: %.0f\n", min(data$num_product_categories, na.rm = TRUE)))
+  cat("\n商品類別數量分布：\n")
+  print(table(data$num_product_categories))
+  cat("\n")
+  
+  # 展開所有商品類別並統計
+  cat("所有出現的商品類別（從 product_categories 展開）：\n")
+  all_categories <- data %>%
+    filter(!is.na(product_categories) & product_categories != "") %>%
+    select(product_categories) %>%
+    separate_rows(product_categories, sep = ",") %>%
+    mutate(product_categories = trimws(product_categories)) %>%
+    filter(product_categories != "") %>%
+    count(product_categories, sort = TRUE)
+  
+  cat(sprintf("  總類別數（去重後）: %d\n", nrow(all_categories)))
+  cat("\n前 15 大商品類別（按出現次數）：\n")
+  print(head(all_categories, 15))
+  cat("\n")
+  
+  # 生成前 15 大類別分布圖
+  if (nrow(all_categories) > 0) {
+    top_15_cats <- head(all_categories, 15)
+    png("plots/product_categories_top15.png", width = 1000, height = 600)
+    par(mar = c(5, 10, 4, 2))
+    barplot(rev(top_15_cats$n),
+            names.arg = rev(top_15_cats$product_categories),
+            horiz = TRUE,
+            las = 1,
+            main = "前 15 大商品類別（從 product_categories 展開）",
+            xlab = "出現次數",
+            col = "steelblue")
+    dev.off()
+    cat("✓ 前 15 大商品類別分布圖已儲存：plots/product_categories_top15.png\n\n")
+  }
+}
+
+# primary_seller_city 分析（賣家城市）
+if ("primary_seller_city" %in% names(data)) {
+  cat("賣家城市分布（primary_seller_city）：\n")
+  seller_city_valid <- data %>% filter(!is.na(primary_seller_city))
+  cat(sprintf("  總城市數: %d\n", length(unique(seller_city_valid$primary_seller_city))))
+  cat(sprintf("  有效記錄數: %d (%.2f%%)\n", 
+              nrow(seller_city_valid), 
+              round(nrow(seller_city_valid) / nrow(data) * 100, 2)))
+  cat("\n前 10 大賣家城市（按訂單數）：\n")
+  top_seller_cities <- seller_city_valid %>%
+    count(primary_seller_city, sort = TRUE) %>%
+    head(10) %>%
+    mutate(percentage = round(n / nrow(seller_city_valid) * 100, 2))
+  print(top_seller_cities)
+  cat("\n")
+}
+
+# primary_seller_state 分析（賣家州別）
+if ("primary_seller_state" %in% names(data)) {
+  cat("賣家州別分布（primary_seller_state）：\n")
+  seller_state_valid <- data %>% filter(!is.na(primary_seller_state))
+  cat(sprintf("  總州數: %d\n", length(unique(seller_state_valid$primary_seller_state))))
+  cat(sprintf("  有效記錄數: %d (%.2f%%)\n", 
+              nrow(seller_state_valid), 
+              round(nrow(seller_state_valid) / nrow(data) * 100, 2)))
+  cat("\n各州賣家訂單數分布：\n")
+  seller_state_dist <- seller_state_valid %>%
+    count(primary_seller_state, sort = TRUE) %>%
+    mutate(percentage = round(n / nrow(seller_state_valid) * 100, 2))
+  print(seller_state_dist)
+  cat("\n")
+  
+  # 生成賣家州別分布圖
+  if (nrow(seller_state_dist) > 0 && nrow(seller_state_dist) <= 30) {
+    png("plots/primary_seller_state_distribution.png", width = 1000, height = 600)
+    par(mar = c(5, 8, 4, 2))
+    barplot(rev(seller_state_dist$n), 
+            names.arg = rev(seller_state_dist$primary_seller_state),
+            horiz = TRUE,
+            las = 1,
+            main = "各州賣家訂單數分布",
+            xlab = "訂單數",
+            col = "lightcoral")
+    dev.off()
+    cat("✓ 賣家州別分布圖已儲存：plots/primary_seller_state_distribution.png\n\n")
+  }
 }
 
 # ============================================================================
@@ -528,4 +775,3 @@ sink()
 
 cat("\n✓ 所有輸出已儲存至：", output_log_file, "\n")
 cat("✓ 所有圖表已儲存至 plots/ 資料夾\n")
-
