@@ -394,12 +394,27 @@ cat(paste0(rep("-", 80), collapse = ""), "\n\n")
 
 # 計算相關係數（數值變數）
 cat("數值變數相關係數矩陣：\n")
+
+# 方法 1：主要變數的相關係數矩陣（包含 review_score 和主要變數）
+cat("主要變數相關係數矩陣：\n")
 numeric_data <- data %>%
   select(all_of(c("review_score", main_vars))) %>%
   select_if(is.numeric)
 
 cor_matrix <- cor(numeric_data, use = "complete.obs")
 print(round(cor_matrix, 3))
+cat("\n")
+
+# 方法 2：所有數值變數的相關係數矩陣（使用簡潔寫法）
+cat("所有數值變數相關係數矩陣：\n")
+cat("（使用 cor(df[sapply(df, is.numeric)]) 自動選取所有數值變數）\n")
+all_numeric_data <- data[sapply(data, is.numeric)]
+all_cor_matrix <- cor(all_numeric_data, use = "complete.obs")
+print(round(all_cor_matrix, 3))
+cat("\n")
+
+# 顯示數值變數數量
+cat(sprintf("總共 %d 個數值變數已納入相關係數計算\n", ncol(all_numeric_data)))
 cat("\n")
 
 # 繪製散點圖（重要關係）
