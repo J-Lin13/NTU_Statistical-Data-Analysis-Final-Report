@@ -1,6 +1,6 @@
 ================================================================================
 敘述性統計分析輸出日誌
-執行時間： 2025-12-09 19:57:23 
+執行時間： 2025-12-10 22:38:17 
 ================================================================================
 
 步驟 1: 載入清理後的資料
@@ -245,6 +245,7 @@ null device
 -------------------------------------------------------------------------------- 
 
 數值變數相關係數矩陣：
+主要變數相關係數矩陣：
                      review_score delivery_days delivery_gap  price
 review_score                1.000        -0.334       -0.262 -0.035
 delivery_days              -0.334         1.000        0.595  0.055
@@ -272,6 +273,354 @@ freight_value                       0.199
 product_weight_g                    0.198
 product_photos_qty                  0.004
 payment_installments                1.000
+
+所有數值變數相關係數矩陣：
+（使用 cor(df[sapply(df, is.numeric)]) 自動選取所有數值變數）
+                               review_score review_count review_distinct_scores
+review_score                          1.000       -0.001                 -0.025
+review_count                         -0.001        1.000                  0.568
+review_distinct_scores               -0.025        0.568                  1.000
+first_review_score                    0.998        0.003                 -0.020
+last_review_score                     0.998       -0.003                 -0.030
+has_multiple_reviews                  0.000        0.996                  0.567
+has_mixed_review_scores              -0.025        0.568                  1.000
+delivery_days                        -0.334        0.006                  0.011
+delivery_gap                         -0.261       -0.007                  0.002
+customer_zip_code_prefix             -0.022        0.001                  0.000
+num_items                            -0.124        0.011                  0.019
+num_products                         -0.106        0.020                  0.019
+price                                -0.035       -0.012                 -0.006
+freight_value                        -0.090       -0.005                  0.003
+product_photos_qty                    0.014       -0.025                 -0.016
+product_weight_g                     -0.029       -0.010                 -0.005
+num_distinct_categories              -0.037        0.007                  0.011
+primary_category_share                0.076       -0.009                 -0.017
+num_sellers                          -0.117        0.006                  0.016
+primary_seller_zip_code_prefix        0.024        0.000                 -0.003
+primary_seller_share                  0.116       -0.006                 -0.017
+payment_installments                 -0.031        0.017                  0.013
+payment_value                        -0.042       -0.012                 -0.005
+total_value                          -0.042       -0.012                 -0.005
+price_above_mean                     -0.042       -0.013                 -0.001
+delivery_delayed                     -0.392       -0.007                 -0.001
+delivery_early                        0.337        0.006                 -0.002
+                               first_review_score last_review_score
+review_score                                0.998             0.998
+review_count                                0.003            -0.003
+review_distinct_scores                     -0.020            -0.030
+first_review_score                          1.000             0.997
+last_review_score                           0.997             1.000
+has_multiple_reviews                        0.003            -0.003
+has_mixed_review_scores                    -0.020            -0.030
+delivery_days                              -0.334            -0.334
+delivery_gap                               -0.261            -0.262
+customer_zip_code_prefix                   -0.022            -0.022
+num_items                                  -0.123            -0.122
+num_products                               -0.106            -0.105
+price                                      -0.035            -0.034
+freight_value                              -0.090            -0.090
+product_photos_qty                          0.014             0.014
+product_weight_g                           -0.029            -0.029
+num_distinct_categories                    -0.037            -0.036
+primary_category_share                      0.075             0.075
+num_sellers                                -0.117            -0.116
+primary_seller_zip_code_prefix              0.024             0.025
+primary_seller_share                        0.116             0.115
+payment_installments                       -0.031            -0.031
+payment_value                              -0.042            -0.042
+total_value                                -0.042            -0.042
+price_above_mean                           -0.043            -0.042
+delivery_delayed                           -0.392            -0.392
+delivery_early                              0.337             0.337
+                               has_multiple_reviews has_mixed_review_scores
+review_score                                  0.000                  -0.025
+review_count                                  0.996                   0.568
+review_distinct_scores                        0.567                   1.000
+first_review_score                            0.003                  -0.020
+last_review_score                            -0.003                  -0.030
+has_multiple_reviews                          1.000                   0.567
+has_mixed_review_scores                       0.567                   1.000
+delivery_days                                 0.006                   0.011
+delivery_gap                                 -0.006                   0.002
+customer_zip_code_prefix                      0.001                   0.000
+num_items                                     0.010                   0.019
+num_products                                  0.020                   0.019
+price                                        -0.012                  -0.006
+freight_value                                -0.005                   0.003
+product_photos_qty                           -0.025                  -0.016
+product_weight_g                             -0.010                  -0.005
+num_distinct_categories                       0.007                   0.011
+primary_category_share                       -0.009                  -0.017
+num_sellers                                   0.006                   0.016
+primary_seller_zip_code_prefix                0.000                  -0.003
+primary_seller_share                         -0.005                  -0.017
+payment_installments                          0.018                   0.013
+payment_value                                -0.012                  -0.005
+total_value                                  -0.012                  -0.005
+price_above_mean                             -0.013                  -0.001
+delivery_delayed                             -0.007                  -0.001
+delivery_early                                0.006                  -0.002
+                               delivery_days delivery_gap
+review_score                          -0.334       -0.261
+review_count                           0.006       -0.007
+review_distinct_scores                 0.011        0.002
+first_review_score                    -0.334       -0.261
+last_review_score                     -0.334       -0.262
+has_multiple_reviews                   0.006       -0.006
+has_mixed_review_scores                0.011        0.002
+delivery_days                          1.000        0.595
+delivery_gap                           0.595        1.000
+customer_zip_code_prefix               0.273       -0.076
+num_items                             -0.020       -0.032
+num_products                          -0.031       -0.049
+price                                  0.055       -0.015
+freight_value                          0.167       -0.052
+product_photos_qty                    -0.027        0.004
+product_weight_g                       0.080        0.010
+num_distinct_categories               -0.019       -0.029
+primary_category_share                 0.027        0.037
+num_sellers                           -0.041       -0.059
+primary_seller_zip_code_prefix         0.048       -0.120
+primary_seller_share                   0.041        0.058
+payment_installments                   0.052       -0.033
+payment_value                          0.069       -0.020
+total_value                            0.069       -0.020
+price_above_mean                       0.071       -0.020
+delivery_delayed                       0.601        0.577
+delivery_early                        -0.567       -0.598
+                               customer_zip_code_prefix num_items num_products
+review_score                                     -0.022    -0.124       -0.106
+review_count                                      0.001     0.011        0.020
+review_distinct_scores                            0.000     0.019        0.019
+first_review_score                               -0.022    -0.123       -0.106
+last_review_score                                -0.022    -0.122       -0.105
+has_multiple_reviews                              0.001     0.010        0.020
+has_mixed_review_scores                           0.000     0.019        0.019
+delivery_days                                     0.273    -0.020       -0.031
+delivery_gap                                     -0.076    -0.032       -0.049
+customer_zip_code_prefix                          1.000    -0.004       -0.009
+num_items                                        -0.004     1.000        0.477
+num_products                                     -0.009     0.477        1.000
+price                                             0.041     0.153        0.064
+freight_value                                     0.187     0.438        0.198
+product_photos_qty                                0.020    -0.049       -0.027
+product_weight_g                                  0.002    -0.004       -0.016
+num_distinct_categories                          -0.002     0.134        0.274
+primary_category_share                            0.000    -0.197       -0.425
+num_sellers                                      -0.001     0.287        0.596
+primary_seller_zip_code_prefix                    0.075    -0.014       -0.008
+primary_seller_share                              0.002    -0.255       -0.558
+payment_installments                              0.056     0.069        0.073
+payment_value                                     0.058     0.190        0.081
+total_value                                       0.058     0.190        0.081
+price_above_mean                                  0.041     0.155        0.103
+delivery_delayed                                  0.029    -0.016       -0.023
+delivery_early                                   -0.016     0.019        0.023
+                                price freight_value product_photos_qty
+review_score                   -0.035        -0.090              0.014
+review_count                   -0.012        -0.005             -0.025
+review_distinct_scores         -0.006         0.003             -0.016
+first_review_score             -0.035        -0.090              0.014
+last_review_score              -0.034        -0.090              0.014
+has_multiple_reviews           -0.012        -0.005             -0.025
+has_mixed_review_scores        -0.006         0.003             -0.016
+delivery_days                   0.055         0.167             -0.027
+delivery_gap                   -0.015        -0.052              0.004
+customer_zip_code_prefix        0.041         0.187              0.020
+num_items                       0.153         0.438             -0.049
+num_products                    0.064         0.198             -0.027
+price                           1.000         0.410              0.035
+freight_value                   0.410         1.000             -0.006
+product_photos_qty              0.035        -0.006              1.000
+product_weight_g                0.334         0.502              0.029
+num_distinct_categories         0.024         0.077              0.009
+primary_category_share         -0.029        -0.096              0.005
+num_sellers                     0.043         0.133             -0.016
+primary_seller_zip_code_prefix  0.082         0.118             -0.045
+primary_seller_share           -0.039        -0.122              0.015
+payment_installments            0.315         0.199              0.004
+payment_value                   0.996         0.491              0.033
+total_value                     0.996         0.491              0.033
+price_above_mean                0.542         0.324              0.003
+delivery_delayed                0.016         0.030             -0.007
+delivery_early                 -0.010        -0.015              0.003
+                               product_weight_g num_distinct_categories
+review_score                             -0.029                  -0.037
+review_count                             -0.010                   0.007
+review_distinct_scores                   -0.005                   0.011
+first_review_score                       -0.029                  -0.037
+last_review_score                        -0.029                  -0.036
+has_multiple_reviews                     -0.010                   0.007
+has_mixed_review_scores                  -0.005                   0.011
+delivery_days                             0.080                  -0.019
+delivery_gap                              0.010                  -0.029
+customer_zip_code_prefix                  0.002                  -0.002
+num_items                                -0.004                   0.134
+num_products                             -0.016                   0.274
+price                                     0.334                   0.024
+freight_value                             0.502                   0.077
+product_photos_qty                        0.029                   0.009
+product_weight_g                          1.000                   0.011
+num_distinct_categories                   0.011                   1.000
+primary_category_share                    0.000                  -0.577
+num_sellers                              -0.007                   0.367
+primary_seller_zip_code_prefix            0.017                   0.014
+primary_seller_share                      0.006                  -0.360
+payment_installments                      0.198                   0.040
+payment_value                             0.369                   0.031
+total_value                               0.369                   0.031
+price_above_mean                          0.328                   0.042
+delivery_delayed                          0.026                  -0.012
+delivery_early                           -0.019                   0.015
+                               primary_category_share num_sellers
+review_score                                    0.076      -0.117
+review_count                                   -0.009       0.006
+review_distinct_scores                         -0.017       0.016
+first_review_score                              0.075      -0.117
+last_review_score                               0.075      -0.116
+has_multiple_reviews                           -0.009       0.006
+has_mixed_review_scores                        -0.017       0.016
+delivery_days                                   0.027      -0.041
+delivery_gap                                    0.037      -0.059
+customer_zip_code_prefix                        0.000      -0.001
+num_items                                      -0.197       0.287
+num_products                                   -0.425       0.596
+price                                          -0.029       0.043
+freight_value                                  -0.096       0.133
+product_photos_qty                              0.005      -0.016
+product_weight_g                                0.000      -0.007
+num_distinct_categories                        -0.577       0.367
+primary_category_share                          1.000      -0.572
+num_sellers                                    -0.572       1.000
+primary_seller_zip_code_prefix                  0.003       0.003
+primary_seller_share                            0.591      -0.972
+payment_installments                           -0.044       0.063
+payment_value                                  -0.037       0.054
+total_value                                    -0.037       0.054
+price_above_mean                               -0.056       0.079
+delivery_delayed                                0.015      -0.026
+delivery_early                                 -0.019       0.029
+                               primary_seller_zip_code_prefix
+review_score                                            0.024
+review_count                                            0.000
+review_distinct_scores                                 -0.003
+first_review_score                                      0.024
+last_review_score                                       0.025
+has_multiple_reviews                                    0.000
+has_mixed_review_scores                                -0.003
+delivery_days                                           0.048
+delivery_gap                                           -0.120
+customer_zip_code_prefix                                0.075
+num_items                                              -0.014
+num_products                                           -0.008
+price                                                   0.082
+freight_value                                           0.118
+product_photos_qty                                     -0.045
+product_weight_g                                        0.017
+num_distinct_categories                                 0.014
+primary_category_share                                  0.003
+num_sellers                                             0.003
+primary_seller_zip_code_prefix                          1.000
+primary_seller_share                                   -0.003
+payment_installments                                    0.046
+payment_value                                           0.090
+total_value                                             0.090
+price_above_mean                                        0.099
+delivery_delayed                                       -0.033
+delivery_early                                          0.041
+                               primary_seller_share payment_installments
+review_score                                  0.116               -0.031
+review_count                                 -0.006                0.017
+review_distinct_scores                       -0.017                0.013
+first_review_score                            0.116               -0.031
+last_review_score                             0.115               -0.031
+has_multiple_reviews                         -0.005                0.018
+has_mixed_review_scores                      -0.017                0.013
+delivery_days                                 0.041                0.052
+delivery_gap                                  0.058               -0.033
+customer_zip_code_prefix                      0.002                0.056
+num_items                                    -0.255                0.069
+num_products                                 -0.558                0.073
+price                                        -0.039                0.315
+freight_value                                -0.122                0.199
+product_photos_qty                            0.015                0.004
+product_weight_g                              0.006                0.198
+num_distinct_categories                      -0.360                0.040
+primary_category_share                        0.591               -0.044
+num_sellers                                  -0.972                0.063
+primary_seller_zip_code_prefix               -0.003                0.046
+primary_seller_share                          1.000               -0.060
+payment_installments                         -0.060                1.000
+payment_value                                -0.050                0.321
+total_value                                  -0.050                0.321
+price_above_mean                             -0.076                0.333
+delivery_delayed                              0.026                0.012
+delivery_early                               -0.029                0.000
+                               payment_value total_value price_above_mean
+review_score                          -0.042      -0.042           -0.042
+review_count                          -0.012      -0.012           -0.013
+review_distinct_scores                -0.005      -0.005           -0.001
+first_review_score                    -0.042      -0.042           -0.043
+last_review_score                     -0.042      -0.042           -0.042
+has_multiple_reviews                  -0.012      -0.012           -0.013
+has_mixed_review_scores               -0.005      -0.005           -0.001
+delivery_days                          0.069       0.069            0.071
+delivery_gap                          -0.020      -0.020           -0.020
+customer_zip_code_prefix               0.058       0.058            0.041
+num_items                              0.190       0.190            0.155
+num_products                           0.081       0.081            0.103
+price                                  0.996       0.996            0.542
+freight_value                          0.491       0.491            0.324
+product_photos_qty                     0.033       0.033            0.003
+product_weight_g                       0.369       0.369            0.328
+num_distinct_categories                0.031       0.031            0.042
+primary_category_share                -0.037      -0.037           -0.056
+num_sellers                            0.054       0.054            0.079
+primary_seller_zip_code_prefix         0.090       0.090            0.099
+primary_seller_share                  -0.050      -0.050           -0.076
+payment_installments                   0.321       0.321            0.333
+payment_value                          1.000       1.000            0.550
+total_value                            1.000       1.000            0.550
+price_above_mean                       0.550       0.550            1.000
+delivery_delayed                       0.018       0.018            0.019
+delivery_early                        -0.011      -0.011           -0.013
+                               delivery_delayed delivery_early
+review_score                             -0.392          0.337
+review_count                             -0.007          0.006
+review_distinct_scores                   -0.001         -0.002
+first_review_score                       -0.392          0.337
+last_review_score                        -0.392          0.337
+has_multiple_reviews                     -0.007          0.006
+has_mixed_review_scores                  -0.001         -0.002
+delivery_days                             0.601         -0.567
+delivery_gap                              0.577         -0.598
+customer_zip_code_prefix                  0.029         -0.016
+num_items                                -0.016          0.019
+num_products                             -0.023          0.023
+price                                     0.016         -0.010
+freight_value                             0.030         -0.015
+product_photos_qty                       -0.007          0.003
+product_weight_g                          0.026         -0.019
+num_distinct_categories                  -0.012          0.015
+primary_category_share                    0.015         -0.019
+num_sellers                              -0.026          0.029
+primary_seller_zip_code_prefix           -0.033          0.041
+primary_seller_share                      0.026         -0.029
+payment_installments                      0.012          0.000
+payment_value                             0.018         -0.011
+total_value                               0.018         -0.011
+price_above_mean                          0.019         -0.013
+delivery_delayed                          1.000         -0.824
+delivery_early                           -0.824          1.000
+
+總共 27 個數值變數已納入相關係數計算
+
+導出相關係數矩陣...
+✓ 相關係數矩陣已儲存至: descriptive_analysis/correlation_matrix.csv
+
+生成相關係數熱力圖...
+✓ 完整相關係數熱力圖已儲存至: plots/correlation_heatmap_full.png
+✓ 主要變數相關係數熱力圖已儲存至: plots/correlation_heatmap_main.png
 
 生成重要變數關係散點圖...
 null device 
@@ -460,4 +809,4 @@ null device
 
 所有圖表已儲存至 plots/ 資料夾
 
-執行完成時間： 2025-12-09 19:57:27 
+執行完成時間： 2025-12-10 22:38:22 

@@ -11,7 +11,8 @@ required_packages <- c(
   "dplyr",      # 資料整理與操作
   "readr",      # 讀取 CSV 檔案
   "ggplot2",    # 資料視覺化
-  "tidyr"       # 資料整理（pivot_longer, pivot_wider 等）
+  "tidyr",      # 資料整理（pivot_longer, pivot_wider 等）
+  "corrplot"    # 相關係數熱力圖視覺化
 )
 
 # 檢查並安裝套件

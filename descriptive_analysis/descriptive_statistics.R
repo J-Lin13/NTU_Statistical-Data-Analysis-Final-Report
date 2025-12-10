@@ -417,6 +417,59 @@ cat("\n")
 cat(sprintf("總共 %d 個數值變數已納入相關係數計算\n", ncol(all_numeric_data)))
 cat("\n")
 
+# 導出相關係數矩陣為 CSV 檔案
+cat("導出相關係數矩陣...\n")
+cor_matrix_output_path <- "descriptive_analysis/correlation_matrix.csv"
+write.csv(round(all_cor_matrix, 3), cor_matrix_output_path)
+cat(sprintf("✓ 相關係數矩陣已儲存至: %s\n", cor_matrix_output_path))
+cat("\n")
+
+# 生成相關係數熱力圖
+cat("生成相關係數熱力圖...\n")
+if (!requireNamespace("corrplot", quietly = TRUE)) {
+  cat("警告：套件 'corrplot' 未安裝，跳過熱力圖生成\n")
+  cat("若要生成熱力圖，請執行: install.packages('corrplot')\n\n")
+} else {
+  library(corrplot)
+  
+  # 完整的相關係數熱力圖
+  png("plots/correlation_heatmap_full.png", width = 1200, height = 1200, res = 100)
+  corrplot(all_cor_matrix, 
+           method = "color", 
+           type = "upper",
+           tl.cex = 0.6,
+           tl.col = "black",
+           number.cex = 0.4,
+           addCoef.col = "black",
+           col = colorRampPalette(c("#3498db", "white", "#e74c3c"))(200),
+           title = "Correlation Matrix - All Numeric Variables",
+           mar = c(0, 0, 2, 0))
+  dev.off()
+  cat("✓ 完整相關係數熱力圖已儲存至: plots/correlation_heatmap_full.png\n")
+  
+  # 主要變數的相關係數熱力圖（更清晰）
+  main_vars_cor <- c("review_score", main_vars)
+  if (all(main_vars_cor %in% colnames(all_cor_matrix))) {
+    main_cor_matrix <- all_cor_matrix[main_vars_cor, main_vars_cor]
+    
+    png("plots/correlation_heatmap_main.png", width = 800, height = 800, res = 100)
+    corrplot(main_cor_matrix, 
+             method = "color", 
+             type = "upper",
+             tl.cex = 0.8,
+             tl.col = "black",
+             number.cex = 0.7,
+             addCoef.col = "black",
+             col = colorRampPalette(c("#3498db", "white", "#e74c3c"))(200),
+             title = "Correlation Matrix - Main Variables",
+             mar = c(0, 0, 2, 0))
+    dev.off()
+    cat("✓ 主要變數相關係數熱力圖已儲存至: plots/correlation_heatmap_main.png\n")
+  }
+  
+  cat("\n")
+}
+
 # 繪製散點圖（重要關係）
 cat("生成重要變數關係散點圖...\n")
 
