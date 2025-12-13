@@ -448,18 +448,31 @@ if (!requireNamespace("corrplot", quietly = TRUE)) {
   cat("✓ 完整相關係數熱力圖已儲存至: plots/correlation_heatmap_full.png\n")
   
   # 主要變數的相關係數熱力圖（更清晰）
-  main_vars_cor <- c("review_score", main_vars)
+  # 包含應變數 (review_score) 和所有自變數（連續型 + 二元型）
+  main_vars_cor <- c("review_score",           # 應變數
+                     "delivery_days",           # 連續自變數
+                     "delivery_gap",
+                     "price",
+                     "freight_value",
+                     "product_photos_qty",
+                     "product_weight_g",
+                     "payment_installments",
+                     "price_above_mean",        # 二元自變數
+                     "delivery_delayed",
+                     "delivery_early")
+  
   if (all(main_vars_cor %in% colnames(all_cor_matrix))) {
     main_cor_matrix <- all_cor_matrix[main_vars_cor, main_vars_cor]
     
-    png("plots/correlation_heatmap_main.png", width = 800, height = 800, res = 100)
+    png("plots/correlation_heatmap_main.png", width = 1000, height = 1000, res = 100)
     corrplot(main_cor_matrix, 
              method = "color", 
              type = "upper",
-             tl.cex = 0.8,
+             tl.cex = 0.75,
              tl.col = "black",
-             number.cex = 0.7,
+             number.cex = 0.65,
              addCoef.col = "black",
+             cl.cex = 0.7,
              col = colorRampPalette(c("#3498db", "white", "#e74c3c"))(200),
              title = "Correlation Matrix - Main Variables",
              mar = c(0, 0, 2, 0))
